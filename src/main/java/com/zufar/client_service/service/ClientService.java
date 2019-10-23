@@ -2,7 +2,7 @@ package com.zufar.client_service.service;
 
 
 import com.zufar.client_service.dto.ClientDTO;
-import com.zufar.client_service.dto.Order;
+import com.zufar.client_service.dto.OrderDTO;
 import com.zufar.client_service.entity.Client;
 import com.zufar.client_service.entity.ClientType;
 import com.zufar.client_service.exception.ClientNotFoundException;
@@ -56,7 +56,7 @@ public class ClientService {
         }
         Collection<ClientDTO> result = new ArrayList<>();
         for (Client currentClient : clients) {
-            final Set<Order> orders;
+            final Set<OrderDTO> orders;
             try {
                 final Set<Long> orderIds = currentClient.getOrders();
                 orders = new HashSet<>(orderService.getOrders(orderIds));
@@ -89,9 +89,9 @@ public class ClientService {
         if (orderIds == null) {
             return convertToClientDTO(client, null);
         }
-        final Set<Order> orders;
+        final Set<OrderDTO> orders;
         try {
-            orders = new HashSet<>(orderService.getOrders());
+            orders = new HashSet<>(orderService.getOrders(orderIds));
         } catch (Exception exception) {
             final String databaseErrorMessage = mainErrorMessage +
                     String.format(" There are some problems with a order service. It is impossible to load orders for client with %s", client);
@@ -155,7 +155,7 @@ public class ClientService {
         }
     }
 
-    private ClientDTO convertToClientDTO(Client client, Set<Order> orders) {
+    private ClientDTO convertToClientDTO(Client client, Set<OrderDTO> orders) {
         Objects.requireNonNull(client, "There is no a client to convert.");
         return new ClientDTO(
                 client.getId(),
@@ -178,7 +178,7 @@ public class ClientService {
         } else {
             orderIds = client.getOrderIds()
                     .stream()
-                    .map(Order::getId)
+                    .map(OrderDTO::getId)
                     .collect(Collectors.toSet());
         }
         return new Client(

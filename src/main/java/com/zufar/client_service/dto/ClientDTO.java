@@ -47,7 +47,7 @@ public class ClientDTO {
     private String okpo;
 
     @ApiModelProperty(notes = "order's ids of a client", name="orderIds")
-    private Set<Order> orderIds;
+    private Set<OrderDTO> orderIds;
 
     @ApiModelProperty(notes = "client's creation date", name="creationDate", required=true)
     private LocalDateTime creationDate;

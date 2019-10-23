@@ -1,7 +1,7 @@
 package com.zufar.client_service.service;
 
 
-import com.zufar.client_service.dto.Order;
+import com.zufar.client_service.dto.OrderDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,19 +17,16 @@ import java.util.Collection;
 public interface OrderService {
 
     @GetMapping(value = "orders")
-    Collection<Order> getOrders();
-
-    @PostMapping(value = "orders")
-    Collection<Order> getOrders(@RequestBody Iterable<Long> ids);
+    Collection<OrderDTO> getOrders(@RequestBody Iterable<Long> ids);
 
     @GetMapping(value = "orders/{id}")
-    Order getOrder(@PathVariable("id") Long clientId);
+    OrderDTO getOrder(@PathVariable("id") Long clientId);
 
     @PostMapping(value = "/orders")
-    Order saveOrder(@RequestBody Order order);
+    OrderDTO saveOrder(@RequestBody OrderDTO order);
 
     @PutMapping(value = "/orders")
-    Order updateOrder(@RequestBody Order order);
+    OrderDTO updateOrder(@RequestBody OrderDTO order);
 
     @DeleteMapping(value = "orders/{id}")
     void deleteOrder(@PathVariable("id") Long id);
