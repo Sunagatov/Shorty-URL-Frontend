@@ -76,7 +76,7 @@ public class ClientController {
         return ResponseEntity.ok(String.format("The client [%s] was updated", clientEntity));
     }
 
-    @GetMapping
+    @GetMapping(value = "/types")
     @ApiOperation(value = "View the list of client's type", response = Iterable.class)
     public @ResponseBody Iterable<ClientType> getClientTypes() {
         return this.clientTypeRepository.findAll();
