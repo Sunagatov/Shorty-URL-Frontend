@@ -1,0 +1,42 @@
+server:
+  port: 8060   
+
+eureka:
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 500000
+        readTimeout: 500000
+        loggerLevel: basic
+      
+spring:
+  application:
+    name: client-service
+    
+  datasource:
+    url:      'jdbc:postgresql://localhost:5432/client'
+    username: 'client_account'
+    password: 'client_account'
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+      
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: 'org.hibernate.dialect.PostgreSQLDialect'
+        
+  banner:
+    location: 'classpath:/banner.txt'
+
