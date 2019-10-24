@@ -51,13 +51,13 @@ public class ClientController {
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "View the client with the id", response = ClientDTO.class)
-    public @ResponseBody ClientDTO getClient(@Valid @Min(0) @NotNull @ApiParam(value = "An  id which is used to retrieve an client", required = true)@PathVariable Long id) {
+    public @ResponseBody ClientDTO getClient(@Valid @NotNull @ApiParam(value = "A client id which is used to retrieve a client", required = true)@PathVariable Long id) {
         return this.clientService.getById(id);
     }
 
     @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "Delete the client with an id", response = ResponseEntity.class)
-    public ResponseEntity deleteClient(@PathVariable Long id) {
+    public @ResponseBody ResponseEntity deleteClient(@Valid @NotNull @ApiParam(value = "A client id which is used to delete a client", required = true) @PathVariable Long id) {
         this.clientService.deleteById(id);
         return ResponseEntity.ok(String.format("The client with id=[%d] was deleted", id));
     }

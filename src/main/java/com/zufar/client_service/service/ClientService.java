@@ -2,7 +2,7 @@ package com.zufar.client_service.service;
 
 
 import com.zufar.client_service.dto.ClientDTO;
-import com.zufar.client_service.dto.OrderDTO;
+import com.zufar.client_service.dto.Order;
 import com.zufar.client_service.entity.Client;
 import com.zufar.client_service.entity.ClientType;
 import com.zufar.client_service.exception.ClientNotFoundException;
@@ -46,20 +46,25 @@ public class ClientService {
 
     public Collection<ClientDTO> getAll() {
         final String mainErrorMessage = "It is impossible to get all clients.";
-        final Iterable<Client> clients;
+        final Iterable<Client> clientEntities;
         try {
-            clients = clientRepository.findAll();
+            clientEntities = clientRepository.findAll();
         } catch (Exception exception) {
             final String databaseErrorMessage = mainErrorMessage + " There are some problems with a database.";
             LOGGER.error(databaseErrorMessage, exception);
             throw new ClientNotFoundException(databaseErrorMessage, exception);
         }
-        Collection<ClientDTO> result = new ArrayList<>();
-        for (Client currentClient : clients) {
-            final Set<OrderDTO> orders;
+        Collection<ClientDTO> clients = new ArrayList<>();
+        for (Client currentClient : clientEntities) {
+            final Set<Order> orders;
             try {
                 final Set<Long> orderIds = currentClient.getOrders();
-                orders = new HashSet<>(orderService.getOrders(orderIds));
+                if (orderIds == null || orderIds.isEmpty()) {
+                    ClientDTO client = convertToClientDTO(currentClient, null);
+                    clients.add(client);
+                    continue;
+                }
+                orders = new HashSet<>(orderService.getOrders(currentClient.getId()));
             } catch (Exception exception) {
                 final String databaseErrorMessage = mainErrorMessage +
                         String.format(" There are some problems with a order service. It is impossible to load orders for client with %s", currentClient);
@@ -67,9 +72,9 @@ public class ClientService {
                 throw new OrderNotFoundException(databaseErrorMessage, exception);
             }
             ClientDTO client = convertToClientDTO(currentClient, orders);
-            result.add(client);
+            clients.add(client);
         }
-        return result;
+        return clients;
     }
 
     public ClientDTO getById(Long id) {
@@ -89,9 +94,9 @@ public class ClientService {
         if (orderIds == null) {
             return convertToClientDTO(client, null);
         }
-        final Set<OrderDTO> orders;
+        final Set<Order> orders;
         try {
-            orders = new HashSet<>(orderService.getOrders(orderIds));
+            orders = new HashSet<>(orderService.getOrders(client.getId()));
         } catch (Exception exception) {
             final String databaseErrorMessage = mainErrorMessage +
                     String.format(" There are some problems with a order service. It is impossible to load orders for client with %s", client);
@@ -142,8 +147,7 @@ public class ClientService {
             LOGGER.error(databaseErrorMessage, exception);
             throw new ClientNotFoundException(databaseErrorMessage, exception);
         }
-        final Set<Long> orderIds = client.getOrders();
-        this.orderService.deleteOrders(orderIds);
+        this.orderService.deleteOrders(client.getId());
     }
 
     private void isExists(Long id) {
@@ -155,7 +159,7 @@ public class ClientService {
         }
     }
 
-    private ClientDTO convertToClientDTO(Client client, Set<OrderDTO> orders) {
+    private ClientDTO convertToClientDTO(Client client, Set<Order> orders) {
         Objects.requireNonNull(client, "There is no a client to convert.");
         return new ClientDTO(
                 client.getId(),
@@ -178,7 +182,7 @@ public class ClientService {
         } else {
             orderIds = client.getOrderIds()
                     .stream()
-                    .map(OrderDTO::getId)
+                    .map(Order::getId)
                     .collect(Collectors.toSet());
         }
         return new Client(
