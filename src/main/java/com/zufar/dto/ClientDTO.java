@@ -1,4 +1,4 @@
-package com.zufar.client_service.dto;
+package com.zufar.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 

@@ -1,11 +1,11 @@
-package com.zufar.client_service.controller;
+package com.zufar.controller;
 
-import com.zufar.client_service.dto.ClientDTO;
-import com.zufar.client_service.entity.Client;
-import com.zufar.client_service.entity.ClientType;
-import com.zufar.client_service.repository.ClientTypeRepository;
+import com.zufar.dto.ClientDTO;
+import com.zufar.entity.Client;
+import com.zufar.entity.ClientType;
+import com.zufar.repository.ClientTypeRepository;
 
-import com.zufar.client_service.service.ClientService;
+import com.zufar.service.ClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +25,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Api(value = "clients")
 @RestController
+@Validated
 @RequestMapping(value = "clients", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class ClientController {
 

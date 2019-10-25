@@ -1,4 +1,4 @@
-package com.zufar.client_service.entity;
+package com.zufar.entity;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;

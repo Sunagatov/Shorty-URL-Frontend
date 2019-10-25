@@ -1,7 +1,7 @@
-package com.zufar.client_service.service;
+package com.zufar.service;
 
 
-import com.zufar.client_service.dto.Order;
+import com.zufar.dto.Order;
 import org.springframework.cloud.openfeign.FeignClient;
 
 import org.springframework.web.bind.annotation.GetMapping;

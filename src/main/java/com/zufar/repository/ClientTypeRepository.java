@@ -1,6 +1,6 @@
-package com.zufar.client_service.repository;
+package com.zufar.repository;
 
-import com.zufar.client_service.entity.ClientType;
+import com.zufar.entity.ClientType;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,16 +1,16 @@
-package com.zufar.client_service.service;
+package com.zufar.service;
 
 
-import com.zufar.client_service.dto.ClientDTO;
-import com.zufar.client_service.dto.Order;
-import com.zufar.client_service.entity.Client;
-import com.zufar.client_service.entity.ClientType;
-import com.zufar.client_service.exception.ClientNotFoundException;
-import com.zufar.client_service.exception.ClientTypeNotFoundException;
-import com.zufar.client_service.exception.OrderNotFoundException;
-import com.zufar.client_service.repository.ClientRepository;
+import com.zufar.dto.ClientDTO;
+import com.zufar.dto.Order;
+import com.zufar.entity.Client;
+import com.zufar.entity.ClientType;
+import com.zufar.exception.ClientNotFoundException;
+import com.zufar.exception.ClientTypeNotFoundException;
+import com.zufar.exception.OrderNotFoundException;
+import com.zufar.repository.ClientRepository;
 
-import com.zufar.client_service.repository.ClientTypeRepository;
+import com.zufar.repository.ClientTypeRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

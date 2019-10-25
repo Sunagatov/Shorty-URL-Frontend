@@ -1,4 +1,4 @@
-package com.zufar.client_service.dto;
+package com.zufar.dto;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Order {
 
     private Long id;
-    private String name;
+    private String goodsName;
+    private Category category;
+    private Long clientId;
 }
