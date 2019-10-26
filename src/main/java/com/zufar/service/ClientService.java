@@ -1,10 +1,10 @@
 package com.zufar.service;
 
-import com.zufar.dto.Order;
-import com.zufar.dto.Client;
 import com.zufar.dto.ClientDTO;
-import com.zufar.entity.ClientType;
-import com.zufar.entity.ClientEntity;
+import com.zufar.dto.ClientTypeDTO;
+import com.zufar.dto.OrderDTO;
+import com.zufar.dto.ClientInputDTO;
+import com.zufar.entity.Client;
 import com.zufar.exception.InternalServerException;
 import com.zufar.exception.OrderNotFoundException;
 import com.zufar.repository.ClientRepository;
@@ -29,9 +29,9 @@ public class ClientService {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
 
-    private final OrderService orderService;
-    private final ClientRepository clientRepository;
-    private final ClientTypeService clientTypeService;
+    private OrderService orderService;
+    private ClientRepository clientRepository;
+    private ClientTypeService clientTypeService;
 
     @Autowired
     public ClientService(ClientRepository clientRepository,
@@ -42,10 +42,10 @@ public class ClientService {
         this.clientTypeService = clientTypeService;
     }
 
-    public List<Client> getAll() {
-        List<ClientEntity> clients;
+    public List<ClientDTO> getAll() {
+        List<Client> clients;
         try {
-            clients = (List<ClientEntity>) clientRepository.findAll();
+            clients = (List<Client>) clientRepository.findAll();
         } catch (Exception exception) {
             String errorMessage = "It is impossible to get all clients. There are some problems with a database.";
             LOGGER.error(errorMessage, exception);
@@ -54,13 +54,13 @@ public class ClientService {
         LOGGER.info("All clients were loaded from a database successfully.");
         return clients
                 .stream()
-                .map(this::convertToClient)
+                .map(this::convertToClientDTO)
                 .collect(Collectors.toList());
     }
 
-    public Client getById(Long id) {
+    public ClientDTO getById(Long id) {
         this.isExists(id);
-        ClientEntity client;
+        Client client;
         try {
             client = clientRepository.findById(id).orElse(null);
         } catch (Exception exception) {
@@ -69,11 +69,11 @@ public class ClientService {
             throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info(String.format("Client with id=[%d] was loaded from a database successfully.", id));
-        return convertToClient(client);
+        return convertToClientDTO(client);
     }
 
-    public Client save(ClientDTO client) {
-        ClientEntity clientEntity = convertToClient(client);
+    public ClientDTO save(ClientInputDTO client) {
+        Client clientEntity = convertToClient(client);
         try {
             clientEntity = this.clientRepository.save(clientEntity);
         } catch (Exception exception) {
@@ -82,12 +82,12 @@ public class ClientService {
             throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info(String.format("Client=[%s] was saved in a database successfully.", client));
-        return convertToClient(clientEntity);
+        return convertToClientDTO(clientEntity);
     }
 
-    public Client update(ClientDTO client) {
+    public ClientDTO update(ClientInputDTO client) {
         this.isExists(client.getId());
-        ClientEntity clientEntity = convertToClient(client);
+        Client clientEntity = convertToClient(client);
         try {
             clientEntity = this.clientRepository.save(clientEntity);
         } catch (Exception exception) {
@@ -96,13 +96,13 @@ public class ClientService {
             throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info(String.format("Client=[%s] was updated in a database successfully.", client));
-        return convertToClient(clientEntity);
+        return convertToClientDTO(clientEntity);
     }
 
     public void deleteById(Long id) {
-        final ClientEntity client = this.clientRepository.findById(id).orElse(null);
+        Client client = this.clientRepository.findById(id).orElse(null);
         if (client == null) {
-            final String errorMessage = String.format("The client with id=[%d] not found.", id);
+            String errorMessage = String.format("The client with id=[%d] not found.", id);
             LOGGER.error(errorMessage);
             throw new ClientNotFoundException(errorMessage);
         }
@@ -117,7 +117,7 @@ public class ClientService {
         try {
             this.orderService.deleteOrders(client.getId());
         } catch (Exception exception) {
-            String errorMessage = String.format("It is impossible to delete a client [%s]. There are some problems with a database.", client);
+            String errorMessage = String.format("It is impossible to delete a client [%s]. There are some problems with a order service.", client);
             LOGGER.error(errorMessage, exception);
             throw new InternalServerException(errorMessage, exception);
         }
@@ -126,7 +126,7 @@ public class ClientService {
 
     private void isExists(Long id) {
         if (!this.clientRepository.existsById(id)) {
-            final String errorMessage = "The client with id = " + id + " not found.";
+            String errorMessage = "The client with id = " + id + " not found.";
             ClientNotFoundException clientNotFoundException = new ClientNotFoundException(errorMessage);
             LOGGER.error(errorMessage, clientNotFoundException);
             throw clientNotFoundException;
@@ -134,14 +134,14 @@ public class ClientService {
         LOGGER.info(String.format("Client with id=[%d] is existed.", id));
     }
 
-    private Client convertToClient(ClientEntity client) {
+    private ClientDTO convertToClientDTO(Client client) {
         Objects.requireNonNull(client, "There is no a client to convert.");
-        List<Order> orders = this.getOrders(client.getOrders());
-        final Client result = new Client(
+        List<OrderDTO> orders = this.getOrders(client.getOrders());
+        ClientDTO result = new ClientDTO(
                 client.getId(),
                 client.getShortName(),
                 client.getFullName(),
-                client.getClientType(),
+                ClientTypeService.convertToClientTypeDTO(client.getClientType()),
                 client.getInn(),
                 client.getOkpo(),
                 orders,
@@ -151,11 +151,11 @@ public class ClientService {
         return result;
     }
 
-    private List<Order> getOrders(List<Long> orderIds) {
+    private List<OrderDTO> getOrders(List<Long> orderIds) {
         if (orderIds == null || orderIds.isEmpty()) {
             return new ArrayList<>();
         }
-        List<Order> orders;
+        List<OrderDTO> orders;
         try {
             orders = orderService.getOrdersByIds(orderIds).getBody();
         } catch (Exception exception) {
@@ -172,14 +172,14 @@ public class ClientService {
         return orders;
     }
 
-    private ClientEntity convertToClient(ClientDTO client) {
+    private Client convertToClient(ClientInputDTO client) {
         Objects.requireNonNull(client, "There is no client to convert.");
-        ClientType clientType = this.clientTypeService.getById(client.getClientTypeId());
-        final ClientEntity result = new ClientEntity(
+        ClientTypeDTO clientType = this.clientTypeService.getById(client.getClientTypeId());
+        Client result = new Client(
                 client.getId(),
                 client.getShortName(),
                 client.getFullName(),
-                clientType,
+                ClientTypeService.convertToClientType(clientType),
                 client.getInn(),
                 client.getOkpo(),
                 client.getOrderIds(),

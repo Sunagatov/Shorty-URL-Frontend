@@ -1,6 +1,7 @@
 package com.zufar.service;
 
 
+import com.zufar.dto.ClientTypeDTO;
 import com.zufar.entity.ClientType;
 import com.zufar.exception.ClientTypeNotFoundException;
 import com.zufar.exception.InternalServerException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,14 +25,14 @@ public class ClientTypeService {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientTypeService.class);
 
-    private final ClientTypeRepository clientTypeRepository;
+    private ClientTypeRepository clientTypeRepository;
 
     @Autowired
     public ClientTypeService(ClientTypeRepository clientTypeRepository) {
         this.clientTypeRepository = clientTypeRepository;
     }
 
-    public List<ClientType> getAll() {
+    public List<ClientTypeDTO> getAll() {
         List<ClientType> clientTypes;
         try {
             clientTypes = (List<ClientType>) this.clientTypeRepository.findAll();
@@ -39,10 +42,13 @@ public class ClientTypeService {
             throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info("All clientTypes were loaded from a database.");
-        return clientTypes;
+        return clientTypes.
+                stream()
+                .map(ClientTypeService::convertToClientTypeDTO)
+                .collect(Collectors.toList());
     }
 
-    public ClientType getById(Long id) {
+    public ClientTypeDTO getById(Long id) {
         this.isExists(id);
         ClientType clientType;
         try {
@@ -53,7 +59,7 @@ public class ClientTypeService {
             LOGGER.error(errorMessage, exception);
             throw new InternalServerException(errorMessage, exception);
         }
-        return clientType;
+        return convertToClientTypeDTO(clientType);
     }
 
     private void isExists(Long id) {
@@ -62,5 +68,29 @@ public class ClientTypeService {
             LOGGER.error(errorMessage);
             throw new ClientTypeNotFoundException(errorMessage);
         }
+    }
+
+    public static ClientTypeDTO convertToClientTypeDTO(ClientType clientType) {
+        Objects.requireNonNull(clientType, "There is no client to convert.");
+        ClientTypeDTO clientTypeDTO = new ClientTypeDTO(
+                clientType.getId(),
+                clientType.getShortName(),
+                clientType.getFullName(),
+                clientType.getTypeCode()
+        );
+        LOGGER.info(String.format("A ClientType - [%s] was converted to the ClientTypeDTO successfully.", clientTypeDTO));
+        return clientTypeDTO;
+    }
+
+    public static ClientType convertToClientType(ClientTypeDTO clientTypeDTO) {
+        Objects.requireNonNull(clientTypeDTO, "There is no client to convert.");
+        ClientType clientType = new ClientType(
+                clientTypeDTO.getId(),
+                clientTypeDTO.getShortName(),
+                clientTypeDTO.getFullName(),
+                clientTypeDTO.getTypeCode()
+        );
+        LOGGER.info(String.format("A ClientType - [%s] was converted to the ClientTypeDTO successfully.", clientType));
+        return clientType;
     }
 }
