@@ -3,6 +3,7 @@ package com.zufar.service;
 
 import com.zufar.entity.ClientType;
 import com.zufar.exception.ClientTypeNotFoundException;
+import com.zufar.exception.InternalServerException;
 import com.zufar.repository.ClientTypeRepository;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,12 +33,12 @@ public class ClientTypeService {
         List<ClientType> clientTypes;
         try {
             clientTypes = (List<ClientType>) this.clientTypeRepository.findAll();
-            LOGGER.info("All clientTypes were loaded from a database.");
         } catch (Exception exception) {
-            String databaseErrorMessage = "It is impossible to get all clientTypes. There are some problems with a database.";
-            LOGGER.error(databaseErrorMessage, exception);
-            throw exception;
+            String errorMessage = "It is impossible to get all clientTypes. There are some problems with a database.";
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
+        LOGGER.info("All clientTypes were loaded from a database.");
         return clientTypes;
     }
 
@@ -48,9 +49,9 @@ public class ClientTypeService {
             clientType = this.clientTypeRepository.findById(id).orElse(null);
             LOGGER.info(String.format("The clientType with id=[%d] were loaded from a database.", id));
         } catch (Exception exception) {
-            String databaseErrorMessage = String.format("It is impossible to get the clientType with id = [%d]. There are some problems with a database.", id);
-            LOGGER.error(databaseErrorMessage, exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to get the clientType with id = [%d]. There are some problems with a database.", id);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         return clientType;
     }
