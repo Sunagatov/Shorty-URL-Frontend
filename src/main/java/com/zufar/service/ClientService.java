@@ -1,29 +1,25 @@
 package com.zufar.service;
 
-
-import com.zufar.dto.ClientDTO;
 import com.zufar.dto.Order;
-import com.zufar.entity.Client;
+import com.zufar.dto.Client;
+import com.zufar.dto.ClientDTO;
 import com.zufar.entity.ClientType;
-import com.zufar.exception.ClientNotFoundException;
-import com.zufar.exception.ClientTypeNotFoundException;
-import com.zufar.exception.OrderNotFoundException;
+import com.zufar.entity.ClientEntity;
 import com.zufar.repository.ClientRepository;
+import com.zufar.exception.ClientNotFoundException;
 
-import com.zufar.repository.ClientTypeRepository;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
+
 
 @Service
 @Transactional
@@ -31,110 +27,88 @@ public class ClientService {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
 
-    private final ClientRepository clientRepository;
-    private final ClientTypeRepository clientTypeRepository;
     private final OrderService orderService;
+    private final ClientRepository clientRepository;
+    private final ClientTypeService clientTypeService;
 
     @Autowired
     public ClientService(ClientRepository clientRepository,
-                         ClientTypeRepository clientTypeRepository,
+                         ClientTypeService clientTypeService,
                          OrderService orderService) {
-        this.clientRepository = clientRepository;
-        this.clientTypeRepository = clientTypeRepository;
         this.orderService = orderService;
+        this.clientRepository = clientRepository;
+        this.clientTypeService = clientTypeService;
     }
 
-    public Collection<ClientDTO> getAll() {
-        final String mainErrorMessage = "It is impossible to get all clients.";
-        final Iterable<Client> clientEntities;
+    public List<Client> getAll() {
+        List<ClientEntity> clients;
         try {
-            clientEntities = clientRepository.findAll();
+            clients = (List<ClientEntity>) clientRepository.findAll();
         } catch (Exception exception) {
-            final String databaseErrorMessage = mainErrorMessage + " There are some problems with a database.";
+            String databaseErrorMessage = "It is impossible to get all clients. There are some problems with a database.";
             LOGGER.error(databaseErrorMessage, exception);
-            throw new ClientNotFoundException(databaseErrorMessage, exception);
+            throw exception;
         }
-        Collection<ClientDTO> clients = new ArrayList<>();
-        for (Client currentClient : clientEntities) {
-            final Set<Order> orders;
-            try {
-                final Set<Long> orderIds = currentClient.getOrders();
-                if (orderIds == null || orderIds.isEmpty()) {
-                    ClientDTO client = convertToClientDTO(currentClient, null);
-                    clients.add(client);
-                    continue;
-                }
-                orders = new HashSet<>(orderService.getOrders(currentClient.getId()));
-            } catch (Exception exception) {
-                final String databaseErrorMessage = mainErrorMessage +
-                        String.format(" There are some problems with a order service. It is impossible to load orders for client with %s", currentClient);
-                LOGGER.error(databaseErrorMessage, exception);
-                throw new OrderNotFoundException(databaseErrorMessage, exception);
-            }
-            ClientDTO client = convertToClientDTO(currentClient, orders);
-            clients.add(client);
-        }
-        return clients;
+        LOGGER.info("All clients were loaded from a database.");
+        return clients
+                .stream()
+                .map(this::convertToClient)
+                .collect(Collectors.toList());
     }
 
-    public ClientDTO getById(Long id) {
-        final String mainErrorMessage = String.format("It is impossible to get client with id = [%d].", id);
-        final Client client;
+    public Client getById(Long id) {
+        this.isExists(id);
+        ClientEntity client;
         try {
             client = clientRepository.findById(id).orElse(null);
-            if (client == null) {
-                return null;
-            }
         } catch (Exception exception) {
-            final String databaseErrorMessage = mainErrorMessage + " There are some problems with a database.";
+            String databaseErrorMessage = String.format("It is impossible to get client with id = [%d]. There are some problems with a database.", id);
             LOGGER.error(databaseErrorMessage, exception);
-            throw new ClientNotFoundException(databaseErrorMessage, exception);
+            throw exception;
         }
-        final Set<Long> orderIds = client.getOrders();
-        if (orderIds == null) {
-            return convertToClientDTO(client, null);
+        LOGGER.info(String.format("Client with id=[%d] was loaded from a database.", id));
+        return convertToClient(client);
+    }
+
+    private List<Order> getOrders(List<Long> orderIds) {
+        if (orderIds == null || orderIds.isEmpty()) {
+            return new ArrayList<>();
         }
-        final Set<Order> orders;
         try {
-            orders = new HashSet<>(orderService.getOrders(client.getId()));
+            List<Order> orders = orderService.getOrdersByIds(orderIds).getBody();
+            LOGGER.info(String.format("All orders of the client with id=[%s] were loaded from a database.", orderIds));
+            return orders;
         } catch (Exception exception) {
-            final String databaseErrorMessage = mainErrorMessage +
-                    String.format(" There are some problems with a order service. It is impossible to load orders for client with %s", client);
-            LOGGER.error(databaseErrorMessage, exception);
-            throw new OrderNotFoundException(databaseErrorMessage, exception);
+            LOGGER.error(String.format("It is impossible to load orders of the client with id=[%s]. There are some problems with a order service. ", orderIds), exception);
+            throw exception;
         }
-        return convertToClientDTO(client, orders);
     }
 
     public Client save(ClientDTO client) {
-        final String mainErrorMessage = String.format("It is impossible to save a client [%s].", client);
-        final ClientType clientType;
-        final Long clientTypeId = client.getClientTypeId();
+        ClientEntity clientEntity = convertToClient(client);
         try {
-            clientType = this.clientTypeRepository.findById(clientTypeId).orElse(null);
-            if (clientType == null) {
-                final String databaseErrorMessage = mainErrorMessage +
-                        String.format(" The client's type with id=[%d] is absent.", clientTypeId);
-                LOGGER.error(databaseErrorMessage);
-                throw new ClientTypeNotFoundException(databaseErrorMessage);
-            }
+            clientEntity = this.clientRepository.save(clientEntity);
         } catch (Exception exception) {
-            final String databaseErrorMessage = mainErrorMessage +
-                    String.format(" There are some problems with database. A client's type with id=[%d] is not loaded.", clientTypeId);
-            LOGGER.error(databaseErrorMessage, exception);
-            throw new ClientTypeNotFoundException(databaseErrorMessage, exception);
+            LOGGER.error(String.format("It is impossible to save a client [%s]. There are some problems with a database.", client), exception);
+            throw exception;
         }
-        final Client clientEntity = convertToClient(client, clientType);
-        return this.clientRepository.save(clientEntity);
+        return convertToClient(clientEntity);
     }
 
     public Client update(ClientDTO client) {
         this.isExists(client.getId());
-        return this.save(client);
+        ClientEntity clientEntity = convertToClient(client);
+        try {
+            clientEntity = this.clientRepository.save(clientEntity);
+        } catch (Exception exception) {
+            LOGGER.error(String.format("It is impossible to update a client [%s]. There are some problems with a database.", client), exception);
+            throw exception;
+        }
+        return convertToClient(clientEntity);
     }
 
     public void deleteById(Long id) {
-        final Client client = this.clientRepository.findById(id).orElse(null);
+        final ClientEntity client = this.clientRepository.findById(id).orElse(null);
         if (client == null) {
             final String errorMessage = String.format("The client with id=[%d] not found.", id);
             LOGGER.error(errorMessage);
@@ -143,11 +117,15 @@ public class ClientService {
         try {
             this.clientRepository.deleteById(id);
         } catch (Exception exception) {
-            final String databaseErrorMessage = String.format("It is impossible to delete client with id=[%b]. There are some problems with a database.", id);
-            LOGGER.error(databaseErrorMessage, exception);
-            throw new ClientNotFoundException(databaseErrorMessage, exception);
+            LOGGER.error(String.format("It is impossible to delete client with id=[%b]. There are some problems with a database.", id), exception);
+            throw exception;
         }
-        this.orderService.deleteOrders(client.getId());
+        try {
+            this.orderService.deleteOrders(client.getId());
+        } catch (Exception exception) {
+            LOGGER.error(String.format("It is impossible to delete a client [%s]. There are some problems with a database.", client), exception);
+            throw exception;
+        }
     }
 
     private void isExists(Long id) {
@@ -159,42 +137,37 @@ public class ClientService {
         }
     }
 
-    private ClientDTO convertToClientDTO(Client client, Set<Order> orders) {
+    private Client convertToClient(ClientEntity client) {
         Objects.requireNonNull(client, "There is no a client to convert.");
-        return new ClientDTO(
+        List<Order> orders = this.getOrders(client.getOrders());
+        final Client result = new Client(
                 client.getId(),
                 client.getShortName(),
                 client.getFullName(),
-                client.getClientType().getId(),
+                client.getClientType(),
                 client.getInn(),
                 client.getOkpo(),
                 orders,
                 client.getCreationDate(),
-                client.getModificationDate()
-        );
+                client.getModificationDate());
+        LOGGER.info(String.format("A client entity - [%s] was converted to the client - [%s].", client, result));
+        return result;
     }
 
-    private Client convertToClient(ClientDTO client, ClientType clientType) {
+    private ClientEntity convertToClient(ClientDTO client) {
         Objects.requireNonNull(client, "There is no client to convert.");
-        final Set<Long> orderIds;
-        if (client.getOrderIds() == null) {
-            orderIds = null;
-        } else {
-            orderIds = client.getOrderIds()
-                    .stream()
-                    .map(Order::getId)
-                    .collect(Collectors.toSet());
-        }
-        return new Client(
+        ClientType clientType = this.clientTypeService.getById(client.getClientTypeId());
+        final ClientEntity result = new ClientEntity(
                 client.getId(),
                 client.getShortName(),
                 client.getFullName(),
                 clientType,
                 client.getInn(),
                 client.getOkpo(),
-                orderIds,
+                client.getOrderIds(),
                 client.getCreationDate(),
-                client.getModificationDate()
-        );
+                client.getModificationDate());
+        LOGGER.info(String.format("A client dto - [%s] was converted to the client entity - [%s].", client, result));
+        return result;
     }
 }
