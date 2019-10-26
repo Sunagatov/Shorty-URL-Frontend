@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="sunagatovzr" id="1572097649881-1">
+        <rollback>
+            <dropSequence sequenceName="client_seq"/>
+        </rollback>
+        <createSequence sequenceName="client_seq"/>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-2">
+        <createSequence sequenceName="type_seq"/>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-3">
+        <createTable tableName="client_orders">
+            <column name="id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="client_seq"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-4">
+        <createTable tableName="clients">
+            <column name="id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_type" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="inn" type="VARCHAR(12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="okpo" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creation_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modification_date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="clients"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-5">
+        <createTable tableName="types">
+            <column name="id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="short_name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_type_code" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="types"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-6">
+        <addPrimaryKey columnNames="id" constraintName="client_orders_pkey" tableName="client_orders"/>
+        <rollback>
+            <dropPrimaryKey tableName="id"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-7">
+        <addPrimaryKey columnNames="id" constraintName="clients_pkey" tableName="clients"/>
+        <rollback>
+            <dropPrimaryKey tableName="id"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-8">
+        <addPrimaryKey columnNames="id" constraintName="types_pkey" tableName="types"/>
+        <rollback>
+            <dropPrimaryKey tableName="id"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-9">
+        <addForeignKeyConstraint baseColumnNames="client_type" baseTableName="clients"
+                                 constraintName="fk2tieid5etnaqypctr1ghwpnl8" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="types"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="clients" constraintName="fk2tieid5etnaqypctr1ghwpnl8"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="sunagatovzr" id="1572097649881-10">
+        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="client_orders"
+                                 constraintName="fksvtx3xcntbrypx5rib5qq0ed6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="clients"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="client_orders" constraintName="fksvtx3xcntbrypx5rib5qq0ed6"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

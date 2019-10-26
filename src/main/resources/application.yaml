@@ -9,18 +9,14 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 500000
-        readTimeout: 500000
-        loggerLevel: basic
       
 spring:
   application:
     name: client-service
-    
+  liquibase:
+      enabled: true
+      change-log: classpath:/db/liquibase-changelog.xml
+
   datasource:
     url:      'jdbc:postgresql://localhost:5432/client'
     username: 'client_account'
@@ -32,11 +28,10 @@ spring:
       
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
-        dialect: 'org.hibernate.dialect.PostgreSQLDialect'
-        
+        dialect: 'org.hibernate.dialect.PostgreSQLDialect'        
   banner:
     location: 'classpath:/banner.txt'
 
