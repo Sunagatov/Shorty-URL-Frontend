@@ -1,13 +1,11 @@
 package com.zufar.dto;
 
 import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Order {
+public class Order implements Serializable {
 
     private Long id;
     private String goodsName;

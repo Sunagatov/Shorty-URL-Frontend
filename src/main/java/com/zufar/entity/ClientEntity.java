@@ -1,8 +1,6 @@
 package com.zufar.entity;
 
 import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -21,15 +19,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "clients")
-public class Client {
+public class ClientEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
@@ -56,7 +52,7 @@ public class Client {
     @ElementCollection
     @CollectionTable(name = "client_orders", joinColumns = @JoinColumn(name = "client_id"))
     @Column(name = "order_id")
-    private Set<Long> orders;
+    private List<Long> orders;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
