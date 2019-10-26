@@ -1,5 +1,6 @@
 package com.zufar.controller;
 
+import com.zufar.dto.ClientTypeDTO;
 import com.zufar.entity.ClientType;
 import com.zufar.service.ClientTypeService;
 import io.swagger.annotations.Api;
@@ -22,7 +23,7 @@ import java.util.List;
 @RequestMapping(value = "client-types", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
 public class ClientTypeController {
 
-    private final ClientTypeService clientTypeService;
+    private ClientTypeService clientTypeService;
 
     @Autowired
     public ClientTypeController(ClientTypeService clientTypeService) {
@@ -31,14 +32,14 @@ public class ClientTypeController {
 
     @ApiOperation(value = "View a client type list.", response = ClientType.class, responseContainer = "List")
     @GetMapping
-    public @ResponseBody ResponseEntity<List<ClientType>> getClientTypes() {
+    public @ResponseBody ResponseEntity<List<ClientTypeDTO>> getClientTypes() {
         return new ResponseEntity<>(this.clientTypeService.getAll(), HttpStatus.OK);
     }
 
 
     @ApiOperation(value = "View the client type with given id.", response = ClientType.class)
     @GetMapping(value = "/{id}")
-    public @ResponseBody ResponseEntity<ClientType> getClientType(@ApiParam(value = "An id which is used to retrieve an client type.", required = true) @PathVariable Long id) {
+    public @ResponseBody ResponseEntity<ClientTypeDTO> getClientType(@ApiParam(value = "An id which is used to retrieve an client type.", required = true) @PathVariable Long id) {
         return new ResponseEntity<>(this.clientTypeService.getById(id), HttpStatus.OK);
     }
 }
