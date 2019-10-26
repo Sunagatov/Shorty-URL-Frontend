@@ -29,7 +29,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "clients")
-public class ClientEntity {
+public class Client {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")

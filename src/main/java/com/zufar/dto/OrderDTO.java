@@ -2,6 +2,7 @@ package com.zufar.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class OrderDTO {
 
     @ApiModelProperty(notes = "Order id", name = "id", required = true)
     private Long id;
@@ -19,7 +20,7 @@ public class Order {
     private String goodsName;
 
     @ApiModelProperty(notes = "Order category", name = "category", required = true)
-    private Category category;
+    private CategoryDTO category;
 
     @ApiModelProperty(notes = "Order client id", name = "clientId", required = true)
     private Long clientId;

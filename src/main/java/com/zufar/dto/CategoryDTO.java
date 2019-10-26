@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class CategoryDTO {
 
     @ApiModelProperty(notes = "Category id", name = "id", required = true)
     private Long id;
