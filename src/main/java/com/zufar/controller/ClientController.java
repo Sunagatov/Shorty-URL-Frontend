@@ -1,16 +1,16 @@
 package com.zufar.controller;
 
+import com.zufar.dto.Client;
 import com.zufar.dto.ClientDTO;
-import com.zufar.entity.Client;
-import com.zufar.entity.ClientType;
-import com.zufar.repository.ClientTypeRepository;
-
 import com.zufar.service.ClientService;
+
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.ApiOperation;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,62 +24,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
 
-@Api(value = "clients")
-@RestController
+@Api(value = "Client api",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
-@RequestMapping(value = "clients", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RestController
+@RequestMapping(value = "clients", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
 public class ClientController {
 
     private final ClientService clientService;
-    private final ClientTypeRepository clientTypeRepository;
 
     @Autowired
-    public ClientController(ClientService clientService,
-                            ClientTypeRepository clientTypeRepository) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.clientTypeRepository = clientTypeRepository;
     }
 
+    @ApiOperation(value = "View the client list.", response = Client.class, responseContainer = "List")
     @GetMapping
-    @ApiOperation(value = "View the list of clients", response = Collection.class)
-    public @ResponseBody Collection<ClientDTO> getClients() {
-        return this.clientService.getAll();
+    public @ResponseBody ResponseEntity<List<Client>> getClients() {
+        return new ResponseEntity<>(this.clientService.getAll(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "View the client with given client id.", response = Client.class)
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "View the client with the id", response = ClientDTO.class)
-    public @ResponseBody ClientDTO getClient(@Valid @NotNull @ApiParam(value = "A client id which is used to retrieve a client", required = true)@PathVariable Long id) {
-        return this.clientService.getById(id);
+    public @ResponseBody ResponseEntity<Client> getClient(@ApiParam(value = "A client id which is used to retrieve a client.", required = true) @PathVariable Long id) {
+        return new ResponseEntity<>(this.clientService.getById(id), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Delete the client with given client id.", response = ResponseEntity.class)
     @DeleteMapping(value = "/{id}")
-    @ApiOperation(value = "Delete the client with an id", response = ResponseEntity.class)
-    public @ResponseBody ResponseEntity deleteClient(@Valid @NotNull @ApiParam(value = "A client id which is used to delete a client", required = true) @PathVariable Long id) {
+    public @ResponseBody ResponseEntity deleteClient(@ApiParam(value = "A client id which is used to delete a client.", required = true) @PathVariable Long id) {
         this.clientService.deleteById(id);
         return ResponseEntity.ok(String.format("The client with id=[%d] was deleted", id));
     }
 
-    @PostMapping
     @ApiOperation(value = "Save a new client", response = ResponseEntity.class)
-    public @ResponseBody ResponseEntity saveClient(@Valid @NotNull @ApiParam(value = "An client object which which will be saved", required = true) @RequestBody ClientDTO client) {
-        final Client clientEntity = this.clientService.save(client);
-        return ResponseEntity.ok(String.format("The client [%s] was saved", clientEntity));
+    @PostMapping
+    public @ResponseBody ResponseEntity saveClient(@ApiParam(value = "An client object which which will be saved.", required = true) @Valid @RequestBody ClientDTO client) {
+        Client clientEntity = this.clientService.save(client);
+        return ResponseEntity.ok(String.format("The client [%s] was saved.", clientEntity));
     }
 
-    @PutMapping
     @ApiOperation(value = "Update an existed client", response = ResponseEntity.class)
-    public @ResponseBody ResponseEntity updateClient(@Valid @NotNull @ApiParam(value = "An client object which which will be used to update an existed client", required = true) @RequestBody ClientDTO client) {
-        final Client  clientEntity= this.clientService.update(client);
-        return ResponseEntity.ok(String.format("The client [%s] was updated", clientEntity));
-    }
-
-    @GetMapping(value = "/types")
-    @ApiOperation(value = "View the list of client's type", response = Iterable.class)
-    public @ResponseBody Iterable<ClientType> getClientTypes() {
-        return this.clientTypeRepository.findAll();
+    @PutMapping
+    public @ResponseBody ResponseEntity updateClient(@ApiParam(value = "An client object which will be used to update an existed client.", required = true) @Valid @RequestBody ClientDTO client) {
+        Client clientEntity = this.clientService.update(client);
+        return ResponseEntity.ok(String.format("The client [%s] was updated.", clientEntity));
     }
 }
