@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +18,8 @@ import javax.persistence.GenerationType;
 
 @ApiModel("Client type")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "types")
 public class ClientType {

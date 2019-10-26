@@ -5,12 +5,16 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.time.LocalDateTime;
 
 @ApiModel("Client")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @ApiModelProperty(notes = "Client id", name = "id", required = true)

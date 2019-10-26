@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @ApiModel("Client")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientDTO {
 
     @ApiModelProperty(notes = "Client id", name = "id")
