@@ -179,7 +179,7 @@ public class ClientService {
                 client.getOrderIds(),
                 client.getCreationDate(),
                 client.getModificationDate());
-        LOGGER.info(String.format("A clienжt dto - [%s] was converted to the client entity - [%s] successfully.", client, result));
+        LOGGER.info(String.format("A client dto - [%s] was converted to the client entity - [%s] successfully.", client, result));
         return result;
     }
 }
