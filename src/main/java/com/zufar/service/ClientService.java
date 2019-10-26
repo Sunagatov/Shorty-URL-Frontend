@@ -5,6 +5,7 @@ import com.zufar.dto.Client;
 import com.zufar.dto.ClientDTO;
 import com.zufar.entity.ClientType;
 import com.zufar.entity.ClientEntity;
+import com.zufar.exception.InternalServerException;
 import com.zufar.repository.ClientRepository;
 import com.zufar.exception.ClientNotFoundException;
 
@@ -45,9 +46,9 @@ public class ClientService {
         try {
             clients = (List<ClientEntity>) clientRepository.findAll();
         } catch (Exception exception) {
-            String databaseErrorMessage = "It is impossible to get all clients. There are some problems with a database.";
-            LOGGER.error(databaseErrorMessage, exception);
-            throw exception;
+            String errorMessage = "It is impossible to get all clients. There are some problems with a database.";
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info("All clients were loaded from a database.");
         return clients
@@ -62,9 +63,9 @@ public class ClientService {
         try {
             client = clientRepository.findById(id).orElse(null);
         } catch (Exception exception) {
-            String databaseErrorMessage = String.format("It is impossible to get client with id = [%d]. There are some problems with a database.", id);
-            LOGGER.error(databaseErrorMessage, exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to get client with id = [%d]. There are some problems with a database.", id);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         LOGGER.info(String.format("Client with id=[%d] was loaded from a database.", id));
         return convertToClient(client);
@@ -74,14 +75,16 @@ public class ClientService {
         if (orderIds == null || orderIds.isEmpty()) {
             return new ArrayList<>();
         }
+        List<Order> orders;
         try {
-            List<Order> orders = orderService.getOrdersByIds(orderIds).getBody();
-            LOGGER.info(String.format("All orders of the client with id=[%s] were loaded from a database.", orderIds));
-            return orders;
+            orders = orderService.getOrdersByIds(orderIds).getBody();
         } catch (Exception exception) {
-            LOGGER.error(String.format("It is impossible to load orders of the client with id=[%s]. There are some problems with a order service. ", orderIds), exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to load orders of the client with id=[%s]. There are some problems with a order service. ", orderIds);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
+        LOGGER.info(String.format("All orders of the client with id=[%s] were loaded from a database.", orderIds));
+        return orders;
     }
 
     public Client save(ClientDTO client) {
@@ -89,8 +92,9 @@ public class ClientService {
         try {
             clientEntity = this.clientRepository.save(clientEntity);
         } catch (Exception exception) {
-            LOGGER.error(String.format("It is impossible to save a client [%s]. There are some problems with a database.", client), exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to save a client [%s]. There are some problems with a database.", client);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         return convertToClient(clientEntity);
     }
@@ -101,8 +105,9 @@ public class ClientService {
         try {
             clientEntity = this.clientRepository.save(clientEntity);
         } catch (Exception exception) {
-            LOGGER.error(String.format("It is impossible to update a client [%s]. There are some problems with a database.", client), exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to update a client [%s]. There are some problems with a database.", client);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         return convertToClient(clientEntity);
     }
@@ -117,14 +122,16 @@ public class ClientService {
         try {
             this.clientRepository.deleteById(id);
         } catch (Exception exception) {
-            LOGGER.error(String.format("It is impossible to delete client with id=[%b]. There are some problems with a database.", id), exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to delete client with id=[%b]. There are some problems with a database.", id);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
         try {
             this.orderService.deleteOrders(client.getId());
         } catch (Exception exception) {
-            LOGGER.error(String.format("It is impossible to delete a client [%s]. There are some problems with a database.", client), exception);
-            throw exception;
+            String errorMessage = String.format("It is impossible to delete a client [%s]. There are some problems with a database.", client);
+            LOGGER.error(errorMessage, exception);
+            throw new InternalServerException(errorMessage, exception);
         }
     }
 
@@ -167,7 +174,7 @@ public class ClientService {
                 client.getOrderIds(),
                 client.getCreationDate(),
                 client.getModificationDate());
-        LOGGER.info(String.format("A client dto - [%s] was converted to the client entity - [%s].", client, result));
+        LOGGER.info(String.format("A clienжt dto - [%s] was converted to the client entity - [%s].", client, result));
         return result;
     }
 }
