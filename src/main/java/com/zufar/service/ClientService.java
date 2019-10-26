@@ -6,6 +6,7 @@ import com.zufar.dto.ClientDTO;
 import com.zufar.entity.ClientType;
 import com.zufar.entity.ClientEntity;
 import com.zufar.exception.InternalServerException;
+import com.zufar.exception.OrderNotFoundException;
 import com.zufar.repository.ClientRepository;
 import com.zufar.exception.ClientNotFoundException;
 
@@ -161,6 +162,11 @@ public class ClientService {
             String errorMessage = String.format("It is impossible to load orders with ids=[%s]. There are some problems with a order service.", orderIds);
             LOGGER.error(errorMessage, exception);
             throw new InternalServerException(errorMessage, exception);
+        }
+        if (orders == null || orders.isEmpty()) {
+            String errorMessage = String.format("There are no orders for given ids=[%s]", orderIds);
+            LOGGER.error(errorMessage);
+            throw new OrderNotFoundException(errorMessage);
         }
         LOGGER.info(String.format("All orders with ids=[%s] were loaded from a database successfully.", orderIds));
         return orders;
