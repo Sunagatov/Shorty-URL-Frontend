@@ -19,8 +19,9 @@ import java.util.List;
 public interface OrderService {
 
     @PostMapping(value = "client")
-    @ResponseBody ResponseEntity<List<OrderDTO>> getOrdersByIds(@RequestBody List<Long> orderIds);
+    @ResponseBody 
+    ResponseEntity<List<OrderDTO>> getAllByClientId(@RequestBody Long clientId);
 
     @DeleteMapping(value = "client/{clientId}")
-    void deleteOrders(@PathVariable("clientId") Long clientId);
+    void deleteAllByClientId(@PathVariable("clientId") Long clientId);
 }
