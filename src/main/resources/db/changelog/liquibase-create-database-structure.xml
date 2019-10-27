@@ -12,22 +12,6 @@
     <changeSet author="sunagatovzr" id="1572097649881-2">
         <createSequence sequenceName="type_seq"/>
     </changeSet>
-    <changeSet author="sunagatovzr" id="1572097649881-3">
-        <createTable tableName="client_orders">
-            <column name="id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="client_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="order_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <rollback>
-            <dropTable tableName="client_seq"/>
-        </rollback>
-    </changeSet>
     <changeSet author="sunagatovzr" id="1572097649881-4">
         <createTable tableName="clients">
             <column name="id" type="bigint">
@@ -78,12 +62,6 @@
             <dropTable tableName="types"/>
         </rollback>
     </changeSet>
-    <changeSet author="sunagatovzr" id="1572097649881-6">
-        <addPrimaryKey columnNames="id" constraintName="client_orders_pkey" tableName="client_orders"/>
-        <rollback>
-            <dropPrimaryKey tableName="id"/>
-        </rollback>
-    </changeSet>
     <changeSet author="sunagatovzr" id="1572097649881-7">
         <addPrimaryKey columnNames="id" constraintName="clients_pkey" tableName="clients"/>
         <rollback>
@@ -103,15 +81,6 @@
                                  referencedColumnNames="id" referencedTableName="types"/>
         <rollback>
             <dropForeignKeyConstraint baseTableName="clients" constraintName="fk2tieid5etnaqypctr1ghwpnl8"/>
-        </rollback>
-    </changeSet>
-    <changeSet author="sunagatovzr" id="1572097649881-10">
-        <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="client_orders"
-                                 constraintName="fksvtx3xcntbrypx5rib5qq0ed6" deferrable="false"
-                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
-                                 referencedColumnNames="id" referencedTableName="clients"/>
-        <rollback>
-            <dropForeignKeyConstraint baseTableName="client_orders" constraintName="fksvtx3xcntbrypx5rib5qq0ed6"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>

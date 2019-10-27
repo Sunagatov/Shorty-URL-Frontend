@@ -15,15 +15,5 @@
             <column name="creation_date" valueDate="2019-05-01" type="datetime"/>
             <column name="modification_date" valueDate="2019-05-01" type="datetime"/>
         </insert>
-        <insert tableName="clients">
-            <column name="id" valueNumeric="2" type="bigint"/>
-            <column name="short_name" value="c2" type="VARCHAR(60)"/>
-            <column name="full_name" value="Client2" type="VARCHAR(255)"/>
-            <column name="client_type" value="1" type="bigint"/>
-            <column name="inn" value="inn2" type="VARCHAR(12)"/>
-            <column name="okpo" value="okpo2" type="VARCHAR(10)"/>
-            <column name="creation_date" valueDate="2019-05-01" type="datetime"/>
-            <column name="modification_date" valueDate="2019-05-01" type="datetime"/>
-        </insert>
     </changeSet>
 </databaseChangeLog>
