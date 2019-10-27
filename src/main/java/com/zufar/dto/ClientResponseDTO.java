@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTO {
+public class ClientResponseDTO {
 
     @ApiModelProperty(notes = "Client id", name = "id", required = true)
     private Long id;

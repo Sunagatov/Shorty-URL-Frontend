@@ -11,8 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import java.time.LocalDateTime;
-import java.util.List;
 
 @ApiModel("Client")
 @Data
@@ -26,7 +24,7 @@ public class ClientInputDTO {
     @ApiModelProperty(notes = "Client's short name", name = "shortName", required = true)
     @NotEmpty(message = "Please provide a client's short name. It is empty.")
     @NotNull(message = "Please provide a client's short name. It is absent.")
-    @Size(min = 5, max = 60, message = "A client's short name length should be from 5 to 60.")
+    @Size(min = 1, max = 60, message = "A client's short name length should be from 1 to 60.")
     private String shortName;
 
     @ApiModelProperty(notes = "Client's full name", name = "fullName", required = true)
@@ -42,19 +40,10 @@ public class ClientInputDTO {
     @ApiModelProperty(notes = "Client inn", name = "inn", required = true)
     @NotEmpty(message = "Please provide a client's inn. It is empty.")
     @NotNull(message = "Please provide a client's inn. It is absent.")
-    @Size(min = 5, max = 12, message = "A client's short name length should be from 5 to 12.")
+    @Size(min = 2, max = 12, message = "A client's inn length should be from 2 to 12.")
     private String inn;
 
     @ApiModelProperty(notes = "Client okpo", name = "okpo")
-    @Size(min = 5, max = 10, message = "A client's short name length should be from 5 to 10.")
+    @Size(min = 2, max = 10, message = "A client's okpo length should be from 2 to 10.")
     private String okpo;
-
-    @ApiModelProperty(notes = "Order's ids of a client", name = "orderIds")
-    private List<Long> orderIds;
-
-    @ApiModelProperty(notes = "Client's creation date", name = "creationDate", required = true)
-    private LocalDateTime creationDate;
-
-    @ApiModelProperty(notes = "Client's modification date", name = "modificationDate", required = true)
-    private LocalDateTime modificationDate;
 }

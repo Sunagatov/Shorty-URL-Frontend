@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientTypeDTO {
 
-    @ApiModelProperty(notes = "Client type's id", name="id", required=true)
+    @ApiModelProperty(notes = "Client type's id", name = "id", required = true)
     private Long id;
 
-    @ApiModelProperty(notes = "Client type's short name", name="shortName", required=true)
+    @ApiModelProperty(notes = "Client type's short name", name = "shortName", required = true)
     private String shortName;
 
-    @ApiModelProperty(notes = "Client type's full name", name="fullName", required=true)
+    @ApiModelProperty(notes = "Client type's full name", name = "fullName", required = true)
     private String fullName;
 
-    @ApiModelProperty(notes = "Client type's code", name="typeCode", required=true)
+    @ApiModelProperty(notes = "Client type's code", name = "typeCode", required = true)
     private String typeCode;
 }
