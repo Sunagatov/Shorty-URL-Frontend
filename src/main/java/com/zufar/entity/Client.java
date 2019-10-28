@@ -29,7 +29,7 @@ public class Client {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_sequence")
-    @SequenceGenerator(name = "client_sequence", sequenceName = "client_seq", allocationSize = 20, initialValue = 5)
+    @SequenceGenerator(name = "client_sequence", sequenceName = "client_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "short_name", length = 60, nullable = false)

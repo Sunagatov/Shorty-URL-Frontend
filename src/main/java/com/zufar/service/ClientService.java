@@ -115,10 +115,13 @@ public class ClientService {
 
     private Client convertToClient(ClientInputDTO clientInput, boolean isUpdateMode) {
         Objects.requireNonNull(clientInput, "There is no clientInput to convert.");
-        LocalDateTime creationDate = LocalDateTime.now();
+        LocalDateTime creationDate;
+        LocalDateTime currentDate = LocalDateTime.now();
         if (isUpdateMode) {
             ClientResponseDTO client = this.getById(clientInput.getId());
             creationDate = client.getCreationDate();
+        } else {
+            creationDate = currentDate;
         }
         ClientTypeDTO clientType = this.clientTypeService.getById(clientInput.getClientTypeId());
         Client result = new Client(
@@ -129,7 +132,7 @@ public class ClientService {
                 clientInput.getInn(),
                 clientInput.getOkpo(),
                 creationDate,
-                LocalDateTime.now());
+                currentDate);
         LOGGER.info(String.format("A clientInput dto - [%s] was converted to the clientInput entity - [%s] successfully.", clientInput, result));
         return result;
     }
