@@ -3,12 +3,13 @@ package com.zufar.controller;
 import com.zufar.dto.ClientTypeDTO;
 import com.zufar.entity.ClientType;
 import com.zufar.service.ClientTypeService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
