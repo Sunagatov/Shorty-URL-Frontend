@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(value = "Client type api",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "Client type api")
 @Validated
 @RestController
-@RequestMapping(value = "client-types", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "client-types")
 public class ClientTypeController {
 
     private ClientTypeService clientTypeService;

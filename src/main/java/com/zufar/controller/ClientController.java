@@ -28,12 +28,10 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-@Api(value = "Client api",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@Api(value = "Client api")
 @Validated
 @RestController
-@RequestMapping(value = "clients", produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "clients")
 public class ClientController {
 
     private ClientService clientService;
