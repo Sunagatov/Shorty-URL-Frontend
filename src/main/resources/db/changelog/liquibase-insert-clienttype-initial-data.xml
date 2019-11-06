@@ -15,6 +15,7 @@
             <column name="full_name" value="ClientType1" type="VARCHAR(60)"/>
             <column name="client_type_code" value="1" type="VARCHAR(10)"/>
         </insert>
+        <rollback/>
         <insert tableName="types">
             <column name="id" value="2" type="bigint"/>
             <column name="short_name" value="c2" type="VARCHAR(60)"/>
