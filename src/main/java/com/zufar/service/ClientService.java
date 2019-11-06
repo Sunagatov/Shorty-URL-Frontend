@@ -1,9 +1,8 @@
 package com.zufar.service;
 
-import com.zufar.dto.ClientResponseDTO;
 import com.zufar.dto.ClientTypeDTO;
+import com.zufar.dto.ClientDTO;
 import com.zufar.dto.OrderDTO;
-import com.zufar.dto.ClientInputDTO;
 import com.zufar.entity.Client;
 import com.zufar.exception.InternalServerException;
 import com.zufar.repository.ClientRepository;
@@ -41,26 +40,26 @@ public class ClientService {
         this.clientTypeService = clientTypeService;
     }
 
-    public List<ClientResponseDTO> getAll() {
+    public List<ClientDTO> getAll() {
         LOGGER.info("Get all clients.");
         return StreamSupport.stream(clientRepository.findAll().spliterator(), false)
                 .map(this::convertToClientDTO)
                 .collect(Collectors.toList());
     }
 
-    public ClientResponseDTO getById(Long id) {
+    public ClientDTO getById(Long id) {
         LOGGER.info(String.format("Get client with id=[%d]", id));
         return clientRepository.findById(id).map(this::convertToClientDTO).orElse(null);
     }
 
-    public ClientResponseDTO save(ClientInputDTO client) {
+    public ClientDTO save(ClientDTO client) {
         Client clientEntity = convertToClient(client, false);
         clientEntity = this.clientRepository.save(clientEntity);
         LOGGER.info(String.format("Client=[%s] was saved in a database successfully.", client));
         return convertToClientDTO(clientEntity);
     }
 
-    public ClientResponseDTO update(ClientInputDTO client) {
+    public ClientDTO update(ClientDTO client) {
         Client clientEntity = convertToClient(client, true);
         clientEntity = this.clientRepository.save(clientEntity);
         LOGGER.info(String.format("Client=[%s] was updated in a database successfully.", client));
@@ -75,18 +74,20 @@ public class ClientService {
         LOGGER.info(String.format("All orders of client with id=[%d] was deleted successfully.", id));
     }
 
-    private ClientResponseDTO convertToClientDTO(Client client) {
+    private ClientDTO convertToClientDTO(Client client) {
         Objects.requireNonNull(client, "There is no a client to convert.");
         Long clientId = client.getId();
         List<OrderDTO> orders = new ArrayList<>();
         if (clientId != null) {
             orders = this.getOrders(clientId);
         }
-        ClientResponseDTO result = new ClientResponseDTO(
+        ClientTypeDTO clientTypeDTO = ClientTypeService.convertToClientTypeDTO(client.getClientType());
+        ClientDTO result = new ClientDTO(
                 clientId,
                 client.getShortName(),
                 client.getFullName(),
-                ClientTypeService.convertToClientTypeDTO(client.getClientType()),
+                clientTypeDTO.getId(),
+                clientTypeDTO,
                 client.getInn(),
                 client.getOkpo(),
                 orders,
@@ -102,7 +103,7 @@ public class ClientService {
 
     private List<OrderDTO> getOrders(Long clientId) {
         LOGGER.info(String.format("Get all orders of client with id=[%d] from the order service.", clientId));
-        final List<OrderDTO> orders;
+        List<OrderDTO> orders;
         try {
             orders = orderService.getAllByClientId(clientId).getBody();
         } catch (Exception exception) {
@@ -113,12 +114,12 @@ public class ClientService {
         return orders;
     }
 
-    private Client convertToClient(ClientInputDTO clientInput, boolean isUpdateMode) {
+    private Client convertToClient(ClientDTO clientInput, boolean isUpdateMode) {
         Objects.requireNonNull(clientInput, "There is no clientInput to convert.");
         LocalDateTime creationDate;
         LocalDateTime currentDate = LocalDateTime.now();
         if (isUpdateMode) {
-            ClientResponseDTO client = this.getById(clientInput.getId());
+            ClientDTO client = this.getById(clientInput.getId());
             creationDate = client.getCreationDate();
         } else {
             creationDate = currentDate;

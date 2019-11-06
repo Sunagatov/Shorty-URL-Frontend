@@ -1,7 +1,6 @@
 package com.zufar.controller;
 
-import com.zufar.dto.ClientResponseDTO;
-import com.zufar.dto.ClientInputDTO;
+import com.zufar.dto.ClientDTO;
 import com.zufar.service.ClientService;
 
 import io.swagger.annotations.Api;
@@ -40,15 +39,15 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @ApiOperation(value = "View the client list.", response = ClientResponseDTO.class, responseContainer = "List")
+    @ApiOperation(value = "View the client list.", response = ClientDTO.class, responseContainer = "List")
     @GetMapping
-    public @ResponseBody ResponseEntity<List<ClientResponseDTO>> getClients() {
+    public @ResponseBody ResponseEntity<List<ClientDTO>> getClients() {
         return new ResponseEntity<>(this.clientService.getAll(), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "View the client with given client id.", response = ClientResponseDTO.class)
+    @ApiOperation(value = "View the client with given client id.", response = ClientDTO.class)
     @GetMapping(value = "/{id}")
-    public @ResponseBody ResponseEntity<ClientResponseDTO> getClient(@ApiParam(value = "A client id which is used to retrieve a client.", required = true) @PathVariable Long id) {
+    public @ResponseBody ResponseEntity<ClientDTO> getClient(@ApiParam(value = "A client id which is used to retrieve a client.", required = true) @PathVariable Long id) {
         return new ResponseEntity<>(this.clientService.getById(id), HttpStatus.OK);
     }
 
@@ -61,14 +60,14 @@ public class ClientController {
 
     @ApiOperation(value = "Save a new client.", response = ResponseEntity.class)
     @PostMapping
-    public @ResponseBody ResponseEntity saveClient(@ApiParam(value = "An client object which which will be saved.", required = true) @Valid @RequestBody ClientInputDTO client) {
-        ClientResponseDTO result = this.clientService.save(client);
+    public @ResponseBody ResponseEntity saveClient(@ApiParam(value = "An client object which which will be saved.", required = true) @Valid @RequestBody ClientDTO client) {
+        ClientDTO result = this.clientService.save(client);
         return ResponseEntity.ok(String.format("The client [%s] was saved.", result));
     }
     @ApiOperation(value = "Update an existed client.", response = ResponseEntity.class)
     @PutMapping
-    public @ResponseBody ResponseEntity updateClient(@ApiParam(value = "An client object which will be used to update an existed client.", required = true) @Valid @RequestBody ClientInputDTO client) {
-        ClientResponseDTO result = this.clientService.update(client);
+    public @ResponseBody ResponseEntity updateClient(@ApiParam(value = "An client object which will be used to update an existed client.", required = true) @Valid @RequestBody ClientDTO client) {
+        ClientDTO result = this.clientService.update(client);
         return ResponseEntity.ok(String.format("The client [%s] was updated.", result));
     }
 

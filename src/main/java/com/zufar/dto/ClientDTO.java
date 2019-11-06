@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,7 +18,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientInputDTO {
+public class ClientDTO {
 
     @ApiModelProperty(notes = "Client id", name = "id")
     private Long id;
@@ -37,6 +39,9 @@ public class ClientInputDTO {
     @NotNull(message = "Please provide a client's type id.")
     private Long clientTypeId;
 
+    @ApiModelProperty(notes = "Client's type", name = "clientType", required = true)
+    private ClientTypeDTO clientType;
+    
     @ApiModelProperty(notes = "Client inn", name = "inn", required = true)
     @NotEmpty(message = "Please provide a client's inn. It is empty.")
     @NotNull(message = "Please provide a client's inn. It is absent.")
@@ -46,4 +51,13 @@ public class ClientInputDTO {
     @ApiModelProperty(notes = "Client okpo", name = "okpo")
     @Size(min = 2, max = 10, message = "A client's okpo length should be from 2 to 10.")
     private String okpo;
+
+    @ApiModelProperty(notes = "Client's orders", name = "orders")
+    private List<OrderDTO> orders;
+
+    @ApiModelProperty(notes = "Client's creation date", name = "creationDate", required = true)
+    private LocalDateTime creationDate;
+
+    @ApiModelProperty(notes = "Client's modification date", name = "modificationDate", required = true)
+    private LocalDateTime modificationDate;
 }
