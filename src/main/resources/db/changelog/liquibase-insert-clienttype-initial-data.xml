@@ -5,6 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <changeSet author="sunagatovzr" id="1572097649881-5">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="types"/>
+            <runningAs username="client_account"/>
+        </preConditions>
         <insert tableName="types">
             <column name="id" value="1" type="bigint"/>
             <column name="short_name" value="c1" type="VARCHAR(60)"/>
@@ -17,5 +21,6 @@
             <column name="full_name" value="ClientType2" type="VARCHAR(60)"/>
             <column name="client_type_code" value="2" type="VARCHAR(10)"/>
         </insert>
+        <rollback/>
     </changeSet>
 </databaseChangeLog>
