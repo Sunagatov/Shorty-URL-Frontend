@@ -65,6 +65,7 @@
         <io.springfox-swagger-ui.version>2.9.2</io.springfox-swagger-ui.version>
         <!--                                              Util properties                                            -->
         <org.projectlombok.version>1.18.8</org.projectlombok.version>
+        <com.zufar.OrderManagementSystemUtil.version>1.0.0</com.zufar.OrderManagementSystemUtil.version>
     </properties>
 
     <dependencyManagement>
@@ -188,6 +189,11 @@
             <artifactId>lombok</artifactId>
             <version>${org.projectlombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zufar</groupId>
+            <artifactId>OrderManagementSystemUtil</artifactId>
+            <version>${com.zufar.OrderManagementSystemUtil.version}</version>
         </dependency>
     </dependencies>
     
