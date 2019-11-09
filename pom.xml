@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>client_service_impl</module>
+        <module>client_service_api</module>
     </modules>
 
     <parent>
