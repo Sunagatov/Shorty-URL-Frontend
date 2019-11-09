@@ -14,7 +14,7 @@ public interface ClientTypeServiceEndpoint<E extends ClientTypeDTO, T extends Nu
      *
      * @return all client types.
      */
-    List<E> getAll();
+    ResponseEntity<List<E>> getAll();
 
     /**
      * Returns the client type with given id.

@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @FeignClient(name = "client-service", path = "clients")
 public interface ClientService {
 
+
+    /**
+     * Returns whether an client with the given id exists.
+     *
+     * @param clientId must not be {@literal null}.
+     * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
+     */
     @PostMapping(value = "client")
-    @ResponseBody ResponseEntity<Boolean> isClientExists(@RequestBody Long clientId);
+    @ResponseBody ResponseEntity<Boolean> isExists(@RequestBody Long clientId);
 }
