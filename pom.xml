@@ -66,6 +66,7 @@
         <!--                                              Util properties                                            -->
         <org.projectlombok.version>1.18.8</org.projectlombok.version>
         <com.zufar.OrderManagementSystemUtil.version>1.0.0</com.zufar.OrderManagementSystemUtil.version>
+        <com.zufar.order-service.version>1.0.0</com.zufar.order-service.version>
     </properties>
 
     <dependencyManagement>
@@ -194,6 +195,11 @@
             <groupId>com.zufar</groupId>
             <artifactId>OrderManagementSystemUtil</artifactId>
             <version>${com.zufar.OrderManagementSystemUtil.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zufar</groupId>
+            <artifactId>order_service_api</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
     

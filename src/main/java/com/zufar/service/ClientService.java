@@ -5,6 +5,7 @@ import com.zufar.dto.ClientDTO;
 import com.zufar.dto.OrderDTO;
 import com.zufar.entity.Client;
 import com.zufar.exception.InternalServerException;
+import com.zufar.order_service_api.client.OrderClientService;
 import com.zufar.repository.ClientRepository;
 
 import org.apache.logging.log4j.Logger;
@@ -27,14 +28,15 @@ public class ClientService {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
 
-    private OrderService orderService;
+    private OrderClientService orderService;
     private ClientRepository clientRepository;
     private ClientTypeService clientTypeService;
 
     @Autowired
     public ClientService(ClientRepository clientRepository,
                          ClientTypeService clientTypeService,
-                         OrderService orderService) {
+                         OrderClientService orderService
+    ) {
         this.orderService = orderService;
         this.clientRepository = clientRepository;
         this.clientTypeService = clientTypeService;
@@ -105,7 +107,7 @@ public class ClientService {
         LOGGER.info(String.format("Get all orders of client with id=[%d] from the order service.", clientId));
         List<OrderDTO> orders;
         try {
-            orders = orderService.getAllByClientId(clientId).getBody();
+            orders = orderService.getAllByClientIds(clientId).getBody();
         } catch (Exception exception) {
             String errorMessage = String.format("It is impossible to get orders of the client with id=[%d]. There are some problems with order service.", clientId);
             LOGGER.error(errorMessage, exception);
