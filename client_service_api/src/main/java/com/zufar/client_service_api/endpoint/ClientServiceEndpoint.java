@@ -16,7 +16,7 @@ public interface ClientServiceEndpoint<E extends ClientDTO, T extends Number> {
      *
      * @return all clients.
      */
-    List<E> getAll();
+    ResponseEntity<List<E>> getAll();
 
     /**
      * Returns the client with given id.
@@ -56,5 +56,5 @@ public interface ClientServiceEndpoint<E extends ClientDTO, T extends Number> {
      * @param clientId must not be {@literal null}.
      * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
      */
-    ResponseEntity<Boolean> isClientExists(@NotNull T clientId);
+    ResponseEntity<Boolean> isExists(@NotNull T clientId);
 }

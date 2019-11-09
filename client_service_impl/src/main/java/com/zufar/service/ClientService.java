@@ -1,10 +1,10 @@
 package com.zufar.service;
 
-import com.zufar.dto.ClientTypeDTO;
-import com.zufar.dto.ClientDTO;
-import com.zufar.dto.OrderDTO;
 import com.zufar.entity.Client;
-import com.zufar.exception.InternalServerException;
+import com.zufar.order_management_system_common.dto.ClientDTO;
+import com.zufar.order_management_system_common.dto.ClientTypeDTO;
+import com.zufar.order_management_system_common.dto.OrderDTO;
+import com.zufar.order_management_system_common.exception.InternalServerException;
 import com.zufar.order_service_api.client.OrderClientService;
 import com.zufar.repository.ClientRepository;
 

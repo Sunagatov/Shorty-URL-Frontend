@@ -1,7 +1,8 @@
 package com.zufar.controller;
 
+import com.zufar.client_service_api.endpoint.ClientServiceEndpoint;
+import com.zufar.order_management_system_common.dto.ClientDTO;
 import com.zufar.service.ClientService;
-import com.zufar.dto.ClientDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -30,7 +31,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 @RestController
 @RequestMapping(value = "clients")
-public class ClientController {
+public class ClientController implements ClientServiceEndpoint<ClientDTO, Long> {
 
     private ClientService clientService;
 
@@ -41,39 +42,45 @@ public class ClientController {
 
     @ApiOperation(value = "View the client list.", response = ClientDTO.class, responseContainer = "List")
     @GetMapping
-    public @ResponseBody ResponseEntity<List<ClientDTO>> getClients() {
+    @Override
+    public @ResponseBody ResponseEntity<List<ClientDTO>> getAll() {
         return new ResponseEntity<>(this.clientService.getAll(), HttpStatus.OK);
     }
 
     @ApiOperation(value = "View the client with given client id.", response = ClientDTO.class)
     @GetMapping(value = "/{id}")
-    public @ResponseBody ResponseEntity<ClientDTO> getClient(@ApiParam(value = "A client id which is used to retrieve a client.", required = true) @PathVariable Long id) {
+    @Override
+    public @ResponseBody ResponseEntity<ClientDTO> getById(@ApiParam(value = "A client id which is used to retrieve a client.", required = true) @PathVariable Long id) {
         return new ResponseEntity<>(this.clientService.getById(id), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete the client with given client id.", response = ResponseEntity.class)
     @DeleteMapping(value = "/{id}")
-    public @ResponseBody ResponseEntity deleteClient(@ApiParam(value = "A client id which is used to delete a client.", required = true) @PathVariable Long id) {
+    @Override
+    public @ResponseBody ResponseEntity deleteById(@ApiParam(value = "A client id which is used to delete a client.", required = true) @PathVariable Long id) {
         this.clientService.deleteById(id);
         return ResponseEntity.ok(String.format("The client with id=[%d] was deleted", id));
     }
 
     @ApiOperation(value = "Save a new client.", response = ResponseEntity.class)
     @PostMapping
-    public @ResponseBody ResponseEntity saveClient(@ApiParam(value = "An client object which which will be saved.", required = true) @Valid @RequestBody ClientDTO client) {
+    @Override
+    public @ResponseBody ResponseEntity save(@ApiParam(value = "An client object which which will be saved.", required = true) @Valid @RequestBody ClientDTO client) {
         ClientDTO result = this.clientService.save(client);
         return ResponseEntity.ok(String.format("The client [%s] was saved.", result));
     }
     @ApiOperation(value = "Update an existed client.", response = ResponseEntity.class)
     @PutMapping
-    public @ResponseBody ResponseEntity updateClient(@ApiParam(value = "An client object which will be used to update an existed client.", required = true) @Valid @RequestBody ClientDTO client) {
+    @Override
+    public @ResponseBody ResponseEntity update(@ApiParam(value = "An client object which will be used to update an existed client.", required = true) @Valid @RequestBody ClientDTO client) {
         ClientDTO result = this.clientService.update(client);
         return ResponseEntity.ok(String.format("The client [%s] was updated.", result));
     }
 
     @ApiOperation(value = "Check if is client exists.", response = ResponseEntity.class)
     @PostMapping("client")
-    public @ResponseBody ResponseEntity<Boolean> isClientExists(@ApiParam(value = "An client id which will be used to check is client exists.", required = true) @NotNull @RequestBody Long clientId) {
+    @Override
+    public @ResponseBody ResponseEntity<Boolean> isExists(@ApiParam(value = "An client id which will be used to check is client exists.", required = true) @NotNull @RequestBody Long clientId) {
         return new ResponseEntity<>(this.clientService.isClientExists(clientId), HttpStatus.OK);
 
     }
