@@ -1,12 +1,12 @@
-package com.zufar.service;
+package com.zufar.client_service_impl.service;
 
-import com.zufar.entity.Client;
+import com.zufar.client_service_impl.entity.Client;
 import com.zufar.order_management_system_common.dto.ClientDTO;
 import com.zufar.order_management_system_common.dto.ClientTypeDTO;
 import com.zufar.order_management_system_common.dto.OrderDTO;
 import com.zufar.order_management_system_common.exception.InternalServerException;
 import com.zufar.order_service_api.client.OrderClientService;
-import com.zufar.repository.ClientRepository;
+import com.zufar.client_service_impl.repository.ClientRepository;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;

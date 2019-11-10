@@ -1,4 +1,4 @@
-package com.zufar.configuration;
+package com.zufar.client_service_impl.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

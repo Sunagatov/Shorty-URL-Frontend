@@ -1,9 +1,9 @@
-package com.zufar.controller;
+package com.zufar.client_service_impl.controller;
 
 import com.zufar.client_service_api.endpoint.ClientTypeServiceEndpoint;
-import com.zufar.entity.ClientType;
+import com.zufar.client_service_impl.entity.ClientType;
 import com.zufar.order_management_system_common.dto.ClientTypeDTO;
-import com.zufar.service.ClientTypeService;
+import com.zufar.client_service_impl.service.ClientTypeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
