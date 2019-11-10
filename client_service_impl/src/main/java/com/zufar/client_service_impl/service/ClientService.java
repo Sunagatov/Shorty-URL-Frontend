@@ -4,6 +4,7 @@ import com.zufar.client_service_impl.entity.Client;
 import com.zufar.order_management_system_common.dto.ClientDTO;
 import com.zufar.order_management_system_common.dto.ClientTypeDTO;
 import com.zufar.order_management_system_common.dto.OrderDTO;
+import com.zufar.order_management_system_common.exception.ClientNotFoundException;
 import com.zufar.order_management_system_common.exception.InternalServerException;
 import com.zufar.client_service_impl.repository.ClientRepository;
 
@@ -62,6 +63,15 @@ public class ClientService {
     }
 
     public ClientDTO update(ClientDTO client) {
+        final Long clientId = client.getId();
+        if (!this.isExists(clientId)) {
+            if (!this.clientRepository.existsById(clientId)) {
+                String fullErrorMessage = String.format("It is impossible to updated client=[%s]. Client with id=[%d] was not found.", client, clientId);
+                LOGGER.error(fullErrorMessage);
+                throw new ClientNotFoundException(fullErrorMessage);
+            }
+        }
+
         Client clientEntity = convertToClient(client, true);
         clientEntity = this.clientRepository.save(clientEntity);
         LOGGER.info(String.format("Client=[%s] was updated in a database successfully.", client));
@@ -99,7 +109,7 @@ public class ClientService {
         return result;
     }
 
-    public Boolean isClientExists(Long clientId) {
+    public Boolean isExists(Long clientId) {
         return this.clientRepository.existsById(clientId);
     }
 

@@ -101,6 +101,6 @@ public class ClientController implements ClientServiceEndpoint<ClientDTO, Long> 
     @PostMapping("client")
     @Override
     public @ResponseBody ResponseEntity<Boolean> isExists(@ApiParam(value = "An client id which will be used to check is client exists.", required = true) @NotNull @RequestBody Long clientId) {
-        return new ResponseEntity<>(this.clientService.isClientExists(clientId), HttpStatus.OK);
+        return new ResponseEntity<>(this.clientService.isExists(clientId), HttpStatus.OK);
     }
 }
