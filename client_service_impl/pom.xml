@@ -5,18 +5,32 @@
     
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zufar.order_service_impl</groupId>
-    <artifactId>client_service_impl</artifactId>
-    <version>1.0.0</version>
-
-    <name>client_service_impl</name>
-
     <parent>
         <artifactId>client_service</artifactId>
         <groupId>com.zufar</groupId>
         <version>1.0.0</version>
     </parent>
-    
+
+    <groupId>com.zufar.order_service_impl</groupId>
+    <artifactId>client_service_impl</artifactId>
+    <version>1.0.0</version>
+
+    <name>client_service_impl</name>
+    <description>Client service impl provides implementation for the client microservice api.</description>
+
+    <developers>
+        <developer>
+            <name>Zufar Sunagatov</name>
+            <email>zufar.sunagatov@gmail.com</email>
+            <url>https://vk.com/person99</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+                <role>tester</role>
+            </roles>
+            <timezone>Samara (UTC+4:00)</timezone>
+        </developer>
+    </developers>
 
     <properties>
         <!--                                               Project properties                                        -->
