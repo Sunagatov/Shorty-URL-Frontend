@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @FeignClient(name = "client-service", path = "clients")
-public interface ClientService {
+public interface ClientFeignService {
 
 
     /**

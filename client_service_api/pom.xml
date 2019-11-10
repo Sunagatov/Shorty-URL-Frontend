@@ -11,15 +11,37 @@
         <version>1.0.0</version>
     </parent>
     
+    <groupId>com.zufar</groupId>
     <artifactId>client_service_api</artifactId>
     <version>1.0.0</version>
 
     <name>client_service_api</name>
+    <description>Client service api provides api of client microservice.</description>
 
+    <developers>
+        <developer>
+            <name>Zufar Sunagatov</name>
+            <email>zufar.sunagatov@gmail.com</email>
+            <url>https://vk.com/person99</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+                <role>tester</role>
+            </roles>
+            <timezone>Samara (UTC+4:00)</timezone>
+        </developer>
+    </developers>
+    
     <properties>
+        <!--                                               Project properties                                        -->
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.repository.url>https://github.com/Sunagatov/Order_Service</maven.repository.url>
+        <!--                                               Maven properties                                          -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <!--                                           Spring framework properties                                   -->
         <spring.framework.boot-starter.version>2.1.5.RELEASE</spring.framework.boot-starter.version>
         <spring.framework.open-feign-starter.version>2.1.3.RELEASE</spring.framework.open-feign-starter.version>
@@ -62,8 +84,8 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
