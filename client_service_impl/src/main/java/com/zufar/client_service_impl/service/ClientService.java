@@ -5,9 +5,9 @@ import com.zufar.order_management_system_common.dto.ClientDTO;
 import com.zufar.order_management_system_common.dto.ClientTypeDTO;
 import com.zufar.order_management_system_common.dto.OrderDTO;
 import com.zufar.order_management_system_common.exception.InternalServerException;
-import com.zufar.order_service_api.client.OrderClientService;
 import com.zufar.client_service_impl.repository.ClientRepository;
 
+import com.zufar.order_service_api.client.OrderFeignService;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -28,14 +28,14 @@ public class ClientService {
 
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
 
-    private OrderClientService orderService;
+    private OrderFeignService orderService;
     private ClientRepository clientRepository;
     private ClientTypeService clientTypeService;
 
     @Autowired
     public ClientService(ClientRepository clientRepository,
                          ClientTypeService clientTypeService,
-                         OrderClientService orderService
+                         OrderFeignService orderService
     ) {
         this.orderService = orderService;
         this.clientRepository = clientRepository;
