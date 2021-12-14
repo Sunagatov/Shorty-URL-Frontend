@@ -55,7 +55,7 @@
         <org.hamcrest.version>1.3</org.hamcrest.version>
         <spring-boot-starter-test.version>2.1.5.RELEASE</spring-boot-starter-test.version>
         <!--                                              Logging properties                                         -->
-        <log4j.api.version>2.8.2</log4j.api.version>
+        <log4j.api.version>2.16.0</log4j.api.version>
         <log4j.core.version>2.8.2</log4j.core.version>
         <!--                                              Documentation dependencies                                 -->
         <swagger.jersey2.jaxrs.api.version>2.9.2</swagger.jersey2.jaxrs.api.version>
