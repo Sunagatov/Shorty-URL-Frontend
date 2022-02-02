@@ -47,7 +47,7 @@
         <spring.framework.open-feign-starter.version>2.1.3.RELEASE</spring.framework.open-feign-starter.version>
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
         <!--                                              Database properties                                        -->
-        <postgressql.version>42.2.5</postgressql.version>
+        <postgressql.version>42.2.25</postgressql.version>
         <liquibase-core.version>3.4.1</liquibase-core.version>
         <liquibase-maven-plugin.version>3.4.1</liquibase-maven-plugin.version>
         <!--                                              Testing properties                                         -->
