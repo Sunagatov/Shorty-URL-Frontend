@@ -48,7 +48,7 @@
         <spring-cloud.version>Finchley.SR1</spring-cloud.version>
         <!--                                              Database properties                                        -->
         <postgressql.version>42.2.5</postgressql.version>
-        <liquibase-core.version>3.4.1</liquibase-core.version>
+        <liquibase-core.version>4.8.0</liquibase-core.version>
         <liquibase-maven-plugin.version>3.4.1</liquibase-maven-plugin.version>
         <!--                                              Testing properties                                         -->
         <junit.version>4.12</junit.version>
