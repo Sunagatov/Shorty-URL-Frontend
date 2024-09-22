@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+main {
+    flex-grow: 1;
+}
+
+img {
+    max-height: 40px;
+}
+
+.footer {
+    background-color: #1f2937;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+input:focus {
+    outline: none;
+}
