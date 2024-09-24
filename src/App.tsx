@@ -12,11 +12,12 @@ const App: React.FC = () => {
         <GoogleOAuthProvider clientId="">
             <div className="flex flex-col min-h-screen">
                 <header className="bg-blue-600 text-white py-4 fixed w-full z-10 shadow-lg">
+
                     <div className="container mx-auto flex justify-between items-center px-4">
                         <h1 className="text-3xl font-bold">Shorty URL</h1>
-                        <GoogleLogin
-                            onSuccess={handleLoginSuccess}
-                        />
+                        {/*<GoogleLogin*/}
+                        {/*    onSuccess={handleLoginSuccess}*/}
+                        {/*/>*/}
                     </div>
                 </header>
 
