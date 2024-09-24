@@ -1,151 +1,46 @@
-<div style="text-align: center;">
-  <br>
-  <img src="url-shortener-avatar.jpg" alt="">
-  <h1>Shorty URL Frontend</h1>
+# Getting Started with Create React App
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Sunagatov/Shorty-URL-Frontend/blob/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/issues)
-[![Total Lines of Code](https://tokei.rs/b1/github/Sunagatov/Shorty-URL-Frontend?category=lines)](https://github.com/Sunagatov/Shorty-URL-Frontend)
-[![Code Coverage](https://codecov.io/github/Sunagatov/Shorty-URL-Frontend/branch/main/graph/badge.svg?token=your-token)](https://app.codecov.io/github/Sunagatov/Shorty-URL-Frontend)
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-[![GitHub contributors](https://img.shields.io/github/contributors/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/graphs/contributors)
-[![GitHub stars](https://img.shields.io/github/stars/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/stargazers)
-[![Fork on GitHub](https://img.shields.io/github/forks/Sunagatov/Shorty-URL-Frontend.svg?style=social)](https://github.com/Sunagatov/Shorty-URL-Frontend/network/members)
-</div>
+## Available Scripts
 
-## Table of Contents
-- [Introduction](#introduction)
-- [GitHub Stars](#github-stars)
-- [Tech Stack](#tech-stack)
-- [Quick Start](#quick-start)
-- [Deployment](#deployment)
-- [Forking and Tweaking](#forking-and-tweaking)
-- [Reporting a Bug](#reporting-a-bug)
-- [Proposing a New Feature](#proposing-a-new-feature)
-- [Contributions](#contributions)
-- [Code of Conduct](#code-of-conduct)
-- [Top Contributors](#top-contributors)
-- [License](#license)
-- [Contact](#contact)
+In the project directory, you can run:
 
-## Introduction
+### `npm start`
 
-**🟥 Shorty URL Frontend** is the frontend part of the URL Shortener project, providing a user-friendly interface for shortening URLs and managing the service. This React-based project communicates with the backend to offer a seamless experience for users.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### 🔥 GitHub Stars
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-Please support the Shorty URL Frontend project by giving stars 🌟 on GitHub repositories - your ratings mean a lot to us! 🙂
+### `npm test`
 
-## Tech Stack
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- **Framework:** React.
-- **State Management:** Redux.
-- **Styling:** Tailwind CSS.
-- **Build Tool:** Webpack.
-- **API Client:** Axios.
-- **Routing:** React Router.
-- **Testing:** Jest, React Testing Library.
+### `npm run build`
 
-## Quick Start
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Follow these steps to set up and run the project locally:
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/Sunagatov/Shorty-URL-Frontend.git
-    ```
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-2. Navigate to the project directory:
-    ```bash
-    cd Shorty-URL-Frontend
-    ```
+### `npm run eject`
 
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-4. Run the development server:
-    ```bash
-    npm start
-    ```
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-For a detailed setup, refer to [START.MD](START.md).
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-## 🚢 Deployment
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-You can build the project for production using the following command:
+## Learn More
 
-```bash
-npm run build
-```
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## 🛤 Forking and Tweaking
-
-Forks are welcome!
-
-Please:
-- Share new features you implement so others can benefit and your codebase stays in sync with the original.
-- Use [Discussions](https://github.com/Sunagatov/URL-Shortener/discussions) for support rather than official channels.
-
-## 🙋‍♂️ Reporting a Bug
-
-- 🆕 Open [a new issue](https://github.com/Sunagatov/URL-Shortener/issues/new).
-- 🔦 **Search first** to see if the issue already exists!
-- Provide detailed descriptions of the observed and expected behavior.
-
-## 💎 Proposing a New Feature
-
-- Visit our [Discussions](https://github.com/Sunagatov/URL-Shortener/discussions)
-- Check if the feature has been proposed already.
-- Create a new discussion with detailed requirements.
-
-## 😍 Contributions
-
-Contributions are welcome!
-
-- Check the [Issues page](https://github.com/Sunagatov/URL-Shortener/issues) for current tasks.
-- Comment on issues you're interested in working on.
-
-For major changes, open an issue first or discuss in comments to avoid logical contradictions.
-
-### 🚦 Issue Labels
-
-#### 🟩 Ready to Implement
-- **good first issue** — Great for newcomers.
-- **bug** — Issues that need fixing.
-- **high priority** — Urgent tickets.
-- **enhancement** — Improvements to existing features.
-
-#### 🟨 Discussion Needed
-- **new feature** — New, complex features.
-- **idea** — Ideas requiring discussion.
-
-#### 🟥 Questionable
-- **¯\\_(ツ)_/¯** — Questionable issues, should be reviewed.
-- **[no label]** — New or unclear tickets.
-
-## 👍 Top Contributors
-
-Recognize our top contributors who make this project better:
-
-#### 😎 Project Creator / Tech Lead
-- [@Sunagatov](https://github.com/Sunagatov)
-
-#### ⚙️ Backend Developers
-- [@Sunagatov](https://github.com/Sunagatov)
-- [@annstriganova](https://github.com/annstriganova)
-
-## 👩‍💼 License
-
-[MIT](LICENSE)
-
-You can use the code for private and commercial purposes with appropriate attribution.
-
-## 📞 Contact
-
-Join our community on [Telegram](https://t.me/zufarexplained).
-
-Feel free to reach out via email: [zufar.sunagatov@gmail.com](mailto:zufar.sunagatov@gmail.com).
-
-❤️
+To learn React, check out the [React documentation](https://reactjs.org/).

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function UrlShortener() {
+const UrlShortener: React.FC = () => {
     const [originalUrl, setOriginalUrl] = useState('');
     const [shortUrl, setShortUrl] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleUrlSubmit = async (e) => {
+    const handleUrlSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            const backendRestApiUrl = process.env.BACKEND_REST_API_URL;
-            const response = await axios.post(backendRestApiUrl, {
-                originalUrl
-            });
+            const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
+            const response = await axios.post(backendRestApiUrl!, { originalUrl });
             setShortUrl(response.data.shortUrl);
             setErrorMessage('');
-        } catch (error) {
+        } catch (error: any) {
             if (error.response) {
                 setErrorMessage(error.response.data.errorMessage || 'Error shortening the URL.');
             } else if (error.request) {
@@ -72,6 +70,6 @@ function UrlShortener() {
             )}
         </div>
     );
-}
+};
 
 export default UrlShortener;
