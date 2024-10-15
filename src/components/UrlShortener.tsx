@@ -1,5 +1,6 @@
+// src/components/UrlShortener.tsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 const UrlShortener: React.FC = () => {
     const [originalUrl, setOriginalUrl] = useState('');
@@ -11,7 +12,7 @@ const UrlShortener: React.FC = () => {
 
         try {
             const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
-            const response = await axios.post(backendRestApiUrl!, { originalUrl });
+            const response = await axios.post(`${backendRestApiUrl}/api/v1/shorten`, { originalUrl });
             setShortUrl(response.data.shortUrl);
             setErrorMessage('');
         } catch (error: any) {
@@ -37,22 +38,22 @@ const UrlShortener: React.FC = () => {
             <form onSubmit={handleUrlSubmit}>
                 <input
                     type="text"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="Enter the URL to shorten"
                     value={originalUrl}
                     onChange={(e) => setOriginalUrl(e.target.value)}
                     required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
                 >
                     Shorten URL
                 </button>
                 <button
                     type="button"
                     onClick={handleClear}
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mt-4 ml-2 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mt-4 ml-2 rounded"
                 >
                     Clear
                 </button>
