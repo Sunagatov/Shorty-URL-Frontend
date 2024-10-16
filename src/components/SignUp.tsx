@@ -132,6 +132,27 @@ const SignUp: React.FC = () => {
                     Sign Up
                 </button>
             </form>
+            <p className="text-xs text-center mt-4">
+                By signing up, you agree to Shorty URL's{' '}
+                <a
+                    href="https://github.com/Sunagatov/URL-Shortener"
+                    className="text-blue-500 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    terms of service
+                </a>{' '}
+                and{' '}
+                <a
+                    href="https://github.com/Sunagatov/URL-Shortener"
+                    className="text-blue-500 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    privacy policy
+                </a>
+                .
+            </p>
             {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
         </div>
     );

@@ -89,27 +89,19 @@ const UserUrlMappings: React.FC = () => {
                     <tbody>
                     {urlMappings.map((mapping) => (
                         <tr key={mapping.urlHash} className="text-center">
-                            <td className="border px-4 py-2">
-                  <span
-                      className="cursor-pointer"
-                      title={mapping.shortUrl}
-                      onClick={() => alert(mapping.shortUrl)}
-                  >
-                    {mapping.shortUrl.length > 20
-                        ? mapping.shortUrl.substring(0, 20) + '...'
-                        : mapping.shortUrl}
-                  </span>
+                            <td
+                                className="border px-4 py-2 cursor-pointer"
+                                title={mapping.shortUrl}
+                                onClick={() => alert(mapping.shortUrl)}
+                            >
+                                {mapping.shortUrl}
                             </td>
-                            <td className="border px-4 py-2">
-                  <span
-                      className="cursor-pointer"
-                      title={mapping.originalUrl}
-                      onClick={() => alert(mapping.originalUrl)}
-                  >
-                    {mapping.originalUrl.length > 20
-                        ? mapping.originalUrl.substring(0, 20) + '...'
-                        : mapping.originalUrl}
-                  </span>
+                            <td
+                                className="border px-4 py-2 cursor-pointer"
+                                title={mapping.originalUrl}
+                                onClick={() => alert(mapping.originalUrl)}
+                            >
+                                {mapping.originalUrl}
                             </td>
                             <td className="border px-4 py-2 flex justify-center space-x-2">
                                 <button

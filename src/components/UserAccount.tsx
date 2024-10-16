@@ -47,9 +47,9 @@ const UserAccount: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row">
+        <div className="container mx-auto px-4 py-8 flex">
             {/* Side Panel */}
-            <div className="w-full md:w-1/4 mb-8 md:mb-0">
+            <div className="fixed top-16 left-0 mt-0">
                 <div className="bg-gray-200 shadow-md rounded p-4">
                     <nav className="flex flex-col space-y-2">
                         <Link
@@ -69,7 +69,7 @@ const UserAccount: React.FC = () => {
             </div>
 
             {/* User Details */}
-            <div className="w-full md:w-3/4 md:pl-8">
+            <div className="flex-grow md:pl-48">
                 <h2 className="text-2xl font-bold mb-4">User Account</h2>
                 {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
                 <div className="bg-white shadow-md rounded p-6">
