@@ -1,7 +1,7 @@
 // src/components/SignIn.tsx
 import React, { useState, useContext } from 'react';
 import axios from '../axiosConfig';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const SignIn: React.FC = () => {
@@ -16,8 +16,7 @@ const SignIn: React.FC = () => {
         e.preventDefault();
 
         try {
-            const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
-            const response = await axios.post(`${backendRestApiUrl}/api/v1/auth/signin`, {
+            const response = await axios.post('/api/v1/auth/signin', {
                 email,
                 password,
             });
@@ -40,7 +39,7 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md w-full space-y-8">
+        <div className="max-w-md w-full space-y-4 px-4">
             <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
             <form onSubmit={handleSignIn}>
                 <input
@@ -49,7 +48,7 @@ const SignIn: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="password"
@@ -57,15 +56,21 @@ const SignIn: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4 text-sm"
                 />
                 <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mt-4 rounded w-full"
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mt-4 rounded w-full text-sm md:text-base"
                 >
                     Sign In
                 </button>
             </form>
+            <div className="text-center text-sm md:text-base">
+                Don't have an account?{' '}
+                <Link to="/signup" className="text-blue-500 hover:underline">
+                    Sign Up
+                </Link>
+            </div>
             {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
         </div>
     );

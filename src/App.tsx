@@ -6,17 +6,12 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import UserAccount from './components/UserAccount';
 import UserUrlMappings from './components/UserUrlMappings';
+import UrlMappingDetails from './components/UrlMappingDetails';
 import { AuthContext } from './context/AuthContext';
+import { FaUserCircle } from 'react-icons/fa';
 
 const App: React.FC = () => {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-
-    const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        setIsAuthenticated(false);
-        window.location.href = '/';
-    };
+    const { isAuthenticated } = useContext(AuthContext);
 
     return (
         <Router>
@@ -28,47 +23,29 @@ const App: React.FC = () => {
                         </Link>
                         <div className="flex items-center">
                             {isAuthenticated ? (
-                                <>
-                                    <Link
-                                        to="/account"
-                                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                    >
-                                        User Account
-                                    </Link>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Logout
-                                    </button>
-                                </>
+                                <Link to="/account" className="text-white text-2xl">
+                                    <FaUserCircle />
+                                </Link>
                             ) : (
-                                <>
-                                    <Link
-                                        to="/signin"
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                    >
-                                        Sign In
-                                    </Link>
-                                    <Link
-                                        to="/signup"
-                                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Sign Up
-                                    </Link>
-                                </>
+                                <Link
+                                    to="/signin"
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded mr-2 text-sm md:text-base"
+                                >
+                                    Sign In
+                                </Link>
                             )}
                         </div>
                     </div>
                 </header>
 
-                <main className="flex-grow flex items-center justify-center bg-gray-100 pt-24">
+                <main className="flex-grow flex items-center justify-center bg-gray-100 pt-24 overflow-hidden">
                     <Routes>
                         <Route path="/" element={<UrlShortener />} />
                         <Route path="/signin" element={<SignIn />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/account" element={<UserAccount />} />
                         <Route path="/account/url-mappings" element={<UserUrlMappings />} />
+                        <Route path="/account/url-mappings/:urlHash" element={<UrlMappingDetails />} />
                     </Routes>
                 </main>
 

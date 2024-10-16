@@ -11,8 +11,7 @@ const UrlShortener: React.FC = () => {
         e.preventDefault();
 
         try {
-            const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
-            const response = await axios.post(`${backendRestApiUrl}/api/v1/shorten`, { originalUrl });
+            const response = await axios.post('/api/v1/urls', { originalUrl });
             setShortUrl(response.data.shortUrl);
             setErrorMessage('');
         } catch (error: any) {
@@ -33,7 +32,7 @@ const UrlShortener: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="max-w-md w-full px-4">
             <h2 className="text-2xl font-bold mb-4 text-center">Create Short URL</h2>
             <form onSubmit={handleUrlSubmit}>
                 <input
@@ -42,21 +41,23 @@ const UrlShortener: React.FC = () => {
                     value={originalUrl}
                     onChange={(e) => setOriginalUrl(e.target.value)}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
-                <button
-                    type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded"
-                >
-                    Shorten URL
-                </button>
-                <button
-                    type="button"
-                    onClick={handleClear}
-                    className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mt-4 ml-2 rounded"
-                >
-                    Clear
-                </button>
+                <div className="flex mt-4">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full text-sm md:text-base"
+                    >
+                        Shorten URL
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleClear}
+                        className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 ml-2 rounded w-full text-sm md:text-base"
+                    >
+                        Clear
+                    </button>
+                </div>
             </form>
 
             {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}

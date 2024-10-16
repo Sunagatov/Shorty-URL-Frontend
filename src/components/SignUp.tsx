@@ -32,8 +32,7 @@ const SignUp: React.FC = () => {
         }
 
         try {
-            const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
-            const response = await axios.post(`${backendRestApiUrl}/api/v1/auth/signup`, {
+            const response = await axios.post('/api/v1/auth/signup', {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 email: formData.email,
@@ -60,7 +59,7 @@ const SignUp: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md w-full space-y-8">
+        <div className="max-w-md w-full space-y-4 px-4">
             <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
             <form onSubmit={handleSignUp}>
                 <input
@@ -70,7 +69,7 @@ const SignUp: React.FC = () => {
                     value={formData.firstName}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="text"
@@ -79,7 +78,7 @@ const SignUp: React.FC = () => {
                     value={formData.lastName}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="email"
@@ -88,7 +87,7 @@ const SignUp: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="password"
@@ -97,7 +96,7 @@ const SignUp: React.FC = () => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="password"
@@ -106,7 +105,7 @@ const SignUp: React.FC = () => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="text"
@@ -115,7 +114,7 @@ const SignUp: React.FC = () => {
                     value={formData.country}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
                     type="number"
@@ -124,11 +123,11 @@ const SignUp: React.FC = () => {
                     value={formData.age}
                     onChange={handleChange}
                     required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <button
                     type="submit"
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 mt-4 rounded w-full"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded w-full text-sm md:text-base"
                 >
                     Sign Up
                 </button>
