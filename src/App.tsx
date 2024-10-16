@@ -1,13 +1,15 @@
 // src/App.tsx
-import React, {useContext} from 'react';
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import UrlShortener from './components/UrlShortener';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
-import {AuthContext} from './context/AuthContext';
+import UserAccount from './components/UserAccount';
+import UserUrlMappings from './components/UserUrlMappings';
+import { AuthContext } from './context/AuthContext';
 
 const App: React.FC = () => {
-    const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -24,14 +26,22 @@ const App: React.FC = () => {
                         <Link to="/" className="text-3xl font-bold">
                             Shorty URL
                         </Link>
-                        <div>
+                        <div className="flex items-center">
                             {isAuthenticated ? (
-                                <button
-                                    onClick={handleLogout}
-                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                >
-                                    Logout
-                                </button>
+                                <>
+                                    <Link
+                                        to="/account"
+                                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                    >
+                                        User Account
+                                    </Link>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
                             ) : (
                                 <>
                                     <Link
@@ -54,9 +64,11 @@ const App: React.FC = () => {
 
                 <main className="flex-grow flex items-center justify-center bg-gray-100 pt-24">
                     <Routes>
-                        <Route path="/" element={<UrlShortener/>}/>
-                        <Route path="/signin" element={<SignIn/>}/>
-                        <Route path="/signup" element={<SignUp/>}/>
+                        <Route path="/" element={<UrlShortener />} />
+                        <Route path="/signin" element={<SignIn />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/account" element={<UserAccount />} />
+                        <Route path="/account/url-mappings" element={<UserUrlMappings />} />
                     </Routes>
                 </main>
 
