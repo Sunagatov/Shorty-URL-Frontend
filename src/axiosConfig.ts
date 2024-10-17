@@ -1,5 +1,6 @@
 // src/axiosConfig.ts
 import axios from 'axios';
+import AuthService from './services/AuthService';
 
 const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
 
@@ -35,17 +36,24 @@ axiosInstance.interceptors.response.use(
         ) {
             originalRequest._retry = true;
             try {
-                const response = await axios.post(`${backendRestApiUrl}/api/v1/auth/refresh-token`, {
+                // Use a new axios instance without interceptors to avoid infinite loops
+                const response = await axios.create().post(`${backendRestApiUrl}/api/v1/auth/refresh-token`, {
                     refreshToken,
                 });
                 const newAccessToken = response.data.accessToken;
                 localStorage.setItem('accessToken', newAccessToken);
+
+                // Update the Authorization header for the original request
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+                // Retry the original request with the new access token
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                window.location.href = '/signin';
+                // Refresh token failed, log out the user
+                AuthService.logout();
+
+                // Redirect to main page
+                window.location.href = '/';
                 return Promise.reject(refreshError);
             }
         }

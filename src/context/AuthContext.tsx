@@ -1,5 +1,6 @@
 // src/context/AuthContext.tsx
 import React, { createContext, useState, useEffect } from 'react';
+import AuthService from '../services/AuthService';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -12,22 +13,27 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
-        !!localStorage.getItem('accessToken')
-    );
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthService.isAuthenticated);
 
     useEffect(() => {
-        const handleStorageChange = () => {
-            setIsAuthenticated(!!localStorage.getItem('accessToken'));
+        const handleAuthChange = () => {
+            setIsAuthenticated(AuthService.isAuthenticated);
         };
 
-        window.addEventListener('storage', handleStorageChange);
+        AuthService.addListener(handleAuthChange);
 
-        return () => window.removeEventListener('storage', handleStorageChange);
+        return () => {
+            AuthService.removeListener(handleAuthChange);
+        };
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+        <AuthContext.Provider
+            value={{
+                isAuthenticated,
+                setIsAuthenticated: AuthService.setAuthenticated.bind(AuthService),
+            }}
+        >
             {children}
         </AuthContext.Provider>
     );

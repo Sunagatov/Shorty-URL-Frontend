@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import UrlShortener from './components/UrlShortener';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -9,6 +9,8 @@ import UserUrlMappings from './components/UserUrlMappings';
 import UrlMappingDetails from './components/UrlMappingDetails';
 import { AuthContext } from './context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
+import Security from './components/Security';
+import Dashboard from './components/Dashboard';
 
 const App: React.FC = () => {
     const { isAuthenticated } = useContext(AuthContext);
@@ -23,7 +25,7 @@ const App: React.FC = () => {
                         </Link>
                         <div className="flex items-center">
                             {isAuthenticated ? (
-                                <Link to="/account" className="text-white text-2xl">
+                                <Link to="/account/dashboard" className="text-white text-2xl">
                                     <FaUserCircle />
                                 </Link>
                             ) : (
@@ -43,7 +45,10 @@ const App: React.FC = () => {
                         <Route path="/" element={<UrlShortener />} />
                         <Route path="/signin" element={<SignIn />} />
                         <Route path="/signup" element={<SignUp />} />
-                        <Route path="/account" element={<UserAccount />} />
+                        <Route path="/account" element={<Navigate to="/account/dashboard" replace />} />
+                        <Route path="/account/dashboard" element={<Dashboard />} />
+                        <Route path="/account/profile" element={<UserAccount />} />
+                        <Route path="/account/security" element={<Security />} />
                         <Route path="/account/url-mappings" element={<UserUrlMappings />} />
                         <Route path="/account/url-mappings/:urlHash" element={<UrlMappingDetails />} />
                     </Routes>

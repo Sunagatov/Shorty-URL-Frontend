@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
+import SidePanel from './SidePanel';
 
 interface UrlMapping {
     urlHash: string;
@@ -39,30 +40,33 @@ const UrlMappingDetails: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h2 className="text-2xl font-bold mb-4">URL Mapping Details</h2>
-            {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
-            <div className="bg-white shadow-md rounded p-6">
-                <p className="mb-2">
-                    <strong>Short URL:</strong>{' '}
-                    <a href={urlMapping.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                        {urlMapping.shortUrl}
-                    </a>
-                </p>
-                <p className="mb-2">
-                    <strong>Original URL:</strong>{' '}
-                    <a href={urlMapping.originalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                        {urlMapping.originalUrl}
-                    </a>
-                </p>
-                <p className="mb-2">
-                    <strong>Created At:</strong>{' '}
-                    {new Date(urlMapping.createdAt).toLocaleString()}
-                </p>
-                <p className="mb-2">
-                    <strong>Expiration Date:</strong>{' '}
-                    {new Date(urlMapping.expirationDate).toLocaleString()}
-                </p>
+        <div className="container mx-auto px-4 py-8 flex">
+            <SidePanel />
+            <div className="flex-grow md:pl-48">
+                <h2 className="text-2xl font-bold mb-4">URL Mapping Details</h2>
+                {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
+                <div className="bg-white shadow-md rounded p-6">
+                    <p className="mb-2">
+                        <strong>Short URL:</strong>{' '}
+                        <a href={urlMapping.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                            {urlMapping.shortUrl}
+                        </a>
+                    </p>
+                    <p className="mb-2">
+                        <strong>Original URL:</strong>{' '}
+                        <a href={urlMapping.originalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                            {urlMapping.originalUrl}
+                        </a>
+                    </p>
+                    <p className="mb-2">
+                        <strong>Created At:</strong>{' '}
+                        {new Date(urlMapping.createdAt).toLocaleString()}
+                    </p>
+                    <p className="mb-2">
+                        <strong>Expiration Date:</strong>{' '}
+                        {new Date(urlMapping.expirationDate).toLocaleString()}
+                    </p>
+                </div>
             </div>
         </div>
     );

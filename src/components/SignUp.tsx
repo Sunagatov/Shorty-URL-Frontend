@@ -81,6 +81,24 @@ const SignUp: React.FC = () => {
                     className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                 />
                 <input
+                    type="text"
+                    name="country"
+                    placeholder="Country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                />
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                />
+                <input
                     type="email"
                     name="email"
                     placeholder="Email"
@@ -103,24 +121,6 @@ const SignUp: React.FC = () => {
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                />
-                <input
-                    type="text"
-                    name="country"
-                    placeholder="Country"
-                    value={formData.country}
-                    onChange={handleChange}
-                    required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                />
-                <input
-                    type="number"
-                    name="age"
-                    placeholder="Age"
-                    value={formData.age}
                     onChange={handleChange}
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 mt-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
