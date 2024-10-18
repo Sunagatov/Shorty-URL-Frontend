@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
                     <div className="bg-white shadow-md rounded-lg p-6 flex items-center">
                         <FaLink className="text-blue-500 text-3xl mr-4" />
                         <div>
-                            <p className="text-gray-600">Short Links Count</p>
+                            <p className="text-gray-600">Total Short Links Count</p>
                             <p className="text-xl font-bold">{metrics.shortLinksCount}</p>
                         </div>
                     </div>
@@ -33,14 +33,14 @@ const Dashboard: React.FC = () => {
                     <div className="bg-white shadow-md rounded-lg p-6 flex items-center">
                         <FaUser className="text-purple-500 text-3xl mr-4" />
                         <div>
-                            <p className="text-gray-600">Unique Visits Count</p>
+                            <p className="text-gray-600">Total Unique Visits Count</p>
                             <p className="text-xl font-bold">{metrics.uniqueVisitsCount}</p>
                         </div>
                     </div>
                     <div className="bg-white shadow-md rounded-lg p-6 flex items-center">
                         <FaQrcode className="text-orange-500 text-3xl mr-4" />
                         <div>
-                            <p className="text-gray-600">QR Scans</p>
+                            <p className="text-gray-600">Total QR Scans</p>
                             <p className="text-xl font-bold">{metrics.qrScans}</p>
                         </div>
                     </div>
