@@ -1,3 +1,4 @@
+// src/components/SidePanel.tsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthService from '../services/AuthService';
@@ -28,28 +29,28 @@ const SidePanel: React.FC = () => {
         <nav className="flex flex-col space-y-4">
             <Link
                 to="/account/dashboard"
-                className="flex items-center text-gray-700 hover:text-blue-500 px-2 py-2 border rounded"
+                className="flex items-center text-gray-700 hover:text-blue-500 px-3 py-2 border rounded"
                 onClick={() => setIsOpen(false)}
             >
                 <FaTachometerAlt className="mr-2" /> Dashboard
             </Link>
             <Link
                 to="/account/profile"
-                className="flex items-center text-gray-700 hover:text-blue-500 px-2 py-2 border rounded"
+                className="flex items-center text-gray-700 hover:text-blue-500 px-3 py-2 border rounded"
                 onClick={() => setIsOpen(false)}
             >
                 <FaUser className="mr-2" /> Profile
             </Link>
             <Link
                 to="/account/security"
-                className="flex items-center text-gray-700 hover:text-blue-500 px-2 py-2 border rounded"
+                className="flex items-center text-gray-700 hover:text-blue-500 px-3 py-2 border rounded"
                 onClick={() => setIsOpen(false)}
             >
                 <FaLock className="mr-2" /> Security
             </Link>
             <Link
                 to="/account/url-mappings"
-                className="flex items-center text-gray-700 hover:text-blue-500 px-2 py-2 border rounded"
+                className="flex items-center text-gray-700 hover:text-blue-500 px-3 py-2 border rounded"
                 onClick={() => setIsOpen(false)}
             >
                 <FaLink className="mr-2" /> My URL Mappings
@@ -60,8 +61,8 @@ const SidePanel: React.FC = () => {
     return (
         <>
             {/* Mobile Header */}
-            <div className="md:hidden bg-gray-200 p-4 flex justify-between items-center fixed top-0 w-full z-20">
-                <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
+            <div className="md:hidden bg-blue-600 text-white p-4 flex justify-between items-center">
+                <button onClick={toggleMenu} className="text-white focus:outline-none">
                     {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
                 <span className="text-xl font-bold">Menu</span>
@@ -78,7 +79,7 @@ const SidePanel: React.FC = () => {
                     <div className="mt-4">
                         <button
                             onClick={handleLogout}
-                            className="flex items-center text-gray-700 hover:text-red-500 px-2 py-2 border rounded w-full"
+                            className="flex items-center text-gray-700 hover:text-red-500 px-3 py-2 border rounded w-full"
                         >
                             <FaSignOutAlt className="mr-2" /> Logout
                         </button>
