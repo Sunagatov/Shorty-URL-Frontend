@@ -1,12 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from 'react-router-dom';
 import { ApiService } from '../services/ApiService';
 import { useApi } from '../hooks/useApi';
+import { useAuth } from '../hooks/useAuth';
 import { createUrlSchema, type CreateUrlFormData } from '../utils/validation';
 import type { UrlMapping } from '../types';
+import { ROUTES } from '../constants';
+import {
+    FaLink,
+    FaCopy,
+    FaExternalLinkAlt,
+    FaCheck,
+    FaRocket,
+    FaShieldAlt,
+    FaChartLine,
+    FaQrcode,
+    FaArrowRight,
+    FaGlobe
+} from 'react-icons/fa';
 
 const UrlShortener: React.FC = () => {
+    const { isAuthenticated } = useAuth();
     const { execute, loading, error } = useApi<UrlMapping>();
     const {
         register,
@@ -18,6 +34,7 @@ const UrlShortener: React.FC = () => {
     });
 
     const [shortUrl, setShortUrl] = React.useState<string>('');
+    const [copied, setCopied] = React.useState(false);
 
     const onSubmit = async (data: CreateUrlFormData) => {
         const result = await execute(() => ApiService.createUrl(data));
@@ -29,72 +46,256 @@ const UrlShortener: React.FC = () => {
     const handleClear = () => {
         reset();
         setShortUrl('');
+        setCopied(false);
     };
 
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(shortUrl);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Failed to copy:', error);
+        }
+    };
+
+    const features = [
+        {
+            icon: FaRocket,
+            title: 'Lightning Fast',
+            description: 'Create short URLs in seconds with our optimized platform'
+        },
+        {
+            icon: FaShieldAlt,
+            title: 'Secure & Reliable',
+            description: 'Your links are protected with enterprise-grade security'
+        },
+        {
+            icon: FaChartLine,
+            title: 'Analytics & Insights',
+            description: 'Track clicks, analyze traffic, and measure performance'
+        },
+        {
+            icon: FaQrcode,
+            title: 'QR Code Generation',
+            description: 'Generate QR codes for easy mobile sharing'
+        }
+    ];
+
+    const stats = [
+        { number: '10M+', label: 'URLs Shortened' },
+        { number: '500K+', label: 'Happy Users' },
+        { number: '99.9%', label: 'Uptime' },
+        { number: '24/7', label: 'Support' }
+    ];
+
     return (
-        <div className="max-w-md w-full px-4">
-            <h2 className="text-2xl font-bold mb-4 text-center">Create Short URL</h2>
-            
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <input
-                        {...register('originalUrl')}
-                        type="url"
-                        placeholder="Enter the URL to shorten"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.originalUrl && (
-                        <p className="text-red-500 text-xs mt-1">{errors.originalUrl.message}</p>
-                    )}
+        <div className="w-full max-w-7xl mx-auto px-4 py-8">
+            {/* Hero Section */}
+            <div className="text-center mb-16">
+                <div className="mb-8">
+                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                        Shorten URLs with
+                        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent block">
+                            Style & Analytics
+                        </span>
+                    </h1>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+                        Transform long, complex URLs into short, memorable links. 
+                        Track performance, analyze clicks, and share with confidence.
+                    </p>
                 </div>
 
-                <div className="flex gap-2">
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded flex-1 text-sm md:text-base transition-colors"
-                    >
-                        {loading ? 'Shortening...' : 'Shorten URL'}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleClear}
-                        disabled={loading}
-                        className="bg-gray-300 hover:bg-gray-400 disabled:bg-gray-200 text-black font-bold py-2 px-4 rounded flex-1 text-sm md:text-base transition-colors"
-                    >
-                        Clear
-                    </button>
-                </div>
-            </form>
+                {/* URL Shortener Form */}
+                <div className="max-w-2xl mx-auto mb-12">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <FaGlobe className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    {...register('originalUrl')}
+                                    type="url"
+                                    placeholder="Paste your long URL here..."
+                                    className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
+                                />
+                                {errors.originalUrl && (
+                                    <p className="text-red-500 text-sm mt-2 flex items-center">
+                                        <span className="mr-1">⚠️</span>
+                                        {errors.originalUrl.message}
+                                    </p>
+                                )}
+                            </div>
 
-            {error && (
-                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <p className="text-sm">{error.errorMessage}</p>
-                </div>
-            )}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                            <span>Shortening...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FaLink className="w-5 h-5" />
+                                            <span>Shorten URL</span>
+                                        </>
+                                    )}
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleClear}
+                                    disabled={loading}
+                                    className="bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-200 hover:shadow-md"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                        </form>
 
-            {shortUrl && (
-                <div className="mt-6 p-4 bg-green-100 border border-green-400 rounded">
-                    <p className="text-green-700 text-lg font-semibold mb-2">Short URL Created!</p>
-                    <div className="flex items-center gap-2">
-                        <a
-                            href={shortUrl}
-                            className="text-blue-600 hover:text-blue-800 underline break-all"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {shortUrl}
-                        </a>
-                        <button
-                            onClick={() => navigator.clipboard.writeText(shortUrl)}
-                            className="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded transition-colors"
-                            title="Copy to clipboard"
-                        >
-                            Copy
-                        </button>
+                        {/* Error Message */}
+                        {error && (
+                            <div className="mt-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl flex items-center">
+                                <span className="mr-2">❌</span>
+                                <p className="text-sm">{error.errorMessage}</p>
+                            </div>
+                        )}
+
+                        {/* Success Result */}
+                        {shortUrl && (
+                            <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-2xl">
+                                <div className="flex items-center mb-4">
+                                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                        <FaCheck className="w-5 h-5 text-green-600" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-gray-900">Success!</h3>
+                                        <p className="text-sm text-gray-600">Your short URL is ready to use</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-white rounded-xl p-4 border border-gray-200">
+                                    <div className="flex items-center justify-between">
+                                        <a
+                                            href={shortUrl}
+                                            className="text-blue-600 hover:text-blue-800 font-medium break-all flex-1 mr-4"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {shortUrl}
+                                        </a>
+                                        <div className="flex space-x-2">
+                                            <button
+                                                onClick={handleCopy}
+                                                className={`p-3 rounded-lg transition-all duration-200 flex items-center space-x-2 ${
+                                                    copied 
+                                                        ? 'bg-green-100 text-green-600' 
+                                                        : 'bg-blue-100 text-blue-600 hover:bg-blue-200'
+                                                }`}
+                                                title="Copy to clipboard"
+                                            >
+                                                {copied ? <FaCheck className="w-4 h-4" /> : <FaCopy className="w-4 h-4" />}
+                                                <span className="text-sm font-medium hidden sm:inline">
+                                                    {copied ? 'Copied!' : 'Copy'}
+                                                </span>
+                                            </button>
+                                            <a
+                                                href={shortUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="p-3 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-all duration-200"
+                                                title="Open link"
+                                            >
+                                                <FaExternalLinkAlt className="w-4 h-4" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {isAuthenticated && (
+                                    <div className="mt-4 text-center">
+                                        <Link
+                                            to={ROUTES.URL_MAPPINGS}
+                                            className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                                        >
+                                            <span>View in Dashboard</span>
+                                            <FaArrowRight className="w-4 h-4" />
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
-            )}
+
+                {/* Call to Action for Non-Authenticated Users */}
+                {!isAuthenticated && (
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white mb-16">
+                        <h3 className="text-2xl font-bold mb-4">Want more features?</h3>
+                        <p className="text-blue-100 mb-6">Sign up for free to track analytics, manage your URLs, and access advanced features!</p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link
+                                to={ROUTES.SIGNUP}
+                                className="bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg"
+                            >
+                                Sign Up Free
+                            </Link>
+                            <Link
+                                to={ROUTES.SIGNIN}
+                                className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 border border-white/30"
+                            >
+                                Sign In
+                            </Link>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Features Section */}
+            <div className="mb-16">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Shorty URL?</h2>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                        Powerful features designed to make link management simple and effective
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {features.map((feature, index) => {
+                        const Icon = feature.icon;
+                        return (
+                            <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+                                <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl flex items-center justify-center mb-4">
+                                    <Icon className="w-6 h-6 text-blue-600" />
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                                <p className="text-gray-600">{feature.description}</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Stats Section */}
+            <div className="bg-gradient-to-r from-gray-900 to-blue-900 rounded-3xl p-8 md:p-12 text-white">
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Trusted by Millions</h2>
+                    <p className="text-blue-100 text-lg">Join thousands of users who trust Shorty URL for their link management needs</p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    {stats.map((stat, index) => (
+                        <div key={index} className="text-center">
+                            <div className="text-3xl md:text-4xl font-bold text-blue-300 mb-2">{stat.number}</div>
+                            <div className="text-blue-100">{stat.label}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };
