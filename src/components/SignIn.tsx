@@ -1,77 +1,86 @@
-// src/components/SignIn.tsx
-import React, { useState, useContext } from 'react';
-import axios from '../axiosConfig';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { ApiService } from '../services/ApiService';
+import { useAuth } from '../hooks/useAuth';
+import { useApi } from '../hooks/useApi';
+import { signInSchema, type SignInFormData } from '../utils/validation';
+import { ROUTES } from '../constants';
+import type { User, AuthTokens } from '../types';
 
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
+    const { execute, loading, error } = useApi<{ user: User } & AuthTokens>();
+    
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignInFormData>({
+        resolver: zodResolver(signInSchema),
+    });
 
-    const { setIsAuthenticated } = useContext(AuthContext);
-
-    const handleSignIn = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post('/api/v1/auth/signin', {
-                email,
-                password,
-            });
-
-            localStorage.setItem('accessToken', response.data.accessToken);
-            localStorage.setItem('refreshToken', response.data.refreshToken);
-
-            setIsAuthenticated(true);
-            setErrorMessage('');
-            navigate('/');
-        } catch (error: any) {
-            if (error.response) {
-                setErrorMessage(error.response.data.errorMessage || 'Error signing in.');
-            } else if (error.request) {
-                setErrorMessage('No response from the server. Please try again later.');
-            } else {
-                setErrorMessage('Error: ' + error.message);
-            }
+    const onSubmit = async (data: SignInFormData) => {
+        const result = await execute(() => ApiService.signIn(data));
+        if (result) {
+            const { user, accessToken, refreshToken } = result;
+            login({ accessToken, refreshToken }, user);
+            navigate(ROUTES.HOME);
         }
     };
 
     return (
-        <div className="max-w-md w-full space-y-4 px-4">
-            <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
-            <form onSubmit={handleSignIn}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-4 text-sm"
-                />
+        <div className="max-w-md w-full px-4">
+            <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
+            
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div>
+                    <input
+                        {...register('email')}
+                        type="email"
+                        placeholder="Email"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    />
+                    {errors.email && (
+                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                    )}
+                </div>
+
+                <div>
+                    <input
+                        {...register('password')}
+                        type="password"
+                        placeholder="Password"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    />
+                    {errors.password && (
+                        <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+                    )}
+                </div>
+
                 <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mt-4 rounded w-full text-sm md:text-base"
+                    disabled={loading}
+                    className="bg-green-500 hover:bg-green-700 disabled:bg-green-300 text-white font-bold py-2 px-4 rounded w-full text-sm md:text-base transition-colors"
                 >
-                    Sign In
+                    {loading ? 'Signing In...' : 'Sign In'}
                 </button>
             </form>
-            <div className="text-center text-sm md:text-base">
+
+            <div className="text-center text-sm md:text-base mt-4">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-blue-500 hover:underline">
+                <Link to={ROUTES.SIGNUP} className="text-blue-500 hover:underline">
                     Sign Up
                 </Link>
             </div>
-            {errorMessage && <p className="text-red-500 text-xs italic mt-4">{errorMessage}</p>}
+
+            {error && (
+                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <p className="text-sm">{error.errorMessage}</p>
+                </div>
+            )}
         </div>
     );
 };

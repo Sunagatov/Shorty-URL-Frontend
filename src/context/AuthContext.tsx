@@ -1,23 +1,19 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import AuthService from '../services/AuthService';
+import type { AuthContextType, User, AuthTokens } from '../types';
 
-interface AuthContextType {
-    isAuthenticated: boolean;
-    setIsAuthenticated: (value: boolean) => void;
-}
-
-export const AuthContext = createContext<AuthContextType>({
-    isAuthenticated: false,
-    setIsAuthenticated: () => {},
-});
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthService.isAuthenticated);
+    const [user, setUser] = useState<User | null>(AuthService.user);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        const handleAuthChange = () => {
-            setIsAuthenticated(AuthService.isAuthenticated);
+        const handleAuthChange = (authenticated: boolean, userData: User | null) => {
+            setIsAuthenticated(authenticated);
+            setUser(userData);
+            setLoading(false);
         };
 
         AuthService.addListener(handleAuthChange);
@@ -27,13 +23,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, []);
 
+    const login = useCallback((tokens: AuthTokens, userData: User) => {
+        setLoading(true);
+        AuthService.login(tokens, userData);
+    }, []);
+
+    const logout = useCallback(() => {
+        setLoading(true);
+        AuthService.logout();
+    }, []);
+
+    const value: AuthContextType = {
+        isAuthenticated,
+        user,
+        login,
+        logout,
+        loading,
+    };
+
     return (
-        <AuthContext.Provider
-            value={{
-                isAuthenticated,
-                setIsAuthenticated: AuthService.setAuthenticated.bind(AuthService),
-            }}
-        >
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );

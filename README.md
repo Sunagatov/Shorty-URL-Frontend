@@ -1,46 +1,131 @@
-# Getting Started with Create React App
+# Shorty URL Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, type-safe React application for URL shortening built with TypeScript, following SOLID principles and best practices.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Modern React 18** with TypeScript
+- **Form Validation** using React Hook Form + Zod
+- **Type Safety** with comprehensive TypeScript definitions
+- **Authentication** with JWT tokens and refresh token handling
+- **Responsive Design** with Tailwind CSS
+- **Code Quality** with ESLint and Prettier
+- **SOLID Principles** implementation
+- **Custom Hooks** for reusable logic
+- **Centralized API Management**
+- **Error Handling** with user-friendly messages
 
-### `npm start`
+## 📁 Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+src/
+├── components/          # Reusable UI components
+├── constants/          # Application constants
+├── context/           # React contexts
+├── hooks/             # Custom React hooks
+├── layouts/           # Layout components
+├── pages/             # Page components
+├── services/          # API and business logic
+├── types/             # TypeScript type definitions
+└── utils/             # Utility functions
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🛠️ Available Scripts
 
-### `npm test`
+### Development
+- `npm start` - Runs the app in development mode
+- `npm test` - Launches the test runner
+- `npm run build` - Builds the app for production
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Code Quality
+- `npm run lint` - Runs ESLint and fixes issues
+- `npm run lint:check` - Checks for linting issues
+- `npm run format` - Formats code with Prettier
+- `npm run format:check` - Checks code formatting
+- `npm run type-check` - Runs TypeScript type checking
+- `npm run pre-commit` - Runs all quality checks
 
-### `npm run build`
+## 🔧 Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Set up environment variables:**
+   Create a `.env` file with:
+   ```
+   REACT_APP_BACKEND_REST_API_URL=your_backend_url
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. **Start development server:**
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+## 🏗️ Architecture
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### SOLID Principles Implementation
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Single Responsibility**: Each component/service has one clear purpose
+- **Open/Closed**: Components are open for extension, closed for modification
+- **Liskov Substitution**: Interfaces are properly implemented
+- **Interface Segregation**: Small, focused interfaces
+- **Dependency Inversion**: Dependencies are injected, not hardcoded
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Key Improvements
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. **Type Safety**: Comprehensive TypeScript types for all data structures
+2. **Form Validation**: Zod schemas for robust client-side validation
+3. **Error Handling**: Centralized error management with user-friendly messages
+4. **Code Organization**: Clear separation of concerns with dedicated folders
+5. **Performance**: Optimized re-renders and efficient state management
+6. **Maintainability**: Consistent code style with ESLint and Prettier
 
-## Learn More
+## 🔐 Authentication
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The app implements secure authentication with:
+- JWT access tokens
+- Refresh token rotation
+- Automatic token refresh
+- Protected routes
+- Secure token storage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📱 Responsive Design
+
+Built with mobile-first approach using Tailwind CSS for:
+- Responsive layouts
+- Consistent design system
+- Accessible components
+- Modern UI patterns
+
+## 🧪 Testing
+
+Run tests with:
+```bash
+npm test
+```
+
+## 🚀 Deployment
+
+Build for production:
+```bash
+npm run build
+```
+
+The build folder contains optimized files ready for deployment.
+
+## 🤝 Contributing
+
+1. Run quality checks before committing:
+   ```bash
+   npm run pre-commit
+   ```
+
+2. Follow the established code style and patterns
+3. Add tests for new features
+4. Update documentation as needed
+
+## 📄 License
+
+This project is licensed under the MIT License.

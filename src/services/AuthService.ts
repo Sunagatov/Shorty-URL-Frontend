@@ -1,10 +1,18 @@
-// src/services/AuthService.ts
+import { storage } from '../utils/storage';
+import type { User, AuthTokens } from '../types';
+
+type AuthListener = (isAuthenticated: boolean, user: User | null) => void;
+
 class AuthService {
     private static instance: AuthService;
-    public isAuthenticated: boolean = !!localStorage.getItem('accessToken');
-    private listeners: Array<() => void> = [];
+    private listeners: Set<AuthListener> = new Set();
+    private _isAuthenticated: boolean;
+    private _user: User | null;
 
-    private constructor() {}
+    private constructor() {
+        this._isAuthenticated = storage.hasValidTokens();
+        this._user = storage.getUser();
+    }
 
     public static getInstance(): AuthService {
         if (!AuthService.instance) {
@@ -13,28 +21,47 @@ class AuthService {
         return AuthService.instance;
     }
 
-    public setAuthenticated(value: boolean) {
-        this.isAuthenticated = value;
+    public get isAuthenticated(): boolean {
+        return this._isAuthenticated;
+    }
+
+    public get user(): User | null {
+        return this._user;
+    }
+
+    public login(tokens: AuthTokens, user: User): void {
+        storage.setTokens(tokens);
+        storage.setUser(user);
+        this._isAuthenticated = true;
+        this._user = user;
         this.notifyListeners();
     }
 
-    public logout() {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        this.isAuthenticated = false;
+    public logout(): void {
+        storage.clearAll();
+        this._isAuthenticated = false;
+        this._user = null;
         this.notifyListeners();
     }
 
-    public addListener(listener: () => void) {
-        this.listeners.push(listener);
+    public updateUser(user: User): void {
+        storage.setUser(user);
+        this._user = user;
+        this.notifyListeners();
     }
 
-    public removeListener(listener: () => void) {
-        this.listeners = this.listeners.filter((l) => l !== listener);
+    public addListener(listener: AuthListener): void {
+        this.listeners.add(listener);
     }
 
-    private notifyListeners() {
-        this.listeners.forEach((listener) => listener());
+    public removeListener(listener: AuthListener): void {
+        this.listeners.delete(listener);
+    }
+
+    private notifyListeners(): void {
+        this.listeners.forEach(listener => {
+            listener(this._isAuthenticated, this._user);
+        });
     }
 }
 
