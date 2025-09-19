@@ -20,7 +20,7 @@ export const storage = {
 
   getUser: (): User | null => {
     const user = localStorage.getItem(STORAGE_KEYS.USER);
-    return user ? JSON.parse(user) : null;
+    return user && user !== 'undefined' ? JSON.parse(user) : null;
   },
 
   setUser: (user: User): void => {

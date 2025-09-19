@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants';
 import AuthService from '../services/AuthService';
+import { Button } from '../components/ui';
 
 
 interface MainLayoutProps {
@@ -124,11 +125,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 >
                   Sign Up
                 </Link>
-                <Link
-                  to={ROUTES.SIGNIN}
-                  className="bg-white text-blue-600 hover:bg-blue-50 font-semibold py-2 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  Sign In
+                <Link to={ROUTES.SIGNIN}>
+                  <Button variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
+                    Sign In
+                  </Button>
                 </Link>
               </div>
             )}

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import SidePanel from './SidePanel';
+import { Button } from './ui';
 import {
     FaArrowLeft,
     FaCopy,
@@ -113,12 +114,9 @@ const UrlMappingDetails: React.FC = () => {
                     <div className="text-center py-16">
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">URL Not Found</h2>
                         <p className="text-gray-600 mb-6">The requested URL mapping could not be found.</p>
-                        <button
-                            onClick={() => navigate('/account/url-mappings')}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
-                        >
+                        <Button onClick={() => navigate('/account/url-mappings')}>
                             Back to URL Mappings
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -126,10 +124,10 @@ const UrlMappingDetails: React.FC = () => {
     }
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
             <SidePanel />
-            <div className="flex-grow md:ml-72 p-4 md:p-8">
-                <div className="max-w-4xl mx-auto">
+            <div className="flex-grow md:ml-72 p-8">
+                <div className="max-w-5xl mx-auto">
                     {/* Header */}
                     <div className="mb-8">
                         <button
@@ -164,17 +162,18 @@ const UrlMappingDetails: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex space-x-3">
-                                    <button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white/30">
+                                    <Button variant="ghost" size="sm">
                                         <FaEdit className="w-4 h-4" />
                                         <span className="hidden sm:inline">Edit</span>
-                                    </button>
-                                    <button 
+                                    </Button>
+                                    <Button 
                                         onClick={handleDelete}
-                                        className="bg-red-500/80 hover:bg-red-600 backdrop-blur-sm text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2"
+                                        variant="danger"
+                                        size="sm"
                                     >
                                         <FaTrash className="w-4 h-4" />
                                         <span className="hidden sm:inline">Delete</span>
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         </div>

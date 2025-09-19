@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthService from '../services/AuthService';
+import { Button } from './ui';
 import {
     FaBars,
     FaTimes,
@@ -116,7 +117,7 @@ const SidePanel: React.FC = () => {
             >
                 <div className="flex flex-col h-full">
                     {/* Header */}
-                    <div className="p-6 border-b border-gray-100">
+                    <div className="p-6 border-b border-gray-100 mt-20">
                         <h2 className="text-xl font-bold text-gray-800 mb-1">Shorty URL</h2>
                         <p className="text-sm text-gray-500">Manage your links</p>
                     </div>
@@ -128,13 +129,14 @@ const SidePanel: React.FC = () => {
 
                     {/* Logout Button */}
                     <div className="p-6 border-t border-gray-100">
-                        <button
+                        <Button
                             onClick={handleLogout}
-                            className="flex items-center w-full px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 ease-in-out group"
+                            variant="secondary"
+                            className="w-full justify-start text-gray-700 hover:text-red-600 hover:bg-red-50"
                         >
-                            <FaSignOutAlt className="mr-3 text-lg text-gray-500 group-hover:text-red-600 transition-colors duration-200" />
+                            <FaSignOutAlt className="mr-3 text-lg" />
                             <span className="font-medium">Logout</span>
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

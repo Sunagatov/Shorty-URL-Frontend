@@ -8,6 +8,9 @@ import { useAuth } from '../hooks/useAuth';
 import { createUrlSchema, type CreateUrlFormData } from '../utils/validation';
 import type { UrlMapping } from '../types';
 import { ROUTES } from '../constants';
+import { Button } from './ui/Button';
+import { Card } from './ui/Card';
+import { Input } from './ui/Input';
 import {
     FaLink,
     FaCopy,
@@ -108,52 +111,36 @@ const UrlShortener: React.FC = () => {
 
                 {/* URL Shortener Form */}
                 <div className="max-w-2xl mx-auto mb-12">
-                    <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+                    <Card className="p-8">
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <FaGlobe className="h-5 w-5 text-gray-400" />
-                                </div>
-                                <input
-                                    {...register('originalUrl')}
-                                    type="url"
-                                    placeholder="Paste your long URL here..."
-                                    className="w-full pl-12 pr-4 py-4 text-lg border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
-                                />
-                                {errors.originalUrl && (
-                                    <p className="text-red-500 text-sm mt-2 flex items-center">
-                                        <span className="mr-1">⚠️</span>
-                                        {errors.originalUrl.message}
-                                    </p>
-                                )}
-                            </div>
+                            <Input
+                                {...register('originalUrl')}
+                                type="url"
+                                placeholder="Paste your long URL here..."
+                                icon={<FaGlobe className="h-5 w-5 text-gray-400" />}
+                                error={errors.originalUrl?.message}
+                                className="text-lg py-4 bg-gray-50 focus:bg-white"
+                            />
 
                             <div className="flex flex-col sm:flex-row gap-3">
-                                <button
+                                <Button
                                     type="submit"
-                                    disabled={loading}
-                                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-200 transform hover:scale-105 disabled:transform-none shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                                    loading={loading}
+                                    size="lg"
+                                    className="flex-1"
                                 >
-                                    {loading ? (
-                                        <>
-                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                            <span>Shortening...</span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <FaLink className="w-5 h-5" />
-                                            <span>Shorten URL</span>
-                                        </>
-                                    )}
-                                </button>
-                                <button
+                                    <FaLink className="w-5 h-5" />
+                                    <span>{loading ? 'Shortening...' : 'Shorten URL'}</span>
+                                </Button>
+                                <Button
                                     type="button"
                                     onClick={handleClear}
                                     disabled={loading}
-                                    className="bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-200 hover:shadow-md"
+                                    variant="secondary"
+                                    size="lg"
                                 >
                                     Clear
-                                </button>
+                                </Button>
                             </div>
                         </form>
 
@@ -229,7 +216,7 @@ const UrlShortener: React.FC = () => {
                                 )}
                             </div>
                         )}
-                    </div>
+                    </Card>
                 </div>
 
                 {/* Call to Action for Non-Authenticated Users */}
@@ -238,17 +225,15 @@ const UrlShortener: React.FC = () => {
                         <h3 className="text-2xl font-bold mb-4">Want more features?</h3>
                         <p className="text-blue-100 mb-6">Sign up for free to track analytics, manage your URLs, and access advanced features!</p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                to={ROUTES.SIGNUP}
-                                className="bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg"
-                            >
-                                Sign Up Free
+                            <Link to={ROUTES.SIGNUP}>
+                                <Button variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
+                                    Sign Up Free
+                                </Button>
                             </Link>
-                            <Link
-                                to={ROUTES.SIGNIN}
-                                className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 border border-white/30"
-                            >
-                                Sign In
+                            <Link to={ROUTES.SIGNIN}>
+                                <Button variant="ghost">
+                                    Sign In
+                                </Button>
                             </Link>
                         </div>
                     </div>
@@ -268,13 +253,13 @@ const UrlShortener: React.FC = () => {
                     {features.map((feature, index) => {
                         const Icon = feature.icon;
                         return (
-                            <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
+                            <Card key={index} hover className="p-6">
                                 <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl flex items-center justify-center mb-4">
                                     <Icon className="w-6 h-6 text-blue-600" />
                                 </div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
                                 <p className="text-gray-600">{feature.description}</p>
-                            </div>
+                            </Card>
                         );
                     })}
                 </div>

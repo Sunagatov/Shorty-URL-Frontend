@@ -8,6 +8,10 @@ import { useApi } from '../hooks/useApi';
 import { signInSchema, type SignInFormData } from '../utils/validation';
 import { ROUTES } from '../constants';
 import type { User, AuthTokens } from '../types';
+import { Button } from './ui/Button';
+import { Input } from './ui/Input';
+import { Card } from './ui/Card';
+import { FaEnvelope, FaLock, FaSignInAlt, FaGoogle, FaGithub } from 'react-icons/fa';
 
 const SignIn: React.FC = () => {
     const navigate = useNavigate();
@@ -33,54 +37,97 @@ const SignIn: React.FC = () => {
 
     return (
         <div className="max-w-md w-full px-4">
-            <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
-            
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <input
-                        {...register('email')}
-                        type="email"
-                        placeholder="Email"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.email && (
-                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-                    )}
+            {/* Header */}
+            <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <FaSignInAlt className="w-8 h-8 text-white" />
                 </div>
-
-                <div>
-                    <input
-                        {...register('password')}
-                        type="password"
-                        placeholder="Password"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.password && (
-                        <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
-                    )}
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-green-500 hover:bg-green-700 disabled:bg-green-300 text-white font-bold py-2 px-4 rounded w-full text-sm md:text-base transition-colors"
-                >
-                    {loading ? 'Signing In...' : 'Sign In'}
-                </button>
-            </form>
-
-            <div className="text-center text-sm md:text-base mt-4">
-                Don't have an account?{' '}
-                <Link to={ROUTES.SIGNUP} className="text-blue-500 hover:underline">
-                    Sign Up
-                </Link>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+                <p className="text-gray-600">Sign in to your account to continue</p>
             </div>
 
-            {error && (
-                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <p className="text-sm">{error.errorMessage}</p>
+            <Card className="p-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    <Input
+                        {...register('email')}
+                        type="email"
+                        label="Email Address"
+                        placeholder="Enter your email"
+                        icon={<FaEnvelope className="h-5 w-5 text-gray-400" />}
+                        error={errors.email?.message}
+                    />
+
+                    <Input
+                        {...register('password')}
+                        type="password"
+                        label="Password"
+                        placeholder="Enter your password"
+                        icon={<FaLock className="h-5 w-5 text-gray-400" />}
+                        error={errors.password?.message}
+                    />
+
+                    <div className="flex items-center justify-between">
+                        <label className="flex items-center">
+                            <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                            <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                        <Link to="#" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            Forgot password?
+                        </Link>
+                    </div>
+
+                    {error && (
+                        <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center">
+                            <span className="mr-2">❌</span>
+                            <p className="text-sm">{error.errorMessage}</p>
+                        </div>
+                    )}
+
+                    <Button
+                        type="submit"
+                        loading={loading}
+                        className="w-full"
+                        size="lg"
+                    >
+                        <FaSignInAlt className="w-5 h-5" />
+                        <span>{loading ? 'Signing In...' : 'Sign In'}</span>
+                    </Button>
+                </form>
+
+                {/* Divider */}
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300" />
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
                 </div>
-            )}
+
+                {/* Social Login */}
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                    <Button variant="secondary" className="w-full">
+                        <FaGoogle className="w-4 h-4 text-red-500" />
+                        <span>Google</span>
+                    </Button>
+                    <Button variant="secondary" className="w-full">
+                        <FaGithub className="w-4 h-4" />
+                        <span>GitHub</span>
+                    </Button>
+                </div>
+            </Card>
+
+            {/* Sign Up Link */}
+            <div className="text-center mt-6">
+                <p className="text-gray-600">
+                    Don't have an account?{' '}
+                    <Link to={ROUTES.SIGNUP} className="text-blue-600 hover:text-blue-800 font-semibold">
+                        Sign up for free
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 };

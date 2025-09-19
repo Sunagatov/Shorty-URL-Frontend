@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SidePanel from './SidePanel';
+import { Button } from './ui';
 import { 
     FaLink, 
     FaChartLine, 
@@ -9,8 +10,7 @@ import {
     FaPlus, 
     FaEye, 
     FaArrowUp, 
-    FaArrowDown,
-    FaClock
+    FaArrowDown
 } from 'react-icons/fa';
 
 const Dashboard: React.FC = () => {
@@ -87,74 +87,60 @@ const Dashboard: React.FC = () => {
         }
     ];
 
-    const getCurrentTime = () => {
-        return new Date().toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
+
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
             <SidePanel />
-            <div className="flex-grow md:ml-72 p-4 md:p-8">
-                <div className="max-w-7xl mx-auto">
-                    {/* Welcome Header */}
-                    <div className="mb-8">
-                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
-                            <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-                                <div>
-                                    <h1 className="text-3xl font-bold mb-2">Welcome back! 👋</h1>
-                                    <p className="text-blue-100 mb-4 md:mb-0">Here's what's happening with your URLs today</p>
-                                    <div className="flex items-center text-blue-100 text-sm">
-                                        <FaClock className="mr-2" />
-                                        {getCurrentTime()}
-                                    </div>
-                                </div>
-                                <div className="flex space-x-3 mt-4 md:mt-0">
-                                    {quickActions.map((action, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={action.action}
-                                            className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white/30 hover:border-white/50"
-                                        >
-                                            <action.icon className="w-4 h-4" />
-                                            <span className="hidden sm:inline">{action.title}</span>
-                                        </button>
-                                    ))}
-                                </div>
+            <div className="flex-grow md:ml-72 p-8">
+                <div className="max-w-6xl mx-auto">
+                    {/* Clean Header */}
+                    <div className="mb-12">
+                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                            <div className="flex-1">
+                                <h1 className="text-4xl font-bold text-gray-900 mb-2">Dashboard</h1>
+                                <p className="text-xl text-gray-600">Overview of your URL shortening activity</p>
+                            </div>
+                            <div className="flex space-x-3 flex-shrink-0">
+                                {quickActions.map((action, index) => (
+                                    <Button
+                                        key={index}
+                                        onClick={action.action}
+                                        variant={index === 0 ? 'primary' : 'secondary'}
+                                    >
+                                        <action.icon className="w-4 h-4" />
+                                        <span>{action.title}</span>
+                                    </Button>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Metrics Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                         {metricsData.map((metric, index) => {
                             const Icon = metric.icon;
                             return (
-                                <div
-                                    key={index}
-                                    className={`${metric.bgColor} rounded-2xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
-                                >
+                                <div key={index} className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className={`w-12 h-12 ${metric.iconBg} rounded-xl flex items-center justify-center`}>
-                                            <Icon className={`w-5 h-5 ${metric.textColor}`} />
+                                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                            <Icon className="w-6 h-6 text-white" />
                                         </div>
-                                        <div className={`flex items-center space-x-1 text-sm ${
-                                            metric.isPositive ? 'text-green-600' : 'text-red-600'
+                                        <div className={`flex items-center space-x-1 text-sm font-semibold px-2 py-1 rounded-full ${
+                                            metric.isPositive 
+                                                ? 'text-green-700 bg-green-100' 
+                                                : 'text-red-700 bg-red-100'
                                         }`}>
                                             {metric.isPositive ? (
                                                 <FaArrowUp className="w-3 h-3" />
                                             ) : (
                                                 <FaArrowDown className="w-3 h-3" />
                                             )}
-                                            <span className="font-medium">{metric.change}</span>
+                                            <span>{metric.change}</span>
                                         </div>
                                     </div>
                                     <div>
-                                        <p className="text-gray-600 text-sm font-medium mb-1">{metric.title}</p>
+                                        <p className="text-gray-500 text-sm font-medium mb-2">{metric.title}</p>
                                         <p className="text-3xl font-bold text-gray-900">{metric.value}</p>
                                     </div>
                                 </div>
@@ -162,60 +148,72 @@ const Dashboard: React.FC = () => {
                         })}
                     </div>
 
-                    {/* Quick Actions Section */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                            <div className="space-y-3">
-                                {quickActions.map((action, index) => {
-                                    const Icon = action.icon;
-                                    return (
-                                        <button
-                                            key={index}
-                                            onClick={action.action}
-                                            className={`w-full ${action.color} text-white p-4 rounded-xl transition-all duration-200 flex items-center space-x-3 hover:shadow-lg transform hover:scale-105`}
-                                        >
-                                            <Icon className="w-5 h-5" />
-                                            <div className="text-left">
-                                                <p className="font-semibold">{action.title}</p>
-                                                <p className="text-sm opacity-90">{action.description}</p>
+                    {/* Main Content */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Recent URLs */}
+                        <div className="lg:col-span-2">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 h-fit">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h3 className="text-xl font-semibold text-gray-900">Recent URLs</h3>
+                                    <Button 
+                                        onClick={() => navigate('/account/url-mappings')}
+                                        variant="secondary"
+                                        size="sm"
+                                    >
+                                        View All
+                                    </Button>
+                                </div>
+                                <div className="space-y-4">
+                                    {[1, 2, 3, 4].map((item) => (
+                                        <div key={item} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                                            <div className="flex items-center space-x-4">
+                                                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                    <FaLink className="w-4 h-4 text-blue-600" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900">short.ly/abc{item}23</p>
+                                                    <p className="text-sm text-gray-500">example-long-url-{item}.com</p>
+                                                </div>
                                             </div>
-                                        </button>
-                                    );
-                                })}
+                                            <div className="text-right">
+                                                <p className="text-sm font-medium text-gray-900">{12 + item * 5} clicks</p>
+                                                <p className="text-xs text-gray-500">{item} day{item > 1 ? 's' : ''} ago</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        {/* Recent Activity */}
-                        <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Activity</h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                                        <FaLink className="w-4 h-4 text-blue-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-gray-900">New short URL created</p>
-                                        <p className="text-xs text-gray-500">2 hours ago</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                                        <FaChartLine className="w-4 h-4 text-green-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-gray-900">25 new clicks recorded</p>
-                                        <p className="text-xs text-gray-500">5 hours ago</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                    <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                                        <FaQrcode className="w-4 h-4 text-purple-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-gray-900">QR code generated</p>
-                                        <p className="text-xs text-gray-500">1 day ago</p>
-                                    </div>
+                        {/* Activity Feed */}
+                        <div>
+                            <div className="bg-white rounded-2xl shadow-lg p-6 h-fit">
+                                <h3 className="text-xl font-semibold text-gray-900 mb-6">Activity</h3>
+                                <div className="space-y-6">
+                                    {[1, 2, 3, 4, 5].map((item) => (
+                                        <div key={item} className="flex items-start space-x-3">
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mt-1 ${
+                                                item === 1 ? 'bg-green-100' : item === 2 ? 'bg-blue-100' : 'bg-purple-100'
+                                            }`}>
+                                                {item === 1 ? (
+                                                    <FaArrowUp className="w-3 h-3 text-green-600" />
+                                                ) : item === 2 ? (
+                                                    <FaLink className="w-3 h-3 text-blue-600" />
+                                                ) : (
+                                                    <FaQrcode className="w-3 h-3 text-purple-600" />
+                                                )}
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-900">
+                                                    {item === 1 ? 'URL Performance' : item === 2 ? 'New URL Created' : 'QR Code Generated'}
+                                                </p>
+                                                <p className="text-xs text-gray-500 mb-1">
+                                                    {item === 1 ? '+15% clicks this week' : item === 2 ? 'Marketing campaign link' : 'For social media post'}
+                                                </p>
+                                                <p className="text-xs text-gray-400">{item} hour{item > 1 ? 's' : ''} ago</p>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from '../axiosConfig';
 import SidePanel from './SidePanel';
+import { Button } from './ui';
 import {
     FaShieldAlt,
     FaLock,
@@ -109,10 +110,10 @@ const Security: React.FC = () => {
     ];
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
             <SidePanel />
-            <div className="flex-grow md:ml-72 p-4 md:p-8">
-                <div className="max-w-4xl mx-auto">
+            <div className="flex-grow md:ml-72 p-8">
+                <div className="max-w-5xl mx-auto">
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">Security Settings</h1>
@@ -122,7 +123,7 @@ const Security: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Security Overview */}
                         <div className="lg:col-span-1">
-                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                            <div className="bg-white rounded-2xl shadow-lg p-6 h-full">
                                 <div className="flex items-center mb-6">
                                     <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
                                         <FaShieldAlt className="w-6 h-6 text-green-600" />
@@ -167,7 +168,7 @@ const Security: React.FC = () => {
 
                         {/* Password Change Form */}
                         <div className="lg:col-span-2">
-                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-full">
                                 {/* Form Header */}
                                 <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
                                     <div className="flex items-center">
@@ -197,13 +198,15 @@ const Security: React.FC = () => {
                                                 className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                                                 placeholder="Enter your current password"
                                             />
-                                            <button
+                                            <Button
                                                 type="button"
                                                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
                                             >
                                                 {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
-                                            </button>
+                                            </Button>
                                         </div>
                                     </div>
 
@@ -221,13 +224,15 @@ const Security: React.FC = () => {
                                                 className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                                                 placeholder="Enter your new password"
                                             />
-                                            <button
+                                            <Button
                                                 type="button"
                                                 onClick={() => setShowNewPassword(!showNewPassword)}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
                                             >
                                                 {showNewPassword ? <FaEyeSlash /> : <FaEye />}
-                                            </button>
+                                            </Button>
                                         </div>
                                         
                                         {/* Password Strength Indicator */}
@@ -285,13 +290,15 @@ const Security: React.FC = () => {
                                                 }`}
                                                 placeholder="Confirm your new password"
                                             />
-                                            <button
+                                            <Button
                                                 type="button"
                                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
                                             >
                                                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                            </button>
+                                            </Button>
                                         </div>
                                         {confirmPassword && newPassword !== confirmPassword && (
                                             <p className="mt-2 text-sm text-red-600 flex items-center">
@@ -316,18 +323,15 @@ const Security: React.FC = () => {
                                     )}
 
                                     {/* Submit Button */}
-                                    <button
+                                    <Button
                                         type="submit"
-                                        disabled={isLoading || passwordStrength.strength === 'Weak' || newPassword !== confirmPassword}
-                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:transform-none disabled:shadow-md flex items-center justify-center"
+                                        disabled={passwordStrength.strength === 'Weak' || newPassword !== confirmPassword}
+                                        loading={isLoading}
+                                        className="w-full"
                                     >
-                                        {isLoading ? (
-                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                                        ) : (
-                                            <FaLock className="mr-2" />
-                                        )}
-                                        {isLoading ? 'Updating Password...' : 'Update Password'}
-                                    </button>
+                                        <FaLock className="w-4 h-4" />
+                                        <span>{isLoading ? 'Updating Password...' : 'Update Password'}</span>
+                                    </Button>
                                 </form>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import SidePanel from './SidePanel';
+import { Button } from './ui';
 import {
     FaTrash,
     FaInfoCircle,
@@ -131,10 +132,10 @@ const UserUrlMappings: React.FC = () => {
     }
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
             <SidePanel />
-            <div className="flex-grow md:ml-72 p-4 md:p-8">
-                <div className="max-w-7xl mx-auto">
+            <div className="flex-grow md:ml-72 p-8">
+                <div className="max-w-6xl mx-auto">
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">My URL Mappings</h1>
@@ -197,13 +198,15 @@ const UserUrlMappings: React.FC = () => {
                                                 >
                                                     {mapping.shortUrl}
                                                 </a>
-                                                <button
+                                                <Button
                                                     onClick={() => handleCopyUrl(mapping.shortUrl)}
-                                                    className="p-2 text-green-600 hover:text-green-700 hover:bg-green-100 rounded-lg transition-colors"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="p-2 text-green-600 hover:text-green-700 hover:bg-green-100"
                                                     title="Copy short URL"
                                                 >
                                                     <FaCopy className="w-4 h-4" />
-                                                </button>
+                                                </Button>
                                                 <a
                                                     href={mapping.shortUrl}
                                                     target="_blank"
@@ -232,13 +235,15 @@ const UserUrlMappings: React.FC = () => {
                                                 >
                                                     {truncateUrl(mapping.originalUrl, 50)}
                                                 </a>
-                                                <button
+                                                <Button
                                                     onClick={() => handleCopyUrl(mapping.originalUrl)}
-                                                    className="p-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="p-2 text-gray-600 hover:text-gray-700 hover:bg-gray-100"
                                                     title="Copy original URL"
                                                 >
                                                     <FaCopy className="w-4 h-4" />
-                                                </button>
+                                                </Button>
                                                 <a
                                                     href={mapping.originalUrl}
                                                     target="_blank"
@@ -269,20 +274,20 @@ const UserUrlMappings: React.FC = () => {
 
                                     {/* Card Actions */}
                                     <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex space-x-3">
-                                        <button
+                                        <Button
                                             onClick={() => navigate(`/account/url-mappings/${mapping.urlHash}`)}
-                                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                                            className="flex-1"
                                         >
                                             <FaInfoCircle className="w-4 h-4" />
                                             <span>Details</span>
-                                        </button>
-                                        <button
+                                        </Button>
+                                        <Button
                                             onClick={() => handleDelete(mapping.urlHash)}
-                                            className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                                            variant="danger"
                                             title="Delete URL"
                                         >
                                             <FaTrash className="w-4 h-4" />
-                                        </button>
+                                        </Button>
                                     </div>
                                 </div>
                             ))}
@@ -294,12 +299,9 @@ const UserUrlMappings: React.FC = () => {
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-2">No URL mappings found</h3>
                             <p className="text-gray-500 mb-6">Start by creating your first shortened URL</p>
-                            <button
-                                onClick={() => navigate('/')}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
-                            >
+                            <Button onClick={() => navigate('/')}>
                                 Create Short URL
-                            </button>
+                            </Button>
                         </div>
                     )}
 
@@ -317,18 +319,14 @@ const UserUrlMappings: React.FC = () => {
                             </div>
 
                             <div className="flex items-center space-x-2">
-                                <button
+                                <Button
                                     onClick={handlePreviousPage}
                                     disabled={page === 0}
-                                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                                        page === 0
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
-                                    }`}
+                                    variant={page === 0 ? 'secondary' : 'primary'}
                                 >
                                     <FaChevronLeft className="w-4 h-4" />
                                     <span>Previous</span>
-                                </button>
+                                </Button>
 
                                 <div className="flex items-center space-x-1">
                                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -349,18 +347,14 @@ const UserUrlMappings: React.FC = () => {
                                     })}
                                 </div>
 
-                                <button
+                                <Button
                                     onClick={handleNextPage}
                                     disabled={page >= totalPages - 1}
-                                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                                        page >= totalPages - 1
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
-                                    }`}
+                                    variant={page >= totalPages - 1 ? 'secondary' : 'primary'}
                                 >
                                     <span>Next</span>
                                     <FaChevronRight className="w-4 h-4" />
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     )}

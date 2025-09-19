@@ -8,6 +8,10 @@ import { useApi } from '../hooks/useApi';
 import { signUpSchema, type SignUpFormData } from '../utils/validation';
 import { ROUTES } from '../constants';
 import type { User, AuthTokens } from '../types';
+import { Button } from './ui/Button';
+import { Input } from './ui/Input';
+import { Card } from './ui/Card';
+import { FaUser, FaEnvelope, FaLock, FaGlobe, FaCalendarAlt, FaUserPlus, FaGoogle, FaGithub } from 'react-icons/fa';
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -32,105 +36,147 @@ const SignUp: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md w-full px-4">
-            <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-            
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                    <input
-                        {...register('firstName')}
-                        type="text"
-                        placeholder="First Name"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.firstName && (
-                        <p className="text-red-500 text-xs mt-1">{errors.firstName.message}</p>
-                    )}
+        <div className="max-w-lg w-full px-4">
+            {/* Header */}
+            <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <FaUserPlus className="w-8 h-8 text-white" />
                 </div>
-
-                <div>
-                    <input
-                        {...register('lastName')}
-                        type="text"
-                        placeholder="Last Name"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.lastName && (
-                        <p className="text-red-500 text-xs mt-1">{errors.lastName.message}</p>
-                    )}
-                </div>
-
-                <div>
-                    <input
-                        {...register('country')}
-                        type="text"
-                        placeholder="Country (optional)"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.country && (
-                        <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>
-                    )}
-                </div>
-
-                <div>
-                    <input
-                        {...register('age')}
-                        type="number"
-                        placeholder="Age"
-                        min="1"
-                        max="150"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.age && (
-                        <p className="text-red-500 text-xs mt-1">{errors.age.message}</p>
-                    )}
-                </div>
-
-                <div>
-                    <input
-                        {...register('email')}
-                        type="email"
-                        placeholder="Email"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.email && (
-                        <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-                    )}
-                </div>
-
-                <div>
-                    <input
-                        {...register('password')}
-                        type="password"
-                        placeholder="Password"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                    />
-                    {errors.password && (
-                        <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
-                    )}
-                </div>
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded w-full text-sm md:text-base transition-colors"
-                >
-                    {loading ? 'Signing Up...' : 'Sign Up'}
-                </button>
-            </form>
-
-            <div className="text-center text-sm md:text-base mt-4">
-                Already have an account?{' '}
-                <Link to={ROUTES.SIGNIN} className="text-blue-500 hover:underline">
-                    Sign In
-                </Link>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
+                <p className="text-gray-600">Join us and start shortening your URLs today</p>
             </div>
 
-            {error && (
-                <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <p className="text-sm">{error.errorMessage}</p>
+            <Card className="p-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Name Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                            {...register('firstName')}
+                            type="text"
+                            label="First Name"
+                            placeholder="John"
+                            icon={<FaUser className="h-5 w-5 text-gray-400" />}
+                            error={errors.firstName?.message}
+                        />
+                        <Input
+                            {...register('lastName')}
+                            type="text"
+                            label="Last Name"
+                            placeholder="Doe"
+                            icon={<FaUser className="h-5 w-5 text-gray-400" />}
+                            error={errors.lastName?.message}
+                        />
+                    </div>
+
+                    {/* Email */}
+                    <Input
+                        {...register('email')}
+                        type="email"
+                        label="Email Address"
+                        placeholder="john@example.com"
+                        icon={<FaEnvelope className="h-5 w-5 text-gray-400" />}
+                        error={errors.email?.message}
+                    />
+
+                    {/* Password */}
+                    <Input
+                        {...register('password')}
+                        type="password"
+                        label="Password"
+                        placeholder="Create a strong password"
+                        icon={<FaLock className="h-5 w-5 text-gray-400" />}
+                        error={errors.password?.message}
+                    />
+
+                    {/* Optional Fields */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Input
+                            {...register('country')}
+                            type="text"
+                            label="Country (Optional)"
+                            placeholder="United States"
+                            icon={<FaGlobe className="h-5 w-5 text-gray-400" />}
+                            error={errors.country?.message}
+                        />
+                        <Input
+                            {...register('age')}
+                            type="number"
+                            label="Age"
+                            placeholder="25"
+                            min="1"
+                            max="150"
+                            icon={<FaCalendarAlt className="h-5 w-5 text-gray-400" />}
+                            error={errors.age?.message}
+                        />
+                    </div>
+
+                    {/* Terms */}
+                    <div className="flex items-start">
+                        <input type="checkbox" className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500" required />
+                        <span className="ml-2 text-sm text-gray-600">
+                            I agree to the{' '}
+                            <Link to="#" className="text-blue-600 hover:text-blue-800 font-medium">
+                                Terms of Service
+                            </Link>
+                            {' '}and{' '}
+                            <Link to="#" className="text-blue-600 hover:text-blue-800 font-medium">
+                                Privacy Policy
+                            </Link>
+                        </span>
+                    </div>
+
+                    {error && (
+                        <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center">
+                            <span className="mr-2">❌</span>
+                            <p className="text-sm">{error.errorMessage}</p>
+                        </div>
+                    )}
+
+                    <Button
+                        type="submit"
+                        loading={loading}
+                        className="w-full"
+                        size="lg"
+                    >
+                        <FaUserPlus className="w-5 h-5" />
+                        <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
+                    </Button>
+                </form>
+
+                {/* Divider */}
+                <div className="mt-6">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300" />
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-gray-500">Or sign up with</span>
+                        </div>
+                    </div>
                 </div>
-            )}
+
+                {/* Social Login */}
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                    <Button variant="secondary" className="w-full">
+                        <FaGoogle className="w-4 h-4 text-red-500" />
+                        <span>Google</span>
+                    </Button>
+                    <Button variant="secondary" className="w-full">
+                        <FaGithub className="w-4 h-4" />
+                        <span>GitHub</span>
+                    </Button>
+                </div>
+            </Card>
+
+            {/* Sign In Link */}
+            <div className="text-center mt-6">
+                <p className="text-gray-600">
+                    Already have an account?{' '}
+                    <Link to={ROUTES.SIGNIN} className="text-blue-600 hover:text-blue-800 font-semibold">
+                        Sign in here
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 };

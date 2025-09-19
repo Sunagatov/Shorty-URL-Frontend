@@ -68,10 +68,10 @@ const UserAccount: React.FC = () => {
     }
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
             <SidePanel />
-            <div className="flex-grow md:ml-72 p-4 md:p-8">
-                <div className="max-w-4xl mx-auto">
+            <div className="flex-grow md:ml-72 p-8">
+                <div className="max-w-5xl mx-auto">
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">My Profile</h1>
@@ -84,117 +84,152 @@ const UserAccount: React.FC = () => {
                         </div>
                     )}
 
-                    {/* Profile Card */}
-                    <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                        {/* Header with gradient */}
-                        <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-12 relative">
-                            <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
-                                {/* Avatar */}
-                                <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
-                                    <span className="text-2xl font-bold text-white">
-                                        {getInitials(userDetails.firstName, userDetails.lastName)}
-                                    </span>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Profile Card */}
+                        <div className="lg:col-span-2">
+                            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                                {/* Header with gradient */}
+                                <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-8 relative">
+                                    <div className="flex items-center space-x-4">
+                                        {/* Avatar */}
+                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-4 border-white/30">
+                                            <span className="text-lg font-bold text-white">
+                                                {getInitials(userDetails.firstName, userDetails.lastName)}
+                                            </span>
+                                        </div>
+                                        
+                                        {/* User Info */}
+                                        <div>
+                                            <h2 className="text-2xl font-bold text-white mb-1">
+                                                {userDetails.firstName} {userDetails.lastName}
+                                            </h2>
+                                            <p className="text-blue-100">{userDetails.email}</p>
+                                            <p className="text-blue-200 text-sm mt-1">Member since January 2024</p>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Edit Button */}
+                                    <button
+                                        onClick={handleEditProfile}
+                                        className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white/30"
+                                    >
+                                        <FaEdit className="w-4 h-4" />
+                                        <span className="hidden sm:inline text-sm">Edit</span>
+                                    </button>
                                 </div>
-                                
-                                {/* User Info */}
-                                <div className="text-center md:text-left">
-                                    <h2 className="text-3xl font-bold text-white mb-2">
-                                        {userDetails.firstName} {userDetails.lastName}
-                                    </h2>
-                                    <p className="text-blue-100 text-lg">{userDetails.email}</p>
+
+                                {/* Profile Details */}
+                                <div className="p-6">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                <FaUser className="w-3 h-3 text-blue-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-medium text-gray-500">First Name</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.firstName}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                                <FaUser className="w-3 h-3 text-green-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-medium text-gray-500">Last Name</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.lastName}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                <FaEnvelope className="w-3 h-3 text-purple-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-medium text-gray-500">Email</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.email}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                                <FaGlobe className="w-3 h-3 text-orange-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-medium text-gray-500">Country</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.country}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg md:col-span-2">
+                                            <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                                <FaCalendarAlt className="w-3 h-3 text-indigo-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-medium text-gray-500">Age</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.age} years old</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            {/* Edit Button */}
-                            <button
-                                onClick={handleEditProfile}
-                                className="absolute top-6 right-6 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white/30 hover:border-white/50"
-                            >
-                                <FaEdit className="w-4 h-4" />
-                                <span className="hidden sm:inline">Edit Profile</span>
-                            </button>
                         </div>
 
-                        {/* Profile Details */}
-                        <div className="p-8">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-6">Personal Information</h3>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* First Name */}
-                                <div className="group">
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
-                                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                            <FaUser className="w-4 h-4 text-blue-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500 mb-1">First Name</p>
-                                            <p className="text-lg font-semibold text-gray-900">{userDetails.firstName}</p>
-                                        </div>
+                        {/* Sidebar */}
+                        <div className="space-y-6">
+                            {/* Account Stats */}
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Stats</h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-gray-600">URLs Created</span>
+                                        <span className="font-semibold text-gray-900">42</span>
                                     </div>
-                                </div>
-
-                                {/* Last Name */}
-                                <div className="group">
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
-                                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                            <FaUser className="w-4 h-4 text-green-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500 mb-1">Last Name</p>
-                                            <p className="text-lg font-semibold text-gray-900">{userDetails.lastName}</p>
-                                        </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-gray-600">Total Clicks</span>
+                                        <span className="font-semibold text-gray-900">1,234</span>
                                     </div>
-                                </div>
-
-                                {/* Email */}
-                                <div className="group">
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
-                                        <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                                            <FaEnvelope className="w-4 h-4 text-purple-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500 mb-1">Email Address</p>
-                                            <p className="text-lg font-semibold text-gray-900 break-all">{userDetails.email}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Country */}
-                                <div className="group">
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
-                                        <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                            <FaGlobe className="w-4 h-4 text-orange-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500 mb-1">Country</p>
-                                            <p className="text-lg font-semibold text-gray-900">{userDetails.country}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Age */}
-                                <div className="group md:col-span-2">
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200 max-w-md">
-                                        <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                                            <FaCalendarAlt className="w-4 h-4 text-indigo-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500 mb-1">Age</p>
-                                            <p className="text-lg font-semibold text-gray-900">{userDetails.age} years old</p>
-                                        </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-gray-600">Member Since</span>
+                                        <span className="font-semibold text-gray-900">Jan 2024</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="mt-8 pt-6 border-t border-gray-200">
-                                <button
-                                    onClick={handleEditProfile}
-                                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-2"
-                                >
-                                    <FaEdit className="w-4 h-4" />
-                                    <span>Edit Profile</span>
-                                </button>
+                            {/* Quick Actions */}
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                                <div className="space-y-2">
+                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
+                                        <FaEdit className="w-4 h-4 text-blue-600" />
+                                        <span className="text-sm font-medium">Edit Profile</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
+                                        <FaUser className="w-4 h-4 text-green-600" />
+                                        <span className="text-sm font-medium">Change Password</span>
+                                    </button>
+                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
+                                        <FaGlobe className="w-4 h-4 text-purple-600" />
+                                        <span className="text-sm font-medium">Export Data</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Profile Completion */}
+                            <div className="bg-white rounded-2xl shadow-lg p-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Completion</h3>
+                                <div className="mb-3">
+                                    <div className="flex justify-between text-sm mb-2">
+                                        <span className="text-gray-600">Progress</span>
+                                        <span className="font-medium">85%</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style={{width: '85%'}}></div>
+                                    </div>
+                                </div>
+                                <p className="text-xs text-gray-500">Add a profile picture to complete</p>
                             </div>
                         </div>
                     </div>
