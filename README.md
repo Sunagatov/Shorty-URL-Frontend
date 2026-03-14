@@ -1,131 +1,162 @@
-# Shorty URL Frontend
+<div align="center">
+  <br>
+  <h1>🔗 Shorty URL Frontend</h1>
+  <p><strong>A modern React frontend for URL shortening — clean, fast, and type-safe.</strong></p>
+  <p>
+    <a href="https://t.me/zufarexplained">💬 Community</a> ·
+    <a href="https://github.com/Sunagatov/Shorty-URL-Frontend/issues?q=is%3Aopen+label%3A%22good+first+issue%22">🟢 Good First Issues</a> ·
+    <a href="https://github.com/Sunagatov/Shorty-URL-Frontend/issues">🐛 Issues</a>
+  </p>
 
-A modern, type-safe React application for URL shortening built with TypeScript, following SOLID principles and best practices.
+  [![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
+  [![GitHub Stars](https://img.shields.io/github/stars/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/stargazers)
+  [![Contributors](https://img.shields.io/github/contributors/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/graphs/contributors)
+</div>
 
-## 🚀 Features
+---
 
-- **Modern React 18** with TypeScript
-- **Form Validation** using React Hook Form + Zod
-- **Type Safety** with comprehensive TypeScript definitions
-- **Authentication** with JWT tokens and refresh token handling
-- **Responsive Design** with Tailwind CSS
-- **Code Quality** with ESLint and Prettier
-- **SOLID Principles** implementation
-- **Custom Hooks** for reusable logic
-- **Centralized API Management**
-- **Error Handling** with user-friendly messages
+## 🚀 Quick Start
+
+**📋 Prerequisites:** Node.js 18+, npm
+
+```bash
+# 1. 📥 Clone
+git clone https://github.com/Sunagatov/Shorty-URL-Frontend.git && cd Shorty-URL-Frontend
+
+# 2. 📦 Install dependencies
+npm install
+
+# 3. 🔧 Set up environment variables
+# Create a .env file with:
+# REACT_APP_BACKEND_REST_API_URL=your_backend_url
+
+# 4. ▶️ Start development server
+npm start
+```
+
+> ⚠️ **Never commit `.env` with real credentials.** It is listed in `.gitignore` — keep it that way.
+
+---
+
+## 🤔 What is this?
+
+Shorty URL Frontend is a React + TypeScript SPA that lets users shorten long URLs, manage their links, and track usage. It communicates with the Shorty URL backend via REST API and supports Google OAuth authentication.
+
+---
+
+## 🛠️ Tech Stack
+
+| 📂 Category | 🔧 Technology |
+|---|---|
+| 💻 Language | TypeScript 5 |
+| ⚛️ Framework | React 19, React Router 7 |
+| 📋 Forms | React Hook Form 7 + Zod 4 |
+| 🌐 HTTP | Axios |
+| 🔑 Auth | JWT + Google OAuth (`@react-oauth/google`) |
+| 🎨 Styling | Tailwind CSS 4 |
+| ⚡ Build | Vite 8 |
+| 🧪 Testing | Vitest, Testing Library |
+
+---
+
+## ✨ Features
+
+- 🔗 **URL shortening** — shorten any long URL instantly
+- 🔐 **Authentication** — JWT access tokens with refresh token rotation
+- 🔑 **Google OAuth** — sign in with Google
+- 📋 **Link management** — view, copy, and delete your shortened URLs
+- ✅ **Form validation** — Zod schemas for robust client-side validation
+- 📱 **Responsive design** — mobile-first with Tailwind CSS
+- 🛡️ **Protected routes** — secure pages behind authentication
+
+---
 
 ## 📁 Project Structure
 
 ```
 src/
-├── components/          # Reusable UI components
-├── constants/          # Application constants
-├── context/           # React contexts
-├── hooks/             # Custom React hooks
-├── layouts/           # Layout components
-├── pages/             # Page components
-├── services/          # API and business logic
-├── types/             # TypeScript type definitions
-└── utils/             # Utility functions
+├── components/     # Reusable UI components
+├── constants/      # Application constants
+├── context/        # React contexts (auth, etc.)
+├── hooks/          # Custom React hooks
+├── layouts/        # Layout components
+├── pages/          # Page components
+├── services/       # API and business logic
+├── types/          # TypeScript type definitions
+└── utils/          # Utility functions
 ```
 
-## 🛠️ Available Scripts
+---
 
-### Development
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
+## ⚙️ Environment Variables
 
-### Code Quality
-- `npm run lint` - Runs ESLint and fixes issues
-- `npm run lint:check` - Checks for linting issues
-- `npm run format` - Formats code with Prettier
-- `npm run format:check` - Checks code formatting
-- `npm run type-check` - Runs TypeScript type checking
-- `npm run pre-commit` - Runs all quality checks
+| Variable | Required | Description |
+|---|---|---|
+| `REACT_APP_BACKEND_REST_API_URL` | ✅ | Backend REST API base URL |
 
-## 🔧 Setup
+---
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+## 🧪 Scripts
 
-2. **Set up environment variables:**
-   Create a `.env` file with:
-   ```
-   REACT_APP_BACKEND_REST_API_URL=your_backend_url
-   ```
+| Script | Description |
+|---|---|
+| `npm start` | Start development server |
+| `npm run build` | Build for production |
+| `npm test` | Run tests with Vitest |
+| `npm run format` | Format code with Prettier |
+| `npm run format:check` | Check code formatting |
+| `npm run type-check` | Run TypeScript type checking |
 
-3. **Start development server:**
-   ```bash
-   npm start
-   ```
+---
 
-## 🏗️ Architecture
+## 🚢 Deployment
 
-### SOLID Principles Implementation
-
-- **Single Responsibility**: Each component/service has one clear purpose
-- **Open/Closed**: Components are open for extension, closed for modification
-- **Liskov Substitution**: Interfaces are properly implemented
-- **Interface Segregation**: Small, focused interfaces
-- **Dependency Inversion**: Dependencies are injected, not hardcoded
-
-### Key Improvements
-
-1. **Type Safety**: Comprehensive TypeScript types for all data structures
-2. **Form Validation**: Zod schemas for robust client-side validation
-3. **Error Handling**: Centralized error management with user-friendly messages
-4. **Code Organization**: Clear separation of concerns with dedicated folders
-5. **Performance**: Optimized re-renders and efficient state management
-6. **Maintainability**: Consistent code style with ESLint and Prettier
-
-## 🔐 Authentication
-
-The app implements secure authentication with:
-- JWT access tokens
-- Refresh token rotation
-- Automatic token refresh
-- Protected routes
-- Secure token storage
-
-## 📱 Responsive Design
-
-Built with mobile-first approach using Tailwind CSS for:
-- Responsive layouts
-- Consistent design system
-- Accessible components
-- Modern UI patterns
-
-## 🧪 Testing
-
-Run tests with:
-```bash
-npm test
-```
-
-## 🚀 Deployment
-
-Build for production:
 ```bash
 npm run build
 ```
 
-The build folder contains optimized files ready for deployment.
+The `dist/` folder contains optimized files ready for deployment. A `Dockerfile` and `docker-compose.prod.yml` are included for containerized deployments.
+
+---
+
+## 📖 Feature Documentation
+
+Each feature has a full spec covering user stories, API endpoints, validation, business logic, frontend integration, and acceptance criteria.
+
+| Feature | Spec |
+|---|---|
+| Sign Up | [docs/features/auth-signup.md](docs/features/auth-signup.md) |
+| Sign In | [docs/features/auth-signin.md](docs/features/auth-signin.md) |
+| Refresh Token | [docs/features/auth-refresh-token.md](docs/features/auth-refresh-token.md) |
+| Shorten URL | [docs/features/url-shorten.md](docs/features/url-shorten.md) |
+| URL Redirect | [docs/features/url-redirect.md](docs/features/url-redirect.md) |
+
+---
 
 ## 🤝 Contributing
 
-1. Run quality checks before committing:
-   ```bash
-   npm run pre-commit
-   ```
+🎉 Contributions are welcome.
 
-2. Follow the established code style and patterns
-3. Add tests for new features
-4. Update documentation as needed
+| 🎯 Situation | 🚀 Action |
+|---|---|
+| 🐛 Found a bug | [Open an issue](https://github.com/Sunagatov/Shorty-URL-Frontend/issues/new) with the `bug` label |
+| 💡 Want a feature | Start a [Discussion](https://github.com/Sunagatov/Shorty-URL-Frontend/discussions) first |
+| 👨‍💻 Ready to code | Pick a [`good first issue`](https://github.com/Sunagatov/Shorty-URL-Frontend/issues?q=is%3Aopen+label%3A%22good+first+issue%22), comment "I'm on it" |
+| 🔧 Big change | Comment on the issue before writing code — tickets may have hidden constraints |
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+📜 [CC BY-NC 4.0](LICENSE) — free for educational and personal use with author attribution. Commercial use requires explicit written permission from the author ([zufar.sunagatov@gmail.com](mailto:zufar.sunagatov@gmail.com)).
+
+---
+
+## 📞 Contact
+
+- 💬 **Telegram community:** [Zufar Explained IT](https://t.me/zufarexplained)
+- 👤 **Personal Telegram:** [@lucky_1uck](https://web.telegram.org/k/#@lucky_1uck)
+- 📧 **Email:** [zufar.sunagatov@gmail.com](mailto:zufar.sunagatov@gmail.com)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/Sunagatov/Shorty-URL-Frontend/issues)
+
+❤️
