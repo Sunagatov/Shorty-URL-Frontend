@@ -77,3 +77,21 @@ nginx.conf
 
 # Documentation (if too large or auto-generated)
 .amazonq/
+
+# Amazon Q temporary docs
+BUG_CHECK_REPORT.md
+docs/ALREADY_MODERN.md
+docs/CHECKLIST.md
+docs/COMMIT_SUMMARY.md
+docs/COMPLETE_ANALYSIS.md
+docs/CSS_FIX.md
+docs/DEPENDENCY_UPDATE_GUIDE.md
+docs/FINAL_STATUS.md
+docs/FINAL_VERIFICATION.md
+docs/FIXES_APPLIED.md
+docs/LATEST_VERSIONS_CONFIRMED.md
+docs/MODERNIZATION_PLAN.md
+docs/MODERNIZATION_STATUS.md
+docs/RUN_LOCALLY.md
+docs/UPDATE_COMPLETED.md
+docs/VITE_MIGRATION.md
