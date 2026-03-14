@@ -3,7 +3,7 @@ import AuthService from './services/AuthService';
 import { storage } from './utils/storage';
 import { API_ENDPOINTS } from './constants';
 
-const backendRestApiUrl = process.env.REACT_APP_BACKEND_REST_API_URL;
+const backendRestApiUrl = import.meta.env.REACT_APP_BACKEND_REST_API_URL;
 
 if (!backendRestApiUrl) {
     throw new Error('REACT_APP_BACKEND_REST_API_URL environment variable is not set');

@@ -52,3 +52,26 @@ Thumbs.db
 
 # Storybook
 storybook-static/
+
+# Backup files
+*.backup
+*.new
+
+# SSH keys and credentials
+*.pem
+id_rsa
+*.key
+
+# Deployment scripts
+deploy-*.sh
+
+# Docker files (if not needed in repo)
+.dockerignore
+docker-compose.prod.yml
+nginx.conf
+
+# Environment files
+.env.prod
+
+# Documentation (if too large or auto-generated)
+.amazonq/

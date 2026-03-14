@@ -1,19 +1,19 @@
 export const API_ENDPOINTS = {
   AUTH: {
-    SIGNIN: '/api/v1/auth/signin',
-    SIGNUP: '/api/v1/auth/signup',
-    REFRESH: '/api/v1/auth/refresh-token',
-    LOGOUT: '/api/v1/auth/logout',
+    SIGNIN: '/v1/auth/signin',
+    SIGNUP: '/v1/auth/signup',
+    REFRESH: '/v1/auth/refresh-token',
+    LOGOUT: '/v1/auth/logout',
   },
   URLS: {
-    CREATE: '/api/v1/urls',
-    LIST: '/api/v1/urls',
-    DETAILS: (hash: string) => `/api/v1/urls/${hash}`,
-    DELETE: (hash: string) => `/api/v1/urls/${hash}`,
+    CREATE: '/v1/urls',
+    LIST: '/v1/urls',
+    DETAILS: (hash: string) => `/v1/urls/${hash}`,
+    DELETE: (hash: string) => `/v1/urls/${hash}`,
   },
   USER: {
-    PROFILE: '/api/v1/user/profile',
-    UPDATE: '/api/v1/user/profile',
+    PROFILE: '/v1/user/profile',
+    UPDATE: '/v1/user/profile',
   },
 } as const;
 

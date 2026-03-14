@@ -1,10 +1,10 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import AuthService from '../services/AuthService';
 import type { AuthContextType, User, AuthTokens } from '../types';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthService.isAuthenticated);
     const [user, setUser] = useState<User | null>(AuthService.user);
     const [loading, setLoading] = useState<boolean>(false);
