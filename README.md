@@ -4,13 +4,16 @@
   <p><strong>A modern React frontend for URL shortening — clean, fast, and type-safe.</strong></p>
   <p>
     <a href="https://t.me/zufarexplained">💬 Community</a> ·
+    <a href="http://116.203.197.65:3000/">🚀 Live Demo</a> ·
     <a href="https://github.com/Sunagatov/Shorty-URL-Frontend/issues?q=is%3Aopen+label%3A%22good+first+issue%22">🟢 Good First Issues</a> ·
     <a href="https://github.com/Sunagatov/Shorty-URL-Frontend/issues">🐛 Issues</a>
   </p>
 
   [![License: CC BY-NC 4.0](https://img.shields.io/badge/license-CC%20BY--NC%204.0-lightgrey.svg)](LICENSE)
   [![GitHub Stars](https://img.shields.io/github/stars/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/stargazers)
+  [![GitHub Forks](https://img.shields.io/github/forks/Sunagatov/Shorty-URL-Frontend?style=social)](https://github.com/Sunagatov/Shorty-URL-Frontend/network/members)
   [![Contributors](https://img.shields.io/github/contributors/Sunagatov/Shorty-URL-Frontend)](https://github.com/Sunagatov/Shorty-URL-Frontend/graphs/contributors)
+  [![Docker Pulls](https://img.shields.io/docker/pulls/zufarexplainedit/shorty-url-frontend.svg)](https://hub.docker.com/r/zufarexplainedit/shorty-url-frontend/)
 </div>
 
 ---
