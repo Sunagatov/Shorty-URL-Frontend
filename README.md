@@ -61,13 +61,15 @@ Shorty URL Frontend is a React + TypeScript SPA that lets users shorten long URL
 
 ## ✨ Features
 
-- 🔗 **URL shortening** — shorten any long URL instantly
-- 🔐 **Authentication** — JWT access tokens with refresh token rotation
-- 🔑 **Google OAuth** — sign in with Google
-- 📋 **Link management** — view, copy, and delete your shortened URLs
-- ✅ **Form validation** — Zod schemas for robust client-side validation
-- 📱 **Responsive design** — mobile-first with Tailwind CSS
-- 🛡️ **Protected routes** — secure pages behind authentication
+| Feature | Description | Spec |
+|---|---|---|
+| 🔐 **Sign Up** | Create account with email/password, receive JWT tokens | [docs/features/auth-signup.md](docs/features/auth-signup.md) |
+| 🔑 **Sign In** | Authenticate with credentials, automatic token refresh | [docs/features/auth-signin.md](docs/features/auth-signin.md) |
+| 🔄 **Token Refresh** | Seamless access token renewal via Axios interceptor | [docs/features/auth-refresh-token.md](docs/features/auth-refresh-token.md) |
+| 🔗 **Shorten URL** | Convert long URLs to short links with expiration | [docs/features/url-shorten.md](docs/features/url-shorten.md) |
+| ↗️ **URL Redirect** | Fast 302 redirects from short URLs to originals | [docs/features/url-redirect.md](docs/features/url-redirect.md) |
+
+> Each feature has a comprehensive spec covering user stories, functional requirements, user flows, data models, security, and acceptance criteria.
 
 ---
 
@@ -116,20 +118,6 @@ npm run build
 ```
 
 The `dist/` folder contains optimized files ready for deployment. A `Dockerfile` and `docker-compose.prod.yml` are included for containerized deployments.
-
----
-
-## 📖 Feature Documentation
-
-Each feature has a full spec covering user stories, API endpoints, validation, business logic, frontend integration, and acceptance criteria.
-
-| Feature | Spec |
-|---|---|
-| Sign Up | [docs/features/auth-signup.md](docs/features/auth-signup.md) |
-| Sign In | [docs/features/auth-signin.md](docs/features/auth-signin.md) |
-| Refresh Token | [docs/features/auth-refresh-token.md](docs/features/auth-refresh-token.md) |
-| Shorten URL | [docs/features/url-shorten.md](docs/features/url-shorten.md) |
-| URL Redirect | [docs/features/url-redirect.md](docs/features/url-redirect.md) |
 
 ---
 
