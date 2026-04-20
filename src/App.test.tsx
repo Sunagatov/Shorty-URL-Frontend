@@ -49,4 +49,14 @@ describe('App routes', () => {
 
     expect(await screen.findByText('Dashboard Page')).toBeInTheDocument();
   });
+
+  it('redirects authenticated users away from sign in', async () => {
+    mockUseAuth.mockReturnValue(authValue({ isAuthenticated: true }));
+    window.history.pushState({}, '', '/signin');
+
+    render(<App />);
+
+    expect(await screen.findByText('Dashboard Page')).toBeInTheDocument();
+    expect(screen.queryByText('Sign In Page')).not.toBeInTheDocument();
+  });
 });

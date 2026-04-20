@@ -9,6 +9,7 @@ import UrlMappingDetails from './components/UrlMappingDetails';
 import Security from './components/Security';
 import Dashboard from './components/Dashboard';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { GuestOnlyRoute } from './components/GuestOnlyRoute';
 import { ROUTES } from './constants';
 
 const App = () => {
@@ -17,8 +18,22 @@ const App = () => {
             <MainLayout>
                 <Routes>
                     <Route path={ROUTES.HOME} element={<UrlShortener />} />
-                    <Route path={ROUTES.SIGNIN} element={<SignIn />} />
-                    <Route path={ROUTES.SIGNUP} element={<SignUp />} />
+                    <Route
+                        path={ROUTES.SIGNIN}
+                        element={
+                            <GuestOnlyRoute>
+                                <SignIn />
+                            </GuestOnlyRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.SIGNUP}
+                        element={
+                            <GuestOnlyRoute>
+                                <SignUp />
+                            </GuestOnlyRoute>
+                        }
+                    />
                     <Route
                         path="/account"
                         element={

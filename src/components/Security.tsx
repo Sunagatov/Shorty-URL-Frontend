@@ -157,7 +157,7 @@ const Security: React.FC = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-semibold text-gray-900">Security Status</h3>
-                                        <p className="text-sm text-green-600 font-medium">All systems secure</p>
+                                        <p className="text-sm text-gray-500 font-medium">Security summary is not available yet</p>
                                     </div>
                                 </div>
 
@@ -187,8 +187,8 @@ const Security: React.FC = () => {
                                         <FaClock className="w-4 h-4 text-blue-600" />
                                         <span className="text-sm font-medium text-blue-900">Last Password Change</span>
                                     </div>
-                                    <p className="text-sm text-blue-700">30 days ago</p>
-                                    <p className="text-xs text-blue-600 mt-1">Consider updating your password regularly</p>
+                                    <p className="text-sm text-blue-700">Last password change information is not available yet</p>
+                                    <p className="text-xs text-blue-600 mt-1">Account-level security history will appear here when supported.</p>
                                 </div>
                             </div>
                         </div>

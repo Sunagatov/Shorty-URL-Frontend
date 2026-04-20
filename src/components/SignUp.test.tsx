@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ApiService } from '../services/ApiService';
+import SignIn from './SignIn';
 import SignUp from './SignUp';
 
 const login = vi.fn();
@@ -38,6 +39,18 @@ const renderSignUp = () =>
   render(
     <MemoryRouter>
       <SignUp />
+    </MemoryRouter>
+  );
+
+const renderAuthRoutes = (initialPath: '/signin' | '/signup', state?: unknown) =>
+  render(
+    <MemoryRouter initialEntries={[{ pathname: initialPath, state }]}>
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<div>Home Destination</div>} />
+        <Route path="/account/profile" element={<div>Profile Destination</div>} />
+      </Routes>
     </MemoryRouter>
   );
 
@@ -97,5 +110,40 @@ describe('SignUp', () => {
         age: 25,
       })
     );
+  });
+
+  it('returns to the protected route after successful sign-up', async () => {
+    renderAuthRoutes('/signup', {
+      from: {
+        pathname: '/account/profile',
+        search: '?tab=details',
+        hash: '#top',
+      },
+    });
+
+    await fillRequiredFields();
+    await userEvent.type(screen.getByLabelText(/country/i), 'United States');
+    await userEvent.type(screen.getByLabelText(/age/i), '25');
+    await userEvent.click(screen.getByRole('button', { name: /create account/i }));
+
+    expect(await screen.findByText('Profile Destination')).toBeInTheDocument();
+  });
+
+  it('preserves the protected route when switching from sign-in to sign-up', async () => {
+    renderAuthRoutes('/signin', {
+      from: {
+        pathname: '/account/profile',
+        search: '?tab=details',
+        hash: '#top',
+      },
+    });
+
+    await userEvent.click(screen.getByRole('link', { name: /sign up for free/i }));
+    await fillRequiredFields();
+    await userEvent.type(screen.getByLabelText(/country/i), 'United States');
+    await userEvent.type(screen.getByLabelText(/age/i), '25');
+    await userEvent.click(screen.getByRole('button', { name: /create account/i }));
+
+    expect(await screen.findByText('Profile Destination')).toBeInTheDocument();
   });
 });

@@ -43,6 +43,11 @@ const UserAccount: React.FC = () => {
         return initials || 'U';
     };
 
+    const getDisplayName = (user: User) => {
+        const fullName = [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
+        return fullName || 'User';
+    };
+
     const formatDate = (dateString: string) =>
         new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -112,7 +117,7 @@ const UserAccount: React.FC = () => {
                                         {/* User Info */}
                                         <div>
                                             <h2 className="text-2xl font-bold text-white mb-1">
-                                                {userDetails.firstName} {userDetails.lastName}
+                                                {getDisplayName(userDetails)}
                                             </h2>
                                             <p className="text-blue-100">{userDetails.email}</p>
                                             <p className="text-blue-200 text-sm mt-1">

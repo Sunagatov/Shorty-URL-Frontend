@@ -43,4 +43,31 @@ describe('UserAccount', () => {
 
     expect(await screen.findByText(/failed to fetch user details/i)).toBeInTheDocument();
   });
+
+  it('renders only the available first name in the profile header', async () => {
+    mockGetUserProfile.mockResolvedValue({
+      id: 'user-1',
+      firstName: 'Test',
+      email: 'test@example.com',
+      createdAt: '2024-01-15T12:00:00.000Z',
+    });
+
+    render(<UserAccount />);
+
+    expect(await screen.findByRole('heading', { name: 'Test' })).toBeInTheDocument();
+    expect(screen.queryByText(/undefined/i)).not.toBeInTheDocument();
+  });
+
+  it('falls back to User when profile names are missing', async () => {
+    mockGetUserProfile.mockResolvedValue({
+      id: 'user-1',
+      email: 'test@example.com',
+      createdAt: '2024-01-15T12:00:00.000Z',
+    });
+
+    render(<UserAccount />);
+
+    expect(await screen.findByRole('heading', { name: 'User' })).toBeInTheDocument();
+    expect(screen.queryByText(/undefined/i)).not.toBeInTheDocument();
+  });
 });

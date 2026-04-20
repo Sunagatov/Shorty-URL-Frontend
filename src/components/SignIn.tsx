@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ApiService } from '../services/ApiService';
 import { useAuth } from '../hooks/useAuth';
 import { useApi } from '../hooks/useApi';
@@ -11,10 +11,24 @@ import type { User, AuthTokens } from '../types';
 import { Button, Card, Input } from './ui';
 import { FaEnvelope, FaLock, FaSignInAlt, FaGoogle, FaGithub } from 'react-icons/fa';
 
+type AuthLocationState = {
+    from?: {
+        pathname: string;
+        search?: string;
+        hash?: string;
+    };
+};
+
 const SignIn: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
     const { execute, loading, error } = useApi<{ user: User } & AuthTokens>();
+
+    const from = (location.state as AuthLocationState | null)?.from;
+    const destination = from
+        ? `${from.pathname}${from.search ?? ''}${from.hash ?? ''}`
+        : ROUTES.HOME;
     
     const {
         register,
@@ -29,7 +43,7 @@ const SignIn: React.FC = () => {
         if (result) {
             const { user, accessToken, refreshToken } = result;
             login({ accessToken, refreshToken }, user);
-            navigate(ROUTES.HOME);
+            navigate(destination, { replace: true });
         }
     };
 
@@ -136,7 +150,11 @@ const SignIn: React.FC = () => {
             <div className="text-center mt-6">
                 <p className="text-gray-600">
                     Don't have an account?{' '}
-                    <Link to={ROUTES.SIGNUP} className="text-blue-600 hover:text-blue-800 font-semibold">
+                    <Link
+                        to={ROUTES.SIGNUP}
+                        state={location.state}
+                        className="text-blue-600 hover:text-blue-800 font-semibold"
+                    >
                         Sign up for free
                     </Link>
                 </p>

@@ -30,6 +30,15 @@ describe('Security', () => {
     expect(activeBadges[0]).toHaveClass('bg-green-100', 'text-green-600');
   });
 
+  it('does not show fabricated account security facts', () => {
+    render(<Security />);
+
+    expect(screen.getByText('Security summary is not available yet')).toBeInTheDocument();
+    expect(screen.getByText('Last password change information is not available yet')).toBeInTheDocument();
+    expect(screen.queryByText('All systems secure')).not.toBeInTheDocument();
+    expect(screen.queryByText('30 days ago')).not.toBeInTheDocument();
+  });
+
   it('renders weak, medium, and strong password strength using explicit classes', async () => {
     const user = userEvent.setup();
     render(<Security />);
