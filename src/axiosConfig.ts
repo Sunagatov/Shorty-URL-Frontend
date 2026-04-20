@@ -75,7 +75,13 @@ axiosInstance.interceptors.response.use(
                 response.data as Partial<AuthTokens>;
 
             if (!newAccessToken) {
-                throw new Error('Refresh endpoint did not return a new access token');
+                AuthService.logout();
+
+                if (!['/', '/signin', '/signup'].includes(window.location.pathname)) {
+                    window.location.replace('/signin');
+                }
+
+                return Promise.reject(new Error('Refresh endpoint did not return a new access token'));
             }
 
             storage.setAccessToken(newAccessToken);
