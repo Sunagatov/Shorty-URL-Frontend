@@ -122,19 +122,15 @@ const SignUp: React.FC = () => {
                         <input type="checkbox" className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500" required />
                         <span className="ml-2 text-sm text-gray-600">
                             I agree to the{' '}
-                            <Link to="#" className="text-blue-600 hover:text-blue-800 font-medium">
-                                Terms of Service
-                            </Link>
+                            <span className="text-gray-400">Terms of Service (coming soon)</span>
                             {' '}and{' '}
-                            <Link to="#" className="text-blue-600 hover:text-blue-800 font-medium">
-                                Privacy Policy
-                            </Link>
+                            <span className="text-gray-400">Privacy Policy (coming soon)</span>
                         </span>
                     </div>
 
                     {error && (
                         <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center">
-                            <span className="mr-2">❌</span>
+                            <span className="mr-2">!</span>
                             <p className="text-sm">{error.errorMessage}</p>
                         </div>
                     )}

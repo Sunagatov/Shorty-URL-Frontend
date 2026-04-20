@@ -69,14 +69,19 @@ const SignIn: React.FC = () => {
                             <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                             <span className="ml-2 text-sm text-gray-600">Remember me</span>
                         </label>
-                        <Link to="#" className="text-sm text-blue-600 hover:text-blue-800 font-medium">
-                            Forgot password?
-                        </Link>
+                        <button
+                            type="button"
+                            disabled
+                            className="text-sm text-gray-400 cursor-not-allowed font-medium"
+                            title="Password reset is not implemented yet"
+                        >
+                            Forgot password? (coming soon)
+                        </button>
                     </div>
 
                     {error && (
                         <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center">
-                            <span className="mr-2">❌</span>
+                            <span className="mr-2">!</span>
                             <p className="text-sm">{error.errorMessage}</p>
                         </div>
                     )}

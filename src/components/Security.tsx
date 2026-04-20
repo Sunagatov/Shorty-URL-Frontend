@@ -1,6 +1,6 @@
 // src/components/Security.tsx
 import React, { useState } from 'react';
-import axios from '../axiosConfig';
+import { ApiService } from '../services/ApiService';
 import SidePanel from './SidePanel';
 import { Button } from './ui';
 import {
@@ -38,9 +38,30 @@ const Security: React.FC = () => {
         
         Object.values(checks).forEach(check => check && score++);
         
-        if (score < 2) return { strength: 'Weak', color: 'red', width: '20%' };
-        if (score < 4) return { strength: 'Medium', color: 'yellow', width: '60%' };
-        return { strength: 'Strong', color: 'green', width: '100%' };
+        if (score < 2) {
+            return {
+                strength: 'Weak',
+                width: '20%',
+                textClass: 'text-red-600',
+                barClass: 'bg-red-500',
+            };
+        }
+
+        if (score < 4) {
+            return {
+                strength: 'Medium',
+                width: '60%',
+                textClass: 'text-yellow-600',
+                barClass: 'bg-yellow-500',
+            };
+        }
+
+        return {
+            strength: 'Strong',
+            width: '100%',
+            textClass: 'text-green-600',
+            barClass: 'bg-green-500',
+        };
     };
 
     const passwordStrength = getPasswordStrength(newPassword);
@@ -62,7 +83,7 @@ const Security: React.FC = () => {
         }
 
         try {
-            await axios.put('/api/v1/users/change-password', {
+            await ApiService.changePassword({
                 currentPassword,
                 newPassword,
             });
@@ -91,21 +112,27 @@ const Security: React.FC = () => {
             description: 'Your account is protected with a secure password',
             icon: FaLock,
             status: 'Active',
-            color: 'green'
+            iconWrapperClass: 'bg-green-100',
+            iconClass: 'text-green-600',
+            badgeClass: 'bg-green-100 text-green-600',
         },
         {
             title: 'Account Security',
             description: 'Regular security monitoring and protection',
             icon: FaShieldAlt,
             status: 'Active',
-            color: 'green'
+            iconWrapperClass: 'bg-green-100',
+            iconClass: 'text-green-600',
+            badgeClass: 'bg-green-100 text-green-600',
         },
         {
             title: 'Data Encryption',
             description: 'All your data is encrypted and secure',
             icon: FaKey,
             status: 'Active',
-            color: 'green'
+            iconWrapperClass: 'bg-green-100',
+            iconClass: 'text-green-600',
+            badgeClass: 'bg-green-100 text-green-600',
         }
     ];
 
@@ -139,14 +166,14 @@ const Security: React.FC = () => {
                                         const Icon = feature.icon;
                                         return (
                                             <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                <div className={`w-8 h-8 bg-${feature.color}-100 rounded-lg flex items-center justify-center`}>
-                                                    <Icon className={`w-4 h-4 text-${feature.color}-600`} />
+                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${feature.iconWrapperClass}`}>
+                                                    <Icon className={`w-4 h-4 ${feature.iconClass}`} />
                                                 </div>
                                                 <div className="flex-1">
                                                     <p className="text-sm font-medium text-gray-900">{feature.title}</p>
                                                     <p className="text-xs text-gray-500">{feature.description}</p>
                                                 </div>
-                                                <span className={`text-xs font-medium px-2 py-1 bg-${feature.color}-100 text-${feature.color}-600 rounded-full`}>
+                                                <span className={`text-xs font-medium px-2 py-1 rounded-full ${feature.badgeClass}`}>
                                                     {feature.status}
                                                 </span>
                                             </div>
@@ -240,13 +267,13 @@ const Security: React.FC = () => {
                                             <div className="mt-3">
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="text-sm font-medium text-gray-700">Password Strength</span>
-                                                    <span className={`text-sm font-medium text-${passwordStrength.color}-600`}>
+                                                    <span className={`text-sm font-medium ${passwordStrength.textClass}`}>
                                                         {passwordStrength.strength}
                                                     </span>
                                                 </div>
                                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                                     <div 
-                                                        className={`bg-${passwordStrength.color}-500 h-2 rounded-full transition-all duration-300`}
+                                                        className={`${passwordStrength.barClass} h-2 rounded-full transition-all duration-300`}
                                                         style={{ width: passwordStrength.width }}
                                                     ></div>
                                                 </div>

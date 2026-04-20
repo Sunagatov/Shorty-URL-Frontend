@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
+import { ApiService } from '../services/ApiService';
 import SidePanel from './SidePanel';
 import { Button } from './ui';
 import type { UrlMapping } from '../types';
@@ -14,14 +14,6 @@ import {
     FaChevronLeft,
     FaChevronRight,
 } from 'react-icons/fa';
-
-interface UrlMappingPage {
-    content: UrlMapping[];
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-}
 
 export const getVisiblePages = (page: number, totalPages: number, maxVisiblePages = 5) => {
     const startPage = Math.max(
@@ -47,10 +39,7 @@ const UserUrlMappings: React.FC = () => {
     const fetchUrlMappings = async (pageNumber: number) => {
         try {
             setIsLoading(true);
-            const response = await axios.get(
-                `/api/v1/urls?page=${pageNumber}&size=${size}`
-            );
-            const data: UrlMappingPage = response.data;
+            const data = await ApiService.getUserUrls(pageNumber, size);
             setUrlMappings(data.content);
             setPage(data.page);
             setTotalPages(data.totalPages);
@@ -77,7 +66,7 @@ const UserUrlMappings: React.FC = () => {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`/api/v1/urls/${urlHash}`);
+            await ApiService.deleteUrl(urlHash);
 
             const shouldGoBackOnePage = urlMappings.length === 1 && page > 0;
             const nextPage = shouldGoBackOnePage ? page - 1 : page;

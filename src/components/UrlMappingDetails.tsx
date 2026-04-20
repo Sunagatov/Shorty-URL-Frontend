@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ApiService } from '../services/ApiService';
 import SidePanel from './SidePanel';
 import { Button } from './ui';
 import type { UrlMapping } from '../types';
@@ -34,8 +34,8 @@ const UrlMappingDetails: React.FC = () => {
 
             try {
                 setIsLoading(true);
-                const response = await axios.get(`/api/v1/urls/${urlHash}`);
-                setUrlMapping(response.data);
+                const response = await ApiService.getUrlDetails(urlHash);
+                setUrlMapping(response);
             } catch (error: any) {
                 if (error.response && error.response.status === 401) {
                     navigate('/signin');
@@ -66,7 +66,7 @@ const UrlMappingDetails: React.FC = () => {
         if (!confirmDelete) return;
 
         try {
-            await axios.delete(`/api/v1/urls/${urlMapping.urlHash}`);
+            await ApiService.deleteUrl(urlMapping.urlHash);
             navigate('/account/url-mappings');
         } catch (error: any) {
             setErrorMessage('Failed to delete URL mapping.');
@@ -160,9 +160,14 @@ const UrlMappingDetails: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex space-x-3">
-                                    <Button variant="ghost" size="sm">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled
+                                        title="URL editing is not implemented yet"
+                                    >
                                         <FaEdit className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Edit</span>
+                                        <span className="hidden sm:inline">Edit (coming soon)</span>
                                     </Button>
                                     <Button 
                                         onClick={handleDelete}
@@ -299,17 +304,14 @@ const UrlMappingDetails: React.FC = () => {
                                     )}
 
                                     {/* QR Code */}
-                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors cursor-pointer">
+                                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl border border-gray-200 opacity-60 cursor-not-allowed">
                                         <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                                             <FaQrcode className="w-4 h-4 text-gray-600" />
                                         </div>
                                         <div className="flex-1">
                                             <p className="text-sm font-medium text-gray-500 mb-1">QR Code</p>
-                                            <p className="text-sm text-gray-700">Generate QR code for easy sharing</p>
+                                            <p className="text-sm text-gray-700">QR code generation is coming soon</p>
                                         </div>
-                                        <button className="text-gray-400 hover:text-gray-600">
-                                            <FaExternalLinkAlt className="w-4 h-4" />
-                                        </button>
                                     </div>
                                 </div>
                             </div>

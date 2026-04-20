@@ -38,10 +38,6 @@ const UserAccount: React.FC = () => {
         };
     }, []);
 
-    const handleEditProfile = () => {
-        alert('Edit profile functionality is not implemented yet.');
-    };
-
     const getInitials = (firstName?: string, lastName?: string) => {
         const initials = `${firstName?.charAt(0) ?? ''}${lastName?.charAt(0) ?? ''}`.toUpperCase();
         return initials || 'U';
@@ -127,11 +123,13 @@ const UserAccount: React.FC = () => {
                                     
                                     {/* Edit Button */}
                                     <button
-                                        onClick={handleEditProfile}
-                                        className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 border border-white/30"
+                                        type="button"
+                                        disabled
+                                        className="absolute top-4 right-4 bg-white/10 text-white/70 px-3 py-2 rounded-lg cursor-not-allowed flex items-center space-x-2 border border-white/20"
+                                        title="Profile editing is not implemented yet"
                                     >
                                         <FaEdit className="w-4 h-4" />
-                                        <span className="hidden sm:inline text-sm">Edit</span>
+                                        <span className="hidden sm:inline text-sm">Edit (coming soon)</span>
                                     </button>
                                 </div>
 
@@ -201,21 +199,12 @@ const UserAccount: React.FC = () => {
                             {/* Account Stats */}
                             <div className="bg-white rounded-2xl shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Account Stats</h3>
-                                <div className="space-y-3">
-                                    <div className="flex justify-between">
-                                        <span className="text-sm text-gray-600">URLs Created</span>
-                                        <span className="font-semibold text-gray-900">42</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-sm text-gray-600">Total Clicks</span>
-                                        <span className="font-semibold text-gray-900">1,234</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-sm text-gray-600">Member Since</span>
-                                        <span className="font-semibold text-gray-900">
-                                            {userDetails.createdAt ? formatDate(userDetails.createdAt) : '-'}
-                                        </span>
-                                    </div>
+                                <p className="text-sm text-gray-500 mb-4">Usage analytics are not available yet.</p>
+                                <div className="flex justify-between">
+                                    <span className="text-sm text-gray-600">Member Since</span>
+                                    <span className="font-semibold text-gray-900">
+                                        {userDetails.createdAt ? formatDate(userDetails.createdAt) : '-'}
+                                    </span>
                                 </div>
                             </div>
 
@@ -223,17 +212,32 @@ const UserAccount: React.FC = () => {
                             <div className="bg-white rounded-2xl shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
                                 <div className="space-y-2">
-                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                                        <FaEdit className="w-4 h-4 text-blue-600" />
-                                        <span className="text-sm font-medium">Edit Profile</span>
+                                    <button
+                                        type="button"
+                                        disabled
+                                        className="w-full flex items-center space-x-3 p-3 text-left rounded-lg cursor-not-allowed text-gray-400"
+                                        title="Profile editing is not implemented yet"
+                                    >
+                                        <FaEdit className="w-4 h-4" />
+                                        <span className="text-sm font-medium">Edit Profile (coming soon)</span>
                                     </button>
-                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                                        <FaUser className="w-4 h-4 text-green-600" />
-                                        <span className="text-sm font-medium">Change Password</span>
+                                    <button
+                                        type="button"
+                                        disabled
+                                        className="w-full flex items-center space-x-3 p-3 text-left rounded-lg cursor-not-allowed text-gray-400"
+                                        title="Password settings are available on the Security page"
+                                    >
+                                        <FaUser className="w-4 h-4" />
+                                        <span className="text-sm font-medium">Change Password (use Security)</span>
                                     </button>
-                                    <button className="w-full flex items-center space-x-3 p-3 text-left hover:bg-gray-50 rounded-lg transition-colors">
-                                        <FaGlobe className="w-4 h-4 text-purple-600" />
-                                        <span className="text-sm font-medium">Export Data</span>
+                                    <button
+                                        type="button"
+                                        disabled
+                                        className="w-full flex items-center space-x-3 p-3 text-left rounded-lg cursor-not-allowed text-gray-400"
+                                        title="Data export is not implemented yet"
+                                    >
+                                        <FaGlobe className="w-4 h-4" />
+                                        <span className="text-sm font-medium">Export Data (coming soon)</span>
                                     </button>
                                 </div>
                             </div>
@@ -241,16 +245,7 @@ const UserAccount: React.FC = () => {
                             {/* Profile Completion */}
                             <div className="bg-white rounded-2xl shadow-lg p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Completion</h3>
-                                <div className="mb-3">
-                                    <div className="flex justify-between text-sm mb-2">
-                                        <span className="text-gray-600">Progress</span>
-                                        <span className="font-medium">85%</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                        <div className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style={{width: '85%'}}></div>
-                                    </div>
-                                </div>
-                                <p className="text-xs text-gray-500">Add a profile picture to complete</p>
+                                <p className="text-sm text-gray-500">Profile completion tracking is not available yet.</p>
                             </div>
                         </div>
                     </div>

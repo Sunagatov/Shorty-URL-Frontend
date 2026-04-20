@@ -19,8 +19,18 @@ export const storage = {
   },
 
   getUser: (): User | null => {
-    const user = localStorage.getItem(STORAGE_KEYS.USER);
-    return user && user !== 'undefined' ? JSON.parse(user) : null;
+    const rawUser = localStorage.getItem(STORAGE_KEYS.USER);
+
+    if (!rawUser || rawUser === 'undefined') {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawUser) as User;
+    } catch {
+      localStorage.removeItem(STORAGE_KEYS.USER);
+      return null;
+    }
   },
 
   setUser: (user: User): void => {

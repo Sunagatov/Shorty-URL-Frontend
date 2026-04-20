@@ -20,6 +20,14 @@ export interface UrlMapping {
   userId?: string;
 }
 
+export interface PaginatedResponse<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;

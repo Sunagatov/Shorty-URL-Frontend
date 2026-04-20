@@ -233,9 +233,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               © 2024 Shorty URL. All rights reserved.
             </p>
             <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <a href="#" className="hover:text-blue-400 transition-colors duration-200">Privacy Policy</a>
-              <a href="#" className="hover:text-blue-400 transition-colors duration-200">Terms of Service</a>
-              <a href="#" className="hover:text-blue-400 transition-colors duration-200">Support</a>
+              <span className="text-gray-500 cursor-not-allowed">Privacy Policy (coming soon)</span>
+              <span className="text-gray-500 cursor-not-allowed">Terms of Service (coming soon)</span>
+              <span className="text-gray-500 cursor-not-allowed">Support (coming soon)</span>
             </div>
           </div>
         </div>

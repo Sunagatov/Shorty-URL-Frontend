@@ -1,13 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import axios from '../axiosConfig';
+import { ApiService } from '../services/ApiService';
 import UserUrlMappings, { getVisiblePages } from './UserUrlMappings';
 
-vi.mock('../axiosConfig', () => ({
-  default: {
-    get: vi.fn(),
-    delete: vi.fn(),
+vi.mock('../services/ApiService', () => ({
+  ApiService: {
+    getUserUrls: vi.fn(),
+    deleteUrl: vi.fn(),
   },
 }));
 
@@ -15,8 +15,8 @@ vi.mock('./SidePanel', () => ({
   default: () => <aside>Side Panel</aside>,
 }));
 
-const mockAxiosGet = vi.mocked(axios.get);
-const mockAxiosDelete = vi.mocked(axios.delete);
+const mockGetUserUrls = vi.mocked(ApiService.getUserUrls);
+const mockDeleteUrl = vi.mocked(ApiService.deleteUrl);
 
 const mapping = {
   id: 'url-1',
@@ -47,14 +47,12 @@ describe('UserUrlMappings', () => {
   });
 
   it('renders expiration dates from expiresAt', async () => {
-    mockAxiosGet.mockResolvedValue({
-      data: {
-        content: [mapping],
-        page: 0,
-        size: 6,
-        totalElements: 1,
-        totalPages: 1,
-      },
+    mockGetUserUrls.mockResolvedValue({
+      content: [mapping],
+      page: 0,
+      size: 6,
+      totalElements: 1,
+      totalPages: 1,
     });
 
     render(
@@ -67,35 +65,29 @@ describe('UserUrlMappings', () => {
   });
 
   it('refetches the previous page after deleting the only item on a non-first page', async () => {
-    mockAxiosGet
+    mockGetUserUrls
       .mockResolvedValueOnce({
-        data: {
-          content: [mapping],
-          page: 0,
-          size: 6,
-          totalElements: 7,
-          totalPages: 2,
-        },
+        content: [mapping],
+        page: 0,
+        size: 6,
+        totalElements: 7,
+        totalPages: 2,
       })
       .mockResolvedValueOnce({
-        data: {
-          content: [mapping],
-          page: 1,
-          size: 6,
-          totalElements: 7,
-          totalPages: 2,
-        },
+        content: [mapping],
+        page: 1,
+        size: 6,
+        totalElements: 7,
+        totalPages: 2,
       })
       .mockResolvedValueOnce({
-        data: {
-          content: [mapping],
-          page: 0,
-          size: 6,
-          totalElements: 6,
-          totalPages: 1,
-        },
+        content: [mapping],
+        page: 0,
+        size: 6,
+        totalElements: 6,
+        totalPages: 1,
       });
-    mockAxiosDelete.mockResolvedValue(undefined);
+    mockDeleteUrl.mockResolvedValue(undefined);
 
     render(
       <MemoryRouter>
@@ -104,11 +96,11 @@ describe('UserUrlMappings', () => {
     );
 
     await userEvent.click(await screen.findByRole('button', { name: '2' }));
-    await waitFor(() => expect(mockAxiosGet).toHaveBeenCalledWith('/api/v1/urls?page=1&size=6'));
+    await waitFor(() => expect(mockGetUserUrls).toHaveBeenCalledWith(1, 6));
 
     await userEvent.click(screen.getByTitle('Delete URL'));
 
-    await waitFor(() => expect(mockAxiosDelete).toHaveBeenCalledWith('/api/v1/urls/abc123'));
-    await waitFor(() => expect(mockAxiosGet).toHaveBeenCalledWith('/api/v1/urls?page=0&size=6'));
+    await waitFor(() => expect(mockDeleteUrl).toHaveBeenCalledWith('abc123'));
+    await waitFor(() => expect(mockGetUserUrls).toHaveBeenCalledWith(0, 6));
   });
 });

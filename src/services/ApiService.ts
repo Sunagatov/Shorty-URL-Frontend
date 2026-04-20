@@ -7,6 +7,7 @@ import type {
   AuthTokens,
   User,
   UrlMapping,
+  PaginatedResponse,
 } from '../types';
 
 export class ApiService {
@@ -34,8 +35,10 @@ export class ApiService {
     return response.data;
   }
 
-  static async getUserUrls(): Promise<UrlMapping[]> {
-    const response = await axiosInstance.get(API_ENDPOINTS.URLS.LIST);
+  static async getUserUrls(page = 0, size = 6): Promise<PaginatedResponse<UrlMapping>> {
+    const response = await axiosInstance.get(API_ENDPOINTS.URLS.LIST, {
+      params: { page, size },
+    });
     return response.data;
   }
 
@@ -57,5 +60,9 @@ export class ApiService {
   static async updateUserProfile(data: Partial<User>): Promise<User> {
     const response = await axiosInstance.put(API_ENDPOINTS.USER.UPDATE, data);
     return response.data;
+  }
+
+  static async changePassword(data: { currentPassword: string; newPassword: string }): Promise<void> {
+    await axiosInstance.put(API_ENDPOINTS.USER.CHANGE_PASSWORD, data);
   }
 }
