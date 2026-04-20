@@ -1,0 +1,32 @@
+# Shorty URL Frontend
+
+Shorty URL Frontend is a React 19 + TypeScript 5 + Vite 8 single-page application for shortening URLs, authenticating users, and managing URL mappings.
+
+## Important repo facts
+
+- Entry point: `src/index.tsx`
+- Router config: `src/App.tsx`
+- Route and endpoint constants: `src/constants/index.ts`
+- API layer: `src/services/ApiService.ts`
+- Axios auth/refresh setup: `src/axiosConfig.ts`
+- Auth state and persistence:
+  - `src/context/AuthContext.tsx`
+  - `src/services/AuthService.ts`
+  - `src/utils/storage.ts`
+- Validation schemas: `src/utils/validation.ts`
+- Required environment variable: `REACT_APP_BACKEND_REST_API_URL`
+- Build output directory: `build/`
+
+## Read these first
+
+- `docs/ai/repo-overview.md`
+- `docs/ai/api-surface.md`
+- `docs/ai/token-efficient-workflow.md`
+- `docs/ai/truth-sources-and-known-drifts.md`
+
+## Commands
+
+- `npm run dev`
+- `npm run build`
+- `npm run test`
+- `npm run type-check`
