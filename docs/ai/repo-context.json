@@ -71,7 +71,8 @@
       },
       "user": {
         "profile": "/api/v1/user/profile",
-        "update": "/api/v1/user/profile"
+        "update": "/api/v1/user/profile",
+        "change_password": "/api/v1/user/change-password"
       }
     }
   },
@@ -125,8 +126,6 @@
     ]
   },
   "known_drift": [
-    "README mentions dist but vite.config.ts uses build",
-    "App entry is src/index.tsx, not main.tsx",
     "Vite env names are intentionally REACT_APP_*",
     "Older docs mention SignInPage.tsx/SignInForm.tsx, current code uses src/components/SignIn.tsx",
     "Older docs describe different auth persistence wording than current storage.ts code",
