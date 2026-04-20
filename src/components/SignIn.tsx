@@ -8,9 +8,7 @@ import { useApi } from '../hooks/useApi';
 import { signInSchema, type SignInFormData } from '../utils/validation';
 import { ROUTES } from '../constants';
 import type { User, AuthTokens } from '../types';
-import { Button } from './ui/Button';
-import { Input } from './ui/Input';
-import { Card } from './ui/Card';
+import { Button, Card, Input } from './ui';
 import { FaEnvelope, FaLock, FaSignInAlt, FaGoogle, FaGithub } from 'react-icons/fa';
 
 const SignIn: React.FC = () => {
@@ -108,13 +106,23 @@ const SignIn: React.FC = () => {
 
                 {/* Social Login */}
                 <div className="mt-6 grid grid-cols-2 gap-3">
-                    <Button variant="secondary" className="w-full">
+                    <Button
+                        variant="secondary"
+                        className="w-full"
+                        disabled
+                        title="Google sign-in is not implemented yet"
+                    >
                         <FaGoogle className="w-4 h-4 text-red-500" />
-                        <span>Google</span>
+                        <span>Google (coming soon)</span>
                     </Button>
-                    <Button variant="secondary" className="w-full">
+                    <Button
+                        variant="secondary"
+                        className="w-full"
+                        disabled
+                        title="GitHub sign-in is not implemented yet"
+                    >
                         <FaGithub className="w-4 h-4" />
-                        <span>GitHub</span>
+                        <span>GitHub (coming soon)</span>
                     </Button>
                 </div>
             </Card>

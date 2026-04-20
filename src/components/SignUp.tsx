@@ -5,12 +5,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ApiService } from '../services/ApiService';
 import { useAuth } from '../hooks/useAuth';
 import { useApi } from '../hooks/useApi';
-import { signUpSchema, type SignUpFormData } from '../utils/validation';
+import { signUpSchema, type SignUpFormData, type SignUpFormInput } from '../utils/validation';
 import { ROUTES } from '../constants';
 import type { User, AuthTokens } from '../types';
-import { Button } from './ui/Button';
-import { Input } from './ui/Input';
-import { Card } from './ui/Card';
+import { Button, Card, Input } from './ui';
 import { FaUser, FaEnvelope, FaLock, FaGlobe, FaCalendarAlt, FaUserPlus, FaGoogle, FaGithub } from 'react-icons/fa';
 
 const SignUp: React.FC = () => {
@@ -22,12 +20,21 @@ const SignUp: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<SignUpFormData>({
+    } = useForm<SignUpFormInput, unknown, SignUpFormData>({
         resolver: zodResolver(signUpSchema),
     });
 
     const onSubmit = async (data: SignUpFormData) => {
-        const result = await execute(() => ApiService.signUp(data));
+        const result = await execute(() =>
+            ApiService.signUp({
+                firstName: data.firstName.trim(),
+                lastName: data.lastName.trim(),
+                email: data.email.trim(),
+                password: data.password,
+                country: data.country.trim(),
+                age: data.age,
+            })
+        );
         if (result) {
             const { user, accessToken, refreshToken } = result;
             login({ accessToken, refreshToken }, user);
@@ -88,12 +95,12 @@ const SignUp: React.FC = () => {
                         error={errors.password?.message}
                     />
 
-                    {/* Optional Fields */}
+                    {/* Profile Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Input
                             {...register('country')}
                             type="text"
-                            label="Country (Optional)"
+                            label="Country"
                             placeholder="United States"
                             icon={<FaGlobe className="h-5 w-5 text-gray-400" />}
                             error={errors.country?.message}
@@ -157,13 +164,23 @@ const SignUp: React.FC = () => {
 
                 {/* Social Login */}
                 <div className="mt-6 grid grid-cols-2 gap-3">
-                    <Button variant="secondary" className="w-full">
+                    <Button
+                        variant="secondary"
+                        className="w-full"
+                        disabled
+                        title="Google sign-up is not implemented yet"
+                    >
                         <FaGoogle className="w-4 h-4 text-red-500" />
-                        <span>Google</span>
+                        <span>Google (coming soon)</span>
                     </Button>
-                    <Button variant="secondary" className="w-full">
+                    <Button
+                        variant="secondary"
+                        className="w-full"
+                        disabled
+                        title="GitHub sign-up is not implemented yet"
+                    >
                         <FaGithub className="w-4 h-4" />
-                        <span>GitHub</span>
+                        <span>GitHub (coming soon)</span>
                     </Button>
                 </div>
             </Card>

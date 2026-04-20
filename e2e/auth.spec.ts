@@ -10,7 +10,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test('should display sign up page', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/signup');
     
     // Check if sign up form is visible
     await expect(page.getByRole('heading', { name: /create account/i })).toBeVisible();
@@ -21,7 +21,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test('should validate required fields on sign up', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/signup');
     
     // Try to submit empty form
     await page.getByRole('button', { name: /create account/i }).click();
@@ -31,7 +31,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test('should successfully sign up a new user', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/signup');
     
     const uniqueEmail = generateUniqueEmail();
     
@@ -57,7 +57,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test('should navigate to sign in page', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/signup');
     
     // Click on "Already have an account? Sign in here"
     await page.getByRole('link', { name: /sign in here/i }).click();
@@ -69,7 +69,7 @@ test.describe('Authentication Flow', () => {
 
   test('should sign in with existing credentials', async ({ page }) => {
     // First, create a user
-    await page.goto('/');
+    await page.goto('/signup');
     const uniqueEmail = generateUniqueEmail();
     
     await page.getByLabel(/first name/i).fill('Test');

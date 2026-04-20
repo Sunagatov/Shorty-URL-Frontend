@@ -8,6 +8,7 @@ import UserUrlMappings from './components/UserUrlMappings';
 import UrlMappingDetails from './components/UrlMappingDetails';
 import Security from './components/Security';
 import Dashboard from './components/Dashboard';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { ROUTES } from './constants';
 
 const App = () => {
@@ -18,12 +19,55 @@ const App = () => {
                     <Route path={ROUTES.HOME} element={<UrlShortener />} />
                     <Route path={ROUTES.SIGNIN} element={<SignIn />} />
                     <Route path={ROUTES.SIGNUP} element={<SignUp />} />
-                    <Route path="/account" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
-                    <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-                    <Route path={ROUTES.PROFILE} element={<UserAccount />} />
-                    <Route path={ROUTES.SECURITY} element={<Security />} />
-                    <Route path={ROUTES.URL_MAPPINGS} element={<UserUrlMappings />} />
-                    <Route path="/account/url-mappings/:urlHash" element={<UrlMappingDetails />} />
+                    <Route
+                        path="/account"
+                        element={
+                            <ProtectedRoute>
+                                <Navigate to={ROUTES.DASHBOARD} replace />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.DASHBOARD}
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.PROFILE}
+                        element={
+                            <ProtectedRoute>
+                                <UserAccount />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.SECURITY}
+                        element={
+                            <ProtectedRoute>
+                                <Security />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={ROUTES.URL_MAPPINGS}
+                        element={
+                            <ProtectedRoute>
+                                <UserUrlMappings />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/account/url-mappings/:urlHash"
+                        element={
+                            <ProtectedRoute>
+                                <UrlMappingDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
                 </Routes>
             </MainLayout>
         </Router>

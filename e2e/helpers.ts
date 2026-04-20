@@ -6,7 +6,7 @@ import { Page } from '@playwright/test';
 export async function signUpUser(page: Page, email?: string) {
   const uniqueEmail = email || `test.user.${Date.now()}@example.com`;
   
-  await page.goto('/');
+  await page.goto('/signup');
   await page.getByLabel(/first name/i).fill('Test');
   await page.getByLabel(/last name/i).fill('User');
   await page.getByLabel(/email/i).fill(uniqueEmail);

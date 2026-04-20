@@ -70,9 +70,7 @@ id_rsa
 deploy-*.sh
 
 # Docker files (if not needed in repo)
-.dockerignore
 docker-compose.prod.yml
-nginx.conf
 
 # Environment files
 .env.prod

@@ -3,6 +3,7 @@ import axios from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import SidePanel from './SidePanel';
 import { Button } from './ui';
+import type { UrlMapping } from '../types';
 import {
     FaTrash,
     FaInfoCircle,
@@ -14,14 +15,6 @@ import {
     FaChevronRight,
 } from 'react-icons/fa';
 
-interface UrlMapping {
-    urlHash: string;
-    shortUrl: string;
-    originalUrl: string;
-    createdAt: string;
-    expirationDate: string;
-}
-
 interface UrlMappingPage {
     content: UrlMapping[];
     page: number;
@@ -29,6 +22,16 @@ interface UrlMappingPage {
     totalElements: number;
     totalPages: number;
 }
+
+export const getVisiblePages = (page: number, totalPages: number, maxVisiblePages = 5) => {
+    const startPage = Math.max(
+        0,
+        Math.min(page - Math.floor(maxVisiblePages / 2), Math.max(0, totalPages - maxVisiblePages))
+    );
+    const endPage = Math.min(totalPages, startPage + maxVisiblePages);
+
+    return Array.from({ length: endPage - startPage }, (_, index) => startPage + index);
+};
 
 const UserUrlMappings: React.FC = () => {
     const [urlMappings, setUrlMappings] = useState<UrlMapping[]>([]);
@@ -75,11 +78,13 @@ const UserUrlMappings: React.FC = () => {
 
         try {
             await axios.delete(`/api/v1/urls/${urlHash}`);
-            setUrlMappings(
-                urlMappings.filter((mapping) => mapping.urlHash !== urlHash)
-            );
-            setTotalElements(prev => prev - 1);
-        } catch (error: any) {
+
+            const shouldGoBackOnePage = urlMappings.length === 1 && page > 0;
+            const nextPage = shouldGoBackOnePage ? page - 1 : page;
+
+            await fetchUrlMappings(nextPage);
+            setErrorMessage('');
+        } catch {
             setErrorMessage('Failed to delete URL mapping.');
         }
     };
@@ -260,12 +265,12 @@ const UserUrlMappings: React.FC = () => {
                                         </div>
 
                                         {/* Expiration Date */}
-                                        {mapping.expirationDate && (
+                                        {mapping.expiresAt && (
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-500 mb-2">Expires</label>
                                                 <div className="p-3 bg-orange-50 rounded-lg border border-orange-200">
                                                     <p className="text-orange-700 text-sm font-medium">
-                                                        {formatDate(mapping.expirationDate)}
+                                                        {formatDate(mapping.expiresAt)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -329,22 +334,19 @@ const UserUrlMappings: React.FC = () => {
                                 </Button>
 
                                 <div className="flex items-center space-x-1">
-                                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                                        const pageNum = Math.max(0, Math.min(page - 2 + i, totalPages - 5 + i));
-                                        return (
-                                            <button
-                                                key={pageNum}
-                                                onClick={() => setPage(pageNum)}
-                                                className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                                                    pageNum === page
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                                }`}
-                                            >
-                                                {pageNum + 1}
-                                            </button>
-                                        );
-                                    })}
+                                    {getVisiblePages(page, totalPages).map((pageNum) => (
+                                        <button
+                                            key={pageNum}
+                                            onClick={() => setPage(pageNum)}
+                                            className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                                                pageNum === page
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            {pageNum + 1}
+                                        </button>
+                                    ))}
                                 </div>
 
                                 <Button

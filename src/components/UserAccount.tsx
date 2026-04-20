@@ -1,45 +1,58 @@
-// src/components/UserAccount.tsx
 import React, { useEffect, useState } from 'react';
-import axios from '../axiosConfig';
+import { ApiService } from '../services/ApiService';
+import type { User } from '../types';
 import SidePanel from './SidePanel';
 import { FaEdit, FaUser, FaEnvelope, FaGlobe, FaCalendarAlt } from 'react-icons/fa';
 
-interface UserDetails {
-    firstName: string;
-    lastName: string;
-    email: string;
-    country: string;
-    age: number;
-}
-
 const UserAccount: React.FC = () => {
-    const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+    const [userDetails, setUserDetails] = useState<User | null>(null);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchUserDetails = async () => {
             try {
                 setIsLoading(true);
-                const response = await axios.get('/api/v1/users');
-                setUserDetails(response.data);
-            } catch (error: any) {
-                setErrorMessage('Failed to fetch user details.');
+                const response = await ApiService.getUserProfile();
+                if (isMounted) {
+                    setUserDetails(response);
+                    setErrorMessage('');
+                }
+            } catch {
+                if (isMounted) {
+                    setErrorMessage('Failed to fetch user details.');
+                }
             } finally {
-                setIsLoading(false);
+                if (isMounted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchUserDetails();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const handleEditProfile = () => {
         alert('Edit profile functionality is not implemented yet.');
     };
 
-    const getInitials = (firstName: string, lastName: string) => {
-        return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+    const getInitials = (firstName?: string, lastName?: string) => {
+        const initials = `${firstName?.charAt(0) ?? ''}${lastName?.charAt(0) ?? ''}`.toUpperCase();
+        return initials || 'U';
     };
+
+    const formatDate = (dateString: string) =>
+        new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
 
     if (isLoading) {
         return (
@@ -60,7 +73,9 @@ const UserAccount: React.FC = () => {
                 <SidePanel />
                 <div className="flex-grow md:ml-72 p-8">
                     <div className="flex items-center justify-center h-96">
-                        <p className="text-gray-500">Unable to load user details</p>
+                        <p className={errorMessage ? 'text-red-600' : 'text-gray-500'}>
+                            {errorMessage || 'Unable to load user details'}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -104,7 +119,9 @@ const UserAccount: React.FC = () => {
                                                 {userDetails.firstName} {userDetails.lastName}
                                             </h2>
                                             <p className="text-blue-100">{userDetails.email}</p>
-                                            <p className="text-blue-200 text-sm mt-1">Member since January 2024</p>
+                                            <p className="text-blue-200 text-sm mt-1">
+                                                Member since {userDetails.createdAt ? formatDate(userDetails.createdAt) : '-'}
+                                            </p>
                                         </div>
                                     </div>
                                     
@@ -129,7 +146,7 @@ const UserAccount: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-medium text-gray-500">First Name</p>
-                                                <p className="text-sm font-semibold text-gray-900">{userDetails.firstName}</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.firstName ?? '-'}</p>
                                             </div>
                                         </div>
 
@@ -139,7 +156,7 @@ const UserAccount: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-medium text-gray-500">Last Name</p>
-                                                <p className="text-sm font-semibold text-gray-900">{userDetails.lastName}</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.lastName ?? '-'}</p>
                                             </div>
                                         </div>
 
@@ -159,7 +176,7 @@ const UserAccount: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-medium text-gray-500">Country</p>
-                                                <p className="text-sm font-semibold text-gray-900">{userDetails.country}</p>
+                                                <p className="text-sm font-semibold text-gray-900">{userDetails.country ?? '-'}</p>
                                             </div>
                                         </div>
 
@@ -169,7 +186,9 @@ const UserAccount: React.FC = () => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-medium text-gray-500">Age</p>
-                                                <p className="text-sm font-semibold text-gray-900">{userDetails.age} years old</p>
+                                                <p className="text-sm font-semibold text-gray-900">
+                                                    {typeof userDetails.age === 'number' ? `${userDetails.age} years old` : '-'}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -193,7 +212,9 @@ const UserAccount: React.FC = () => {
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-sm text-gray-600">Member Since</span>
-                                        <span className="font-semibold text-gray-900">Jan 2024</span>
+                                        <span className="font-semibold text-gray-900">
+                                            {userDetails.createdAt ? formatDate(userDetails.createdAt) : '-'}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,8 @@ export interface User {
   email: string;
   firstName?: string;
   lastName?: string;
+  country?: string;
+  age?: number;
   createdAt: string;
 }
 
@@ -12,7 +14,7 @@ export interface UrlMapping {
   shortUrl: string;
   urlHash: string;
   createdAt: string;
-  expiresAt?: string;
+  expiresAt?: string | null;
   clickCount: number;
   isActive: boolean;
   userId?: string;
@@ -31,8 +33,10 @@ export interface SignInRequest {
 export interface SignUpRequest {
   email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
+  country: string;
+  age: number;
 }
 
 export interface CreateUrlRequest {

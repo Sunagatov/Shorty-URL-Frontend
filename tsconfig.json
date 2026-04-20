@@ -23,7 +23,11 @@
     "noUnusedParameters": true,
 
     "noImplicitReturns": true,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
 
   },
   "include": [

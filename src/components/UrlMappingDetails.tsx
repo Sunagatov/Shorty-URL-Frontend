@@ -1,9 +1,9 @@
-// src/components/UrlMappingDetails.tsx
 import React, { useEffect, useState } from 'react';
 import axios from '../axiosConfig';
 import { useNavigate, useParams } from 'react-router-dom';
 import SidePanel from './SidePanel';
 import { Button } from './ui';
+import type { UrlMapping } from '../types';
 import {
     FaArrowLeft,
     FaCopy,
@@ -16,14 +16,6 @@ import {
     FaEdit
 } from 'react-icons/fa';
 
-interface UrlMapping {
-    urlHash: string;
-    shortUrl: string;
-    originalUrl: string;
-    createdAt: string;
-    expirationDate: string;
-}
-
 const UrlMappingDetails: React.FC = () => {
     const { urlHash } = useParams<{ urlHash: string }>();
     const [urlMapping, setUrlMapping] = useState<UrlMapping | null>(null);
@@ -34,6 +26,12 @@ const UrlMappingDetails: React.FC = () => {
 
     useEffect(() => {
         const fetchUrlMapping = async () => {
+            if (!urlHash) {
+                setErrorMessage('URL mapping id is missing.');
+                setIsLoading(false);
+                return;
+            }
+
             try {
                 setIsLoading(true);
                 const response = await axios.get(`/api/v1/urls/${urlHash}`);
@@ -288,14 +286,14 @@ const UrlMappingDetails: React.FC = () => {
                                     </div>
 
                                     {/* Expiration Date */}
-                                    {urlMapping.expirationDate && (
+                                    {urlMapping.expiresAt && (
                                         <div className="flex items-center space-x-3 p-4 bg-orange-50 rounded-xl border border-orange-200">
                                             <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
                                                 <FaClock className="w-4 h-4 text-orange-600" />
                                             </div>
                                             <div>
                                                 <p className="text-sm font-medium text-gray-500 mb-1">Expires</p>
-                                                <p className="text-lg font-semibold text-gray-900">{formatDate(urlMapping.expirationDate)}</p>
+                                                <p className="text-lg font-semibold text-gray-900">{formatDate(urlMapping.expiresAt)}</p>
                                             </div>
                                         </div>
                                     )}
