@@ -1,4 +1,4 @@
-# Shorty URL Frontend
+# URL Shortener Frontend
 
 **A modern React frontend for URL shortening: fast, type-safe, and production-ready.**
 
